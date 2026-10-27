@@ -1,0 +1,12 @@
+@"
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Secrets and local config
+.env
+
+# Backend runtime data
+backend/data/
+"@ | Set-Content .gitignore
