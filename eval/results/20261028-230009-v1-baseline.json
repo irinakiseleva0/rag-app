@@ -1,0 +1,836 @@
+{
+  "label": "v1-baseline",
+  "date": "2026-10-28T23:00:09",
+  "settings": {
+    "chunk_size": 800,
+    "overlap_percent": 10,
+    "top_k": 5
+  },
+  "n_documents": 5,
+  "summary": {
+    "n_questions": 22,
+    "hit_rate_at_k": 0.833,
+    "hit_rate_normal": 1.0,
+    "hit_rate_hard": 0.5,
+    "mrr": 0.6204,
+    "mean_top_score_answerable": 0.4627,
+    "mean_top_score_unanswerable": 0.3515,
+    "mean_latency_ms": 336.5909
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "normal",
+      "question": "What chunk size and overlap are used in the norag_rag lab?",
+      "hit": true,
+      "partial": false,
+      "rank": 3,
+      "top_score": 0.4666,
+      "retrieved": [
+        {
+          "chunk_id": "7b96f3a22deb#0013",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4666
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.409
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0015",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3381
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0016",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3364
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0031",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3222
+        }
+      ],
+      "latency_ms": 264
+    },
+    {
+      "id": "q02",
+      "type": "normal",
+      "question": "How many dimensions do the vectors of all-MiniLM-L6-v2 have?",
+      "hit": true,
+      "partial": false,
+      "rank": 4,
+      "top_score": 0.3985,
+      "retrieved": [
+        {
+          "chunk_id": "7b96f3a22deb#0020",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3985
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0018",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3139
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0019",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3011
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0032",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2704
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0021",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1989
+        }
+      ],
+      "latency_ms": 238
+    },
+    {
+      "id": "q03",
+      "type": "normal",
+      "question": "Who is Denis Amselemovitch?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.2351,
+      "retrieved": [
+        {
+          "chunk_id": "7b96f3a22deb#0008",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2351
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0007",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1822
+        },
+        {
+          "chunk_id": "a1545ffb8289#0008",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.1499
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0030",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1276
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0035",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1276
+        }
+      ],
+      "latency_ms": 221
+    },
+    {
+      "id": "q04",
+      "type": "normal",
+      "question": "On which local URL does the triage app run with npm run dev?",
+      "hit": true,
+      "partial": false,
+      "rank": 3,
+      "top_score": 0.4385,
+      "retrieved": [
+        {
+          "chunk_id": "a1545ffb8289#0005",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4385
+        },
+        {
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3807
+        },
+        {
+          "chunk_id": "a1545ffb8289#0007",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.365
+        },
+        {
+          "chunk_id": "a1545ffb8289#0006",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3445
+        },
+        {
+          "chunk_id": "a1545ffb8289#0032",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3299
+        }
+      ],
+      "latency_ms": 295
+    },
+    {
+      "id": "q05",
+      "type": "normal",
+      "question": "What are the four triage categories?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.3767,
+      "retrieved": [
+        {
+          "chunk_id": "a1545ffb8289#0014",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3767
+        },
+        {
+          "chunk_id": "a1545ffb8289#0000",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.355
+        },
+        {
+          "chunk_id": "a1545ffb8289#0032",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3278
+        },
+        {
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3266
+        },
+        {
+          "chunk_id": "a1545ffb8289#0013",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3097
+        }
+      ],
+      "latency_ms": 206
+    },
+    {
+      "id": "q06",
+      "type": "normal",
+      "question": "What status should the triage API return when the model output is not valid JSON?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.665,
+      "retrieved": [
+        {
+          "chunk_id": "a1545ffb8289#0021",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.665
+        },
+        {
+          "chunk_id": "a1545ffb8289#0011",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.5261
+        },
+        {
+          "chunk_id": "a1545ffb8289#0031",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.5194
+        },
+        {
+          "chunk_id": "a1545ffb8289#0019",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4813
+        },
+        {
+          "chunk_id": "a1545ffb8289#0020",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4684
+        }
+      ],
+      "latency_ms": 255
+    },
+    {
+      "id": "q07",
+      "type": "normal",
+      "question": "What does CALMS stand for?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.3279,
+      "retrieved": [
+        {
+          "chunk_id": "3402d307db3b#0015",
+          "filename": "devops-foundations.md",
+          "score": 0.3279
+        },
+        {
+          "chunk_id": "3402d307db3b#0017",
+          "filename": "devops-foundations.md",
+          "score": 0.2312
+        },
+        {
+          "chunk_id": "3402d307db3b#0016",
+          "filename": "devops-foundations.md",
+          "score": 0.2295
+        },
+        {
+          "chunk_id": "3402d307db3b#0011",
+          "filename": "devops-foundations.md",
+          "score": 0.2221
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0001",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2165
+        }
+      ],
+      "latency_ms": 333
+    },
+    {
+      "id": "q08",
+      "type": "normal",
+      "question": "When was the Agile Manifesto introduced, and by how many people?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.6089,
+      "retrieved": [
+        {
+          "chunk_id": "3402d307db3b#0005",
+          "filename": "devops-foundations.md",
+          "score": 0.6089
+        },
+        {
+          "chunk_id": "3402d307db3b#0004",
+          "filename": "devops-foundations.md",
+          "score": 0.438
+        },
+        {
+          "chunk_id": "3402d307db3b#0008",
+          "filename": "devops-foundations.md",
+          "score": 0.3561
+        },
+        {
+          "chunk_id": "3402d307db3b#0006",
+          "filename": "devops-foundations.md",
+          "score": 0.3512
+        },
+        {
+          "chunk_id": "3402d307db3b#0000",
+          "filename": "devops-foundations.md",
+          "score": 0.3368
+        }
+      ],
+      "latency_ms": 424
+    },
+    {
+      "id": "q09",
+      "type": "normal",
+      "question": "Where does PostgreSQL 16 write its data inside the container?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.5755,
+      "retrieved": [
+        {
+          "chunk_id": "dfafb86a7749#0014",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5755
+        },
+        {
+          "chunk_id": "dfafb86a7749#0011",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5576
+        },
+        {
+          "chunk_id": "dfafb86a7749#0012",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5161
+        },
+        {
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5127
+        },
+        {
+          "chunk_id": "dfafb86a7749#0015",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5083
+        }
+      ],
+      "latency_ms": 352
+    },
+    {
+      "id": "q10",
+      "type": "normal",
+      "question": "Does docker compose down delete the named volume?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.6307,
+      "retrieved": [
+        {
+          "chunk_id": "dfafb86a7749#0013",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6307
+        },
+        {
+          "chunk_id": "dfafb86a7749#0025",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6002
+        },
+        {
+          "chunk_id": "dfafb86a7749#0028",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5803
+        },
+        {
+          "chunk_id": "dfafb86a7749#0026",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5429
+        },
+        {
+          "chunk_id": "dfafb86a7749#0012",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5377
+        }
+      ],
+      "latency_ms": 360
+    },
+    {
+      "id": "q11",
+      "type": "normal",
+      "question": "What is residual risk?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.5111,
+      "retrieved": [
+        {
+          "chunk_id": "8c50fa8ed3e8#0018",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.5111
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0017",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.459
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0022",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.4012
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0016",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3646
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0006",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3619
+        }
+      ],
+      "latency_ms": 372
+    },
+    {
+      "id": "q12",
+      "type": "normal",
+      "question": "What is credential stuffing?",
+      "hit": true,
+      "partial": false,
+      "rank": 1,
+      "top_score": 0.3631,
+      "retrieved": [
+        {
+          "chunk_id": "8c50fa8ed3e8#0035",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3631
+        },
+        {
+          "chunk_id": "dfafb86a7749#0029",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2933
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0011",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2777
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0010",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2668
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0029",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2616
+        }
+      ],
+      "latency_ms": 356
+    },
+    {
+      "id": "h01",
+      "type": "hard",
+      "question": "My app container cannot reach Postgres at localhost:5432. Why?",
+      "hit": false,
+      "partial": false,
+      "rank": null,
+      "top_score": 0.731,
+      "retrieved": [
+        {
+          "chunk_id": "dfafb86a7749#0009",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.731
+        },
+        {
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6722
+        },
+        {
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6424
+        },
+        {
+          "chunk_id": "dfafb86a7749#0011",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5775
+        },
+        {
+          "chunk_id": "dfafb86a7749#0005",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.495
+        }
+      ],
+      "latency_ms": 593
+    },
+    {
+      "id": "h02",
+      "type": "hard",
+      "question": "How can I make my app wait until the database actually accepts connections?",
+      "hit": true,
+      "partial": false,
+      "rank": 2,
+      "top_score": 0.4597,
+      "retrieved": [
+        {
+          "chunk_id": "dfafb86a7749#0017",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4597
+        },
+        {
+          "chunk_id": "dfafb86a7749#0018",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4175
+        },
+        {
+          "chunk_id": "dfafb86a7749#0001",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3894
+        },
+        {
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3356
+        },
+        {
+          "chunk_id": "dfafb86a7749#0008",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3355
+        }
+      ],
+      "latency_ms": 331
+    },
+    {
+      "id": "h03",
+      "type": "hard",
+      "question": "Is a similarity score of 0.83 the same as 83% confidence?",
+      "hit": false,
+      "partial": false,
+      "rank": null,
+      "top_score": 0.2857,
+      "retrieved": [
+        {
+          "chunk_id": "7b96f3a22deb#0018",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2857
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0019",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2469
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0015",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.184
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0007",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1672
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0036",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1638
+        }
+      ],
+      "latency_ms": 384
+    },
+    {
+      "id": "h04",
+      "type": "hard",
+      "question": "When is version 2 of the RAG project due?",
+      "hit": false,
+      "partial": false,
+      "rank": null,
+      "top_score": 0.4502,
+      "retrieved": [
+        {
+          "chunk_id": "7b96f3a22deb#0006",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4502
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4256
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0037",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3742
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0005",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3667
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0029",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3645
+        }
+      ],
+      "latency_ms": 344
+    },
+    {
+      "id": "h05",
+      "type": "hard",
+      "question": "What is prompt injection, and which ticket in the triage dataset tests it?",
+      "hit": true,
+      "partial": false,
+      "rank": 4,
+      "top_score": 0.4715,
+      "retrieved": [
+        {
+          "chunk_id": "a1545ffb8289#0011",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4715
+        },
+        {
+          "chunk_id": "a1545ffb8289#0023",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4694
+        },
+        {
+          "chunk_id": "a1545ffb8289#0032",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.418
+        },
+        {
+          "chunk_id": "8c50fa8ed3e8#0037",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.4151
+        },
+        {
+          "chunk_id": "a1545ffb8289#0031",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4125
+        }
+      ],
+      "latency_ms": 331
+    },
+    {
+      "id": "h06",
+      "type": "hard",
+      "question": "Why must the LLM key stay on the server?",
+      "hit": true,
+      "partial": false,
+      "rank": 2,
+      "top_score": 0.3332,
+      "retrieved": [
+        {
+          "chunk_id": "a1545ffb8289#0008",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3332
+        },
+        {
+          "chunk_id": "a1545ffb8289#0005",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3104
+        },
+        {
+          "chunk_id": "a1545ffb8289#0027",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2956
+        },
+        {
+          "chunk_id": "dfafb86a7749#0026",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.265
+        },
+        {
+          "chunk_id": "a1545ffb8289#0007",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2553
+        }
+      ],
+      "latency_ms": 330
+    },
+    {
+      "id": "u01",
+      "type": "unanswerable",
+      "question": "How do I configure a Kubernetes Ingress controller?",
+      "hit": false,
+      "partial": false,
+      "rank": null,
+      "top_score": 0.2907,
+      "retrieved": [
+        {
+          "chunk_id": "a1545ffb8289#0029",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2907
+        },
+        {
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.273
+        },
+        {
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2236
+        },
+        {
+          "chunk_id": "dfafb86a7749#0002",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2174
+        },
+        {
+          "chunk_id": "dfafb86a7749#0005",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2156
+        }
+      ],
+      "latency_ms": 349
+    },
+    {
+      "id": "u02",
+      "type": "unanswerable",
+      "question": "What percentage of the final grade is the RAG project worth?",
+      "hit": false,
+      "partial": false,
+      "rank": null,
+      "top_score": 0.3565,
+      "retrieved": [
+        {
+          "chunk_id": "7b96f3a22deb#0006",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3565
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3088
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0005",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3044
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0038",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2968
+        },
+        {
+          "chunk_id": "a1545ffb8289#0025",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2771
+        }
+      ],
+      "latency_ms": 372
+    },
+    {
+      "id": "u03",
+      "type": "unanswerable",
+      "question": "Which embedding model does Pinecone use by default?",
+      "hit": false,
+      "partial": false,
+      "rank": null,
+      "top_score": 0.3467,
+      "retrieved": [
+        {
+          "chunk_id": "7b96f3a22deb#0017",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3467
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0022",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3098
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0020",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2986
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.269
+        },
+        {
+          "chunk_id": "7b96f3a22deb#0023",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2648
+        }
+      ],
+      "latency_ms": 332
+    },
+    {
+      "id": "u04",
+      "type": "unanswerable",
+      "question": "How do I write a Dockerfile multi-stage build for a React app?",
+      "hit": false,
+      "partial": false,
+      "rank": null,
+      "top_score": 0.4121,
+      "retrieved": [
+        {
+          "chunk_id": "dfafb86a7749#0003",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4121
+        },
+        {
+          "chunk_id": "dfafb86a7749#0007",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3995
+        },
+        {
+          "chunk_id": "dfafb86a7749#0020",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3947
+        },
+        {
+          "chunk_id": "dfafb86a7749#0002",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3923
+        },
+        {
+          "chunk_id": "dfafb86a7749#0000",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3616
+        }
+      ],
+      "latency_ms": 363
+    }
+  ]
+}
