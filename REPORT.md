@@ -60,16 +60,46 @@ Unanswerable ones include near misses (Pinecone is named, but not its default mo
 
 ### Paulo
 
-<!-- Paulo: write your own entries. Suggested topics:
-- FastAPI + Pydantic
-- Embedding model (which one, local or hosted, dimension)
-- Vector database (ChromaDB, distance metric)
-- Chunking (fixed characters, overlap, offsets)
-- What is recomputed when settings change
-- Prompt and output format of /ask
-- Validation of the LLM answer and of the cited chunk ids
-- What happens when nothing is retrieved
--->
+**Backend: FastAPI + Pydantic.**
+Considered: Flask.
+FastAPI checks the requests with Pydantic and gives /docs for free.
+The same Pydantic models are used to check the LLM answer.
+
+**Embedding model: all-MiniLM-L6-v2 (Chroma default, local, 384 dimensions).**
+Considered: Gemini embeddings.
+Local = free, no API key, no rate limit. Re-indexing after a settings change costs nothing.
+Downside: small English model, weaker on paraphrases (see the hard questions).
+
+**Vector database: ChromaDB with cosine distance.**
+Considered: FAISS.
+Chroma runs inside the Python process and saves to disk (`backend/data/`), no server to install.
+Score = 1 - cosine distance. It is a similarity, not a confidence.
+
+**Chunking: fixed size in characters, overlap in %.**
+Naive on purpose: V1 is the baseline.
+We keep `char_start` / `char_end` so that `text[start:end]` is the chunk, the user can check the source.
+Downside: one chunk can mix several slides (known failure 5).
+
+**What is recomputed when settings change.**
+`chunk_size` or `overlap`: all documents are chunked and embedded again, from the original files saved in `backend/data/files/`.
+`top_k`: nothing is recomputed, it only changes the search.
+
+**Prompt and output of /ask.**
+Each chunk is sent with its id in brackets. Gemini must answer only from the chunks.
+It returns JSON: status (answered / not_found), answer, used_chunk_ids. Temperature 0 for stable answers.
+
+**Validation of the LLM answer.**
+The JSON is checked with Pydantic. We return status "error" if the JSON is invalid,
+the answer is empty, no chunk is cited, or a cited id was not retrieved.
+First version used all chunks as references when the ids were wrong: this hid wrong citations, fixed after Irina's review.
+
+**Nothing retrieved.**
+If no chunk is found, /ask returns not_found without calling Gemini.
+No score threshold: scores of good and unanswerable questions overlap (see evaluation).
+
+**Errors.**
+Every error returns `{"detail": "..."}` (400, 404, 413, 422).
+Unexpected errors return a short message, the details are only in the server logs.
 
 ## Evaluation results
 
