@@ -1,0 +1,117 @@
+[
+  {"id": "q01", "type": "normal", "doc": "ai-systems-c6-rag.md",
+   "question": "What chunk size and overlap are used in the norag_rag lab?",
+   "expected_answer": "800 characters with 10% overlap (80 characters).",
+   "evidence": ["With the lab settings (800 characters, 10% overlap)"]},
+
+  {"id": "q02", "type": "normal", "doc": "ai-systems-c6-rag.md",
+   "question": "How many dimensions do the vectors of all-MiniLM-L6-v2 have?",
+   "expected_answer": "384 dimensions.",
+   "evidence": ["produces 384-dimensional vectors"]},
+
+  {"id": "q03", "type": "normal", "doc": "ai-systems-c6-rag.md",
+   "question": "Who is Denis Amselemovitch?",
+   "expected_answer": "A fictional character whose paragraph was inserted into the Crime and Punishment extract (needle-in-the-haystack demo).",
+   "evidence": ["Denis Amselemovitch"]},
+
+  {"id": "q04", "type": "normal", "doc": "ai-systems-c4-llm-api-integration.md",
+   "question": "On which local URL does the triage app run with npm run dev?",
+   "expected_answer": "http://localhost:3033",
+   "evidence": ["http://localhost:3033"]},
+
+  {"id": "q05", "type": "normal", "doc": "ai-systems-c4-llm-api-integration.md",
+   "question": "What are the four triage categories?",
+   "expected_answer": "billing, technical_bug, account, feature_request",
+   "evidence": ["billing, technical_bug, account, feature_request"]},
+
+  {"id": "q06", "type": "normal", "doc": "ai-systems-c4-llm-api-integration.md",
+   "question": "What status should the triage API return when the model output is not valid JSON?",
+   "expected_answer": "502 invalid_model_output, retried once and logged.",
+   "evidence": ["502 invalid_model_output"]},
+
+  {"id": "q07", "type": "normal", "doc": "devops-foundations.md",
+   "question": "What does CALMS stand for?",
+   "expected_answer": "Culture, Automation, Lean, Measurement, Sharing.",
+   "evidence": ["Culture Automation Lean Measurement Sharing"]},
+
+  {"id": "q08", "type": "normal", "doc": "devops-foundations.md",
+   "question": "When was the Agile Manifesto introduced, and by how many people?",
+   "expected_answer": "In 2001, by 17 software practitioners.",
+   "evidence": ["Introduced in 2001 by 17 software practitioners"]},
+
+  {"id": "q09", "type": "normal", "doc": "docker-compose-multi-container.md",
+   "question": "Where does PostgreSQL 16 write its data inside the container?",
+   "expected_answer": "/var/lib/postgresql/data",
+   "evidence": ["/var/lib/postgresql/data"]},
+
+  {"id": "q10", "type": "normal", "doc": "docker-compose-multi-container.md",
+   "question": "Does docker compose down delete the named volume?",
+   "expected_answer": "No, the named volume is retained by default (only down --volumes removes it).",
+   "evidence": ["Retained by default"]},
+
+  {"id": "q11", "type": "normal", "doc": "cybersecurity-vocabulary-60-terms.md",
+   "question": "What is residual risk?",
+   "expected_answer": "The risk that remains after controls are applied.",
+   "evidence": ["The risk that remains after controls are applied"]},
+
+  {"id": "q12", "type": "normal", "doc": "cybersecurity-vocabulary-60-terms.md",
+   "question": "What is credential stuffing?",
+   "expected_answer": "Using username-and-password pairs stolen elsewhere to try to log in to another service.",
+   "evidence": ["Using username-and-password pairs stolen elsewhere"]},
+
+  {"id": "h01", "type": "hard", "doc": "docker-compose-multi-container.md",
+   "question": "My app container cannot reach Postgres at localhost:5432. Why?",
+   "expected_answer": "Inside the app container, localhost is the app container itself; use the service name db:5432.",
+   "evidence": ["localhost inside app points back to the app container itself"],
+   "why_hard": "Phrased as a user problem, not with the slide's wording."},
+
+  {"id": "h02", "type": "hard", "doc": "docker-compose-multi-container.md",
+   "question": "How can I make my app wait until the database actually accepts connections?",
+   "expected_answer": "Use depends_on with condition: service_healthy and a pg_isready healthcheck on db.",
+   "evidence": ["condition: service_healthy"],
+   "why_hard": "Vocabulary mismatch: 'wait' vs 'readiness / healthcheck'."},
+
+  {"id": "h03", "type": "hard", "doc": "ai-systems-c6-rag.md",
+   "question": "Is a similarity score of 0.83 the same as 83% confidence?",
+   "expected_answer": "No. A similarity score is not a confidence.",
+   "evidence": ["does not mean \"83 % correct\""],
+   "why_hard": "Number written differently in the question and the corpus."},
+
+  {"id": "h04", "type": "hard", "doc": "ai-systems-c6-rag.md",
+   "question": "When is version 2 of the RAG project due?",
+   "expected_answer": "November 4th.",
+   "evidence": ["Nov. 4th"],
+   "why_hard": "Multi-column slide: the date is far from 'V2' in the extracted text."},
+
+  {"id": "h05", "type": "hard", "doc": "cybersecurity-vocabulary-60-terms.md, ai-systems-c4-llm-api-integration.md",
+   "question": "What is prompt injection, and which ticket in the triage dataset tests it?",
+   "expected_answer": "Instructions hidden in input that make an AI system ignore its rules; ticket TCK-10087.",
+   "evidence": ["Instructions hidden or supplied in input", "TCK-10087"],
+   "why_hard": "The answer needs two documents."},
+
+  {"id": "h06", "type": "hard", "doc": "ai-systems-c4-llm-api-integration.md",
+   "question": "Why must the LLM key stay on the server?",
+   "expected_answer": "The browser never sees the API key; the server is the only part that talks to the provider.",
+   "evidence": ["The browser never sees the API key"],
+   "why_hard": "Several slides talk about keys; the right one must rank high."},
+
+  {"id": "u01", "type": "unanswerable", "doc": null,
+   "question": "How do I configure a Kubernetes Ingress controller?",
+   "expected_answer": "Not in the corpus.",
+   "evidence": []},
+
+  {"id": "u02", "type": "unanswerable", "doc": null,
+   "question": "What percentage of the final grade is the RAG project worth?",
+   "expected_answer": "Not in the corpus (the project is described, but not its grading).",
+   "evidence": []},
+
+  {"id": "u03", "type": "unanswerable", "doc": null,
+   "question": "Which embedding model does Pinecone use by default?",
+   "expected_answer": "Not in the corpus (Pinecone is only named as a managed vector database).",
+   "evidence": []},
+
+  {"id": "u04", "type": "unanswerable", "doc": null,
+   "question": "How do I write a Dockerfile multi-stage build for a React app?",
+   "expected_answer": "Not in the corpus (Compose reuses an existing Dockerfile; multi-stage builds are not covered).",
+   "evidence": []}
+]
