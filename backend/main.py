@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -11,6 +12,7 @@ from schemas import AskResult, DocumentInfo, QuestionRequest, RetrieveResult, Se
 from store import Store
 
 load_dotenv()
+logger = logging.getLogger("rag")
 
 MAX_FILE_SIZE = 2 * 1024 * 1024
 
@@ -34,7 +36,8 @@ async def validation_error(request: Request, exc: RequestValidationError):
 
 @app.exception_handler(Exception)
 async def unexpected_error(request: Request, exc: Exception):
-    return JSONResponse(status_code=500, content={"detail": f"Internal server error: {exc}"})
+    logger.exception("Unexpected error on %s", request.url.path)
+    return JSONResponse(status_code=500, content={"detail": "Internal server error. See the backend logs."})
 
 
 def check_doc_ids(doc_ids):
@@ -97,6 +100,7 @@ def ask(req: QuestionRequest):
     check_doc_ids(req.doc_ids)
     try:
         chunks = store.search(req.question, req.doc_ids, req.top_k)
-    except Exception as e:
-        return AskResult(status="error", answer="", references=[], error=f"Retrieval failed: {e}")
+    except Exception:
+        logger.exception("Retrieval failed")
+        return AskResult(status="error", answer="", references=[], error="Retrieval failed. See the backend logs.")
     return answer_question(req.question, chunks)
