@@ -54,7 +54,9 @@ def fake_gemini(monkeypatch, output):
     def fake_llm(prompt):
         if isinstance(output, Exception):
             raise output
-        return output
+        context = prompt.split("Context:")[1]
+        first_id = context.split("[")[1].split("]")[0]
+        return output.replace("FIRST_ID", first_id)
 
     def fake_answer(question, chunks):
         return llm.answer_question(question, chunks, llm=fake_llm)
@@ -152,10 +154,31 @@ def test_retrieve_unknown_doc(client):
 
 def test_ask_answered(client, monkeypatch):
     doc = upload(client, "devops.md", DOC.encode()).json()
-    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Docker runs containers.", "used_chunk_ids": []}')
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Docker runs containers.", "used_chunk_ids": ["FIRST_ID"]}')
     r = ask(client, doc["id"])
     assert r["status"] == "answered"
-    assert len(r["references"]) == 3
+    assert len(r["references"]) == 1
+
+
+def test_ask_cites_unknown_chunk(client, monkeypatch):
+    doc = upload(client, "devops.md", DOC.encode()).json()
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "ok", "used_chunk_ids": ["FIRST_ID", "fake#0001"]}')
+    r = ask(client, doc["id"])
+    assert r["status"] == "error"
+
+
+def test_ask_no_citation(client, monkeypatch):
+    doc = upload(client, "devops.md", DOC.encode()).json()
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "ok", "used_chunk_ids": []}')
+    r = ask(client, doc["id"])
+    assert r["status"] == "error"
+
+
+def test_ask_empty_answer(client, monkeypatch):
+    doc = upload(client, "devops.md", DOC.encode()).json()
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "  ", "used_chunk_ids": ["FIRST_ID"]}')
+    r = ask(client, doc["id"])
+    assert r["status"] == "error"
 
 
 def test_ask_not_found(client, monkeypatch):
@@ -178,3 +201,14 @@ def test_ask_gemini_down(client, monkeypatch):
     fake_gemini(monkeypatch, RuntimeError("quota exceeded"))
     r = ask(client, doc["id"])
     assert r["status"] == "error"
+
+
+def test_internal_error_is_hidden(client, monkeypatch):
+    def broken():
+        raise RuntimeError("secret details")
+
+    monkeypatch.setattr(main.store, "list_documents", broken)
+    client = TestClient(main.app, raise_server_exceptions=False)
+    r = client.get("/documents")
+    assert r.status_code == 500
+    assert "secret" not in r.json()["detail"]

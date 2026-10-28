@@ -1,3 +1,4 @@
+import logging
 import os
 
 from google import genai
@@ -5,6 +6,8 @@ from google.genai import types
 from pydantic import ValidationError
 
 from schemas import AskResult, LLMAnswer
+
+logger = logging.getLogger("rag")
 
 PROMPT = """You answer questions using ONLY the context chunks below.
 Each chunk starts with its id in square brackets.
@@ -39,6 +42,10 @@ def call_gemini(prompt):
     return response.text or ""
 
 
+def error(message):
+    return AskResult(status="error", answer="", references=[], error=message)
+
+
 def answer_question(question, chunks, llm=call_gemini):
     if len(chunks) == 0:
         return AskResult(status="not_found", answer="", references=[], error=None)
@@ -50,27 +57,32 @@ def answer_question(question, chunks, llm=call_gemini):
 
     try:
         raw = llm(prompt)
-    except Exception as e:
-        return AskResult(status="error", answer="", references=[], error=f"LLM call failed: {e}")
+    except Exception:
+        logger.exception("Gemini call failed")
+        return error("The LLM call failed (Gemini unavailable or quota exceeded).")
 
     try:
         parsed = LLMAnswer.model_validate_json(raw)
     except ValidationError:
-        return AskResult(
-            status="error",
-            answer="",
-            references=[],
-            error="The model returned an invalid answer (not the expected JSON).",
-        )
+        return error("The model returned an invalid answer (not the expected JSON).")
 
     if parsed.status == "not_found":
         return AskResult(status="not_found", answer="", references=[], error=None)
+
+    if parsed.answer.strip() == "":
+        return error("The model said it answered but the answer is empty.")
+
+    if len(parsed.used_chunk_ids) == 0:
+        return error("The model did not cite any chunk.")
+
+    retrieved_ids = [c.chunk_id for c in chunks]
+    for chunk_id in parsed.used_chunk_ids:
+        if chunk_id not in retrieved_ids:
+            return error("The model cited chunks that were not retrieved.")
 
     used = []
     for c in chunks:
         if c.chunk_id in parsed.used_chunk_ids:
             used.append(c)
-    if len(used) == 0:
-        used = chunks
 
     return AskResult(status="answered", answer=parsed.answer, references=used, error=None)
