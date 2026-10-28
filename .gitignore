@@ -10,3 +10,5 @@ __pycache__/
 # Backend runtime data
 backend/data/
 "@ | Set-Content .gitignore
+# Course material (not ours to publish)
+docs/corpus/
