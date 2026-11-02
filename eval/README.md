@@ -23,6 +23,8 @@ and contains the quote (case, quotes and whitespace normalized). See `metrics.py
 
 ## Run
 
+From the UI: tab **Evaluation** (same metrics, same result files). From the terminal:
+
 Backend running, both corpora uploaded (the script only searches the documents of the chosen corpus).
 
 ```powershell

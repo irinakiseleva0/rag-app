@@ -413,3 +413,51 @@ code {
   font-weight: 700;
   text-align: center;
 }
+
+/* Words tab */
+.small-tabs {
+  margin-top: 0.5rem;
+}
+
+.inline-input {
+  font: inherit;
+  color: inherit;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  min-width: 14rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.table-scroll.vocab {
+  max-height: 28rem;
+  overflow-y: auto;
+}
+
+table.scores .link-button {
+  padding: 0;
+  font-size: inherit;
+}
+
+table.scores .miss,
+span.miss {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+table.scores tr.stop-row {
+  color: var(--muted);
+}
+
+mark {
+  background: #f3dd8a;
+  color: inherit;
+  padding: 0 0.1em;
+  border-radius: 2px;
+}

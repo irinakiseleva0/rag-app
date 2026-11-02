@@ -1,4 +1,6 @@
-# RAG App — V1 Report
+# RAG App — Report (V1 and V2)
+
+V1 sections first, then [V2](#v2).
 
 ## Team
 
@@ -157,3 +159,184 @@ Ideas for V2 (to measure, not yet done):
 - Hybrid search (keywords + embeddings) for numbers and exact terms.
 - Log the raw LLM answer; retry once on invalid citations.
 - Alternative evidence phrases in the question set.
+
+
+---
+
+# V2
+
+## Team (V2)
+
+| Member | V2 work |
+|---|---|
+| Irina Kiseleva | Kestrel corpus and question sets (JSONL), no-context test, evaluation (Hit@k / Recall@k, CLI + Evaluation tab), Words tab (backend + frontend), hidden `/about` page, hand grading, README |
+| Paulo Rogerio Guimaraes Filho | TODO |
+
+## Corpora and question sets
+
+| Set | Corpus | Questions | Types |
+|---|---|---|---|
+| `kestrel` | `docs/kestrel/` (5 files, 44 chunks at 800) | 10 provided | exact_identifier 2, split_answer 2, vocabulary 1, versions 2, two_hop 1, not_in_corpus 2 |
+| `courses` | `docs/corpus/` (5 course decks, 194 chunks at 800) | 22 ours | other 11, exact_identifier 2, vocabulary 3, split_answer 2, not_in_corpus 4 |
+
+`courses.jsonl` is our V1 set converted to the Kestrel format. Ids and wording unchanged; only `type` and `evidence: {source, quote}` were added.
+
+## No-context test
+
+Every question asked to Gemini without retrieval (`eval/no_context.py`). Files: `eval/results/*-no-context.json`.
+
+| Set | Answerable questions the model answers correctly anyway |
+|---|---|
+| Kestrel | 0 / 8 |
+| Courses | 9 / 18: q02, q07, q08, q09, q10, q11, q12, h01, h03 |
+
+Notes:
+- Kestrel q09 (iPhone app): the model talks about another company called Kestrel (weather meters).
+- Kestrel q06 (refund at 45 days): the model guesses "30 days", the rule of the *old* policy.
+- Courses q04, q05, q06: confident and wrong (port 3000, medical triage categories, HTTP 422).
+- Unanswerable courses questions u01, u03, u04: the model answers from general knowledge. The app must still say "not in the documents".
+
+Decision: we keep the 9 flagged questions (the set stays fixed) and report them. Retrieval on the two halves at 800 / 10%:
+Hit@5 = 0.78 on the 9 flagged questions, 0.89 on the 9 others.
+
+## Results
+
+Relevance: a chunk is relevant if it comes from the evidence source and contains the evidence quote.
+Hit@k: at least one evidence quote in the top k. Recall@k: share of the evidence quotes in the top k.
+Unanswerable questions are left out. Top-k for answers: 5.
+
+### Kestrel
+
+| Type | n | Config | Hit@1 | Hit@3 | Hit@5 | Hit@10 | Recall@5 |
+|---|---|---|---|---|---|---|---|
+| **overall** | 8 | 800 / 10% | 0.625 | 0.625 | 0.75 | 1.00 | 0.72 |
+| | | 400 / 10% | 0.375 | 0.625 | 0.75 | 0.75 | 0.69 |
+| exact_identifier | 2 | 800 / 10% | 0.50 | 0.50 | 0.50 | 1.00 | 0.50 |
+| | | 400 / 10% | 0.00 | 0.00 | 0.50 | 0.50 | 0.50 |
+| split_answer | 2 | 800 / 10% | 1.00 | 1.00 | 1.00 | 1.00 | 0.88 |
+| | | 400 / 10% | 0.50 | 1.00 | 1.00 | 1.00 | 0.75 |
+| versions | 2 | 800 / 10% | 0.50 | 0.50 | 1.00 | 1.00 | 1.00 |
+| | | 400 / 10% | 0.50 | 1.00 | 1.00 | 1.00 | 1.00 |
+| vocabulary | 1 | 800 / 10% | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 |
+| | | 400 / 10% | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 |
+| two_hop | 1 | 800 / 10% | 0.00 | 0.00 | 0.00 | 1.00 | 0.00 |
+| | | 400 / 10% | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+
+### Courses
+
+| Type | n | Config | Hit@1 | Hit@3 | Hit@5 | Hit@10 | Recall@5 |
+|---|---|---|---|---|---|---|---|
+| **overall** | 18 | 800 / 10% | 0.50 | 0.78 | 0.83 | 1.00 | 0.83 |
+| | | 400 / 10% | 0.33 | 0.67 | 0.78 | 0.94 | 0.75 |
+| exact_identifier | 2 | 800 / 10% | 0.50 | 1.00 | 1.00 | 1.00 | 1.00 |
+| | | 400 / 10% | 0.50 | 0.50 | 0.50 | 0.50 | 0.50 |
+| split_answer | 2 | 800 / 10% | 0.00 | 0.50 | 0.50 | 1.00 | 0.50 |
+| | | 400 / 10% | 0.50 | 0.50 | 1.00 | 1.00 | 0.75 |
+| vocabulary | 3 | 800 / 10% | 0.00 | 0.33 | 0.33 | 1.00 | 0.33 |
+| | | 400 / 10% | 0.00 | 0.33 | 0.33 | 1.00 | 0.33 |
+| other | 11 | 800 / 10% | 0.73 | 0.91 | 1.00 | 1.00 | 1.00 |
+| | | 400 / 10% | 0.36 | 0.82 | 0.91 | 1.00 | 0.91 |
+
+### What we changed, and what moved
+
+Only the chunk size changed (800 → 400 characters, overlap 10%, same embedding model, same questions).
+
+- Hit@1 drops on both corpora (Kestrel 0.625 → 0.375, Courses 0.50 → 0.33): a small chunk carries less context around the answer, so it ranks first less often.
+- Kestrel exact_identifier and two_hop leave the top 10 (q01 KST-2044, q08 KST-5031).
+- Courses q06 ("502 invalid_model_output") is not found at any k with 400. Hypothesis: the evidence quote is cut by a chunk boundary more often with small chunks; this is also a limit of our relevance rule.
+- Only gain: Courses split_answer at k = 5 (0.50 → 1.00).
+- Hit@10 is 1.00 on both corpora at 800: every answer is retrieved, but 2 Kestrel (q01, q08) and 3 Courses (h01, h03, h04) questions only at ranks 6–10, which top-k 5 never shows to the model. The main problem is ranking.
+
+Best configuration: **800 / 10%**.
+
+## Hand grading (Kestrel, 800 / 10%, top-k 5)
+
+Rules, written before grading:
+- **correct**: all key facts of the expected answer, nothing that contradicts the documents.
+- **partial**: some key facts right, an important one missing.
+- **wrong**: the main fact is wrong (old policy, wrong code), or the app answers an unanswerable question, or returns not_found / error on an answerable one.
+- **unsupported**: says things the referenced chunks do not say.
+- Unanswerable questions are correct only if the app says the answer is not in the documents.
+
+| id | type | grade | failure | note |
+|---|---|---|---|---|
+| q01 | exact_identifier | wrong | retrieval | evidence at rank 6; the app said not_found (no invention) |
+| q02 | exact_identifier | correct | | |
+| q03 | split_answer | wrong | retrieval + generation | 2025 and 2026 policies mixed: "14 or 21 days", retries 3/7 instead of 1/3/7 |
+| q04 | split_answer | partial | retrieval | last setup steps (test with one Admin, enforce) not in the top 5 |
+| q05 | vocabulary | correct | | misses "up to 2 business days" |
+| q06 | versions | correct | | 60 days, pro-rated (2026 rule) |
+| q07 | versions | correct | | 20% |
+| q08 | two_hop | partial | retrieval | first hop only ("team that owns postroom"); service catalog not in the top 5 |
+| q09 | not_in_corpus | correct | | not_found |
+| q10 | not_in_corpus | correct | | not_found |
+
+Total: 6 correct, 2 partial, 2 wrong, 0 unsupported. All 4 failures start with retrieval.
+Grades are stored in `eval/results/*-kestrel-c800-o10-answers.json` (`grade`, `grade_note`).
+
+## Two misses diagnosed with the Words tab
+
+**Kestrel q01 — "What does error KST-2044 mean and how do I fix it?"** (first relevant chunk at rank 6)
+- `kst-2044` appears in exactly 1 chunk of 44: the answer chunk (`support-runbook-errors.md` #4).
+- The neighbour code `kst-2040` (timeout) is alone in the previous chunk (#3).
+- `error` is in 9 chunks; `mean` and `fix` do not exist in the corpus.
+- So the one word that identifies the answer is unique, but the embedding sees KST-2044 and KST-2040 as almost the same text, and the generic words dominate. An exact keyword match would rank the answer chunk first: argument for keyword / hybrid search (BM25).
+
+**Courses h04 — "When is version 2 of the RAG project due?"** (first relevant chunk at rank 6–10)
+- The answer chunk (`ai-systems-c6-rag.md` #38) contains `rag`, `project` and `2`, but **not** `version` (the slide writes "V2") and not `due`.
+- `version` exists 18 times in 13 other chunks; `2` is in 55 of 194 chunks; `rag` in 18, `project` in 23.
+- No distinctive word of the question is in the answer chunk: different vocabulary ("version 2" vs "V2") on a two-column slide where "V2" and "Nov. 4th" are far apart.
+
+Contrast — Kestrel q05 ("I lost my phone… can't log in"): `phone`, `can't` and `anymore` do not exist in the corpus at all, yet the answer chunk ranks first. Embeddings handled this vocabulary gap; they failed on the exact identifier. Keyword search would do the opposite: the two methods are complementary.
+
+## Decision log (V2)
+
+### Irina
+
+**Relevance = same source + exact quote (normalized).**
+Simple and repeatable. Independent of chunk ids, so configurations can be compared.
+Limit: a quote cut by a chunk boundary is not counted.
+
+**Hit@k and Recall@k.**
+Hit@k says "did the model see something useful". Recall@k says "did it see the whole answer": it matters for split answers and two-hop questions.
+
+**Retrieve top 10 once, then score k = 1, 3, 5, 10.**
+One search per question; the four k values are prefixes of the same ranking.
+
+**Each corpus searched alone.**
+Both corpora are uploaded together; the evaluation passes only the doc ids of the set's corpus, so Kestrel questions cannot be "helped" or "hurt" by course chunks.
+
+**Evaluation in the UI uses the same `eval/metrics.py` as the CLI.**
+One relevance rule, one result format. The UI run calls the store directly (no HTTP loop).
+
+**No-context test with the same model as the app.**
+Short prompt: "Answer briefly. If you do not know, say I don't know." Free-tier limits: pause between calls, retry on 429, resume from the last file.
+
+**Words: tokenizer.**
+Lowercase; identifiers kept whole (KST-2044, 203.0.113.10, technical_bug); no stemming (it is what keyword search sees); stop words counted but hidden by default.
+
+**Words: counts per chunk, from ChromaDB.**
+The index follows the current chunk settings. With overlap, a word in the shared part is counted in both chunks (a test shows 332 counts for 300 occurrences). It is rebuilt at each request: the corpora are small.
+
+**Words: "chunks that hold the answer".**
+A question picked from a set uses the evaluation's relevance rule to mark the answer chunks, so we can see if the question's words are in them.
+
+**Kestrel corpus committed, course decks not.**
+Kestrel is fictional and provided for the project. The course decks are teachers' material.
+
+### Paulo
+
+TODO
+
+## Known failures (V2)
+
+| # | Question | Observed | Hypothesis / next step |
+|---|---|---|---|
+| 1 | Kestrel q03 — card payment fails | The answer mixes the 2025 and 2026 billing policies ("14 or 21 days"). | Both versions are retrieved; chunks have no date or status. V3: metadata (effective date, superseded) and a filter. |
+| 2 | Kestrel q01 — KST-2044 | Answer chunk at rank 6, app says not_found. | Embeddings blur close identifiers. V3: hybrid search (BM25 + embeddings). |
+| 3 | Kestrel q08 — KST-5031 → team | Only the first hop is answered. | One query cannot do two hops. V3: second retrieval with the service name found in the first answer. |
+| 4 | Courses q06 at 400 characters | Evidence not found at any k. | Quote probably cut by a chunk boundary. |
+| 5 | No-context, courses | 9 of 18 answerable questions known by the model. | Public topics. Future questions should target course-specific details. |
+| 6 | Free Gemini tier | 429 errors during long runs. | Pause and retry in the scripts; one LLM call per question at most. |
+| 7 | Same corpus, different chunks | Kestrel gives 44 chunks on Windows and 43 on Linux. | Git converts line endings to CRLF on Windows: the text is longer, chunk boundaries move. Fix: `.gitattributes` with `eol=lf` for `docs/`. |
+
