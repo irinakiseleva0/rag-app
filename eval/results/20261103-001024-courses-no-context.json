@@ -1,0 +1,182 @@
+{
+  "set": "courses",
+  "model": "gemini-3.1-flash-lite-preview",
+  "rows": [
+    {
+      "id": "q01",
+      "type": "other",
+      "question": "What chunk size and overlap are used in the norag_rag lab?",
+      "expected_answer": "800 characters with 10% overlap (80 characters).",
+      "no_context_answer": "I don't know.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q02",
+      "type": "other",
+      "question": "How many dimensions do the vectors of all-MiniLM-L6-v2 have?",
+      "expected_answer": "384 dimensions.",
+      "no_context_answer": "The vectors of all-MiniLM-L6-v2 have 384 dimensions.",
+      "known_without_rag": true
+    },
+    {
+      "id": "q03",
+      "type": "other",
+      "question": "Who is Denis Amselemovitch?",
+      "expected_answer": "A fictional character whose paragraph was inserted into the Crime and Punishment extract (needle-in-the-haystack demo).",
+      "no_context_answer": "I don't know.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q04",
+      "type": "exact_identifier",
+      "question": "On which local URL does the triage app run with npm run dev?",
+      "expected_answer": "http://localhost:3033",
+      "no_context_answer": "The triage app typically runs on **http://localhost:3000**.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q05",
+      "type": "other",
+      "question": "What are the four triage categories?",
+      "expected_answer": "billing, technical_bug, account, feature_request",
+      "no_context_answer": "The four triage categories are:\n\n1. **Immediate** (Red)\n2. **Delayed** (Yellow)\n3. **Minor** (Green)\n4. **Expectant** (Black)",
+      "known_without_rag": false
+    },
+    {
+      "id": "q06",
+      "type": "exact_identifier",
+      "question": "What status should the triage API return when the model output is not valid JSON?",
+      "expected_answer": "502 invalid_model_output, retried once and logged.",
+      "no_context_answer": "The triage API should return a **422 Unprocessable Entity** status code.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q07",
+      "type": "other",
+      "question": "What does CALMS stand for?",
+      "expected_answer": "Culture, Automation, Lean, Measurement, Sharing.",
+      "no_context_answer": "In the context of DevOps, CALMS stands for **Culture, Automation, Lean, Measurement, and Sharing**.",
+      "known_without_rag": true
+    },
+    {
+      "id": "q08",
+      "type": "other",
+      "question": "When was the Agile Manifesto introduced, and by how many people?",
+      "expected_answer": "In 2001, by 17 software practitioners.",
+      "no_context_answer": "The Agile Manifesto was introduced in 2001 by 17 people.",
+      "known_without_rag": true
+    },
+    {
+      "id": "q09",
+      "type": "other",
+      "question": "Where does PostgreSQL 16 write its data inside the container?",
+      "expected_answer": "/var/lib/postgresql/data",
+      "no_context_answer": "By default, PostgreSQL 16 writes its data to the **/var/lib/postgresql/data** directory inside the container.",
+      "known_without_rag": true
+    },
+    {
+      "id": "q10",
+      "type": "other",
+      "question": "Does docker compose down delete the named volume?",
+      "expected_answer": "No, the named volume is retained by default (only down --volumes removes it).",
+      "no_context_answer": "No, it does not. You must use the `--volumes` flag (`docker compose down -v`) to delete named volumes.",
+      "known_without_rag": true
+    },
+    {
+      "id": "q11",
+      "type": "other",
+      "question": "What is residual risk?",
+      "expected_answer": "The risk that remains after controls are applied.",
+      "no_context_answer": "Residual risk is the amount of risk that remains after all security controls and mitigation measures have been implemented.",
+      "known_without_rag": true
+    },
+    {
+      "id": "q12",
+      "type": "other",
+      "question": "What is credential stuffing?",
+      "expected_answer": "Using username-and-password pairs stolen elsewhere to try to log in to another service.",
+      "no_context_answer": "Credential stuffing is a cyberattack where criminals use automated scripts to test stolen username and password pairs from one breach on other websites, banking on the fact that many users reuse the same credentials across multiple accounts.",
+      "known_without_rag": true
+    },
+    {
+      "id": "h01",
+      "type": "vocabulary",
+      "question": "My app container cannot reach Postgres at localhost:5432. Why?",
+      "expected_answer": "Inside the app container, localhost is the app container itself; use the service name db:5432.",
+      "no_context_answer": "Inside a container, `localhost` refers to the container itself, not your host machine. Use the host's IP address, `host.docker.internal` (on Docker Desktop), or the service name (if using Docker Compose) to connect.",
+      "known_without_rag": true
+    },
+    {
+      "id": "h02",
+      "type": "vocabulary",
+      "question": "How can I make my app wait until the database actually accepts connections?",
+      "expected_answer": "Use depends_on with condition: service_healthy and a pg_isready healthcheck on db.",
+      "no_context_answer": "Implement a **retry loop with exponential backoff** in your application startup logic. Before proceeding, your app should attempt to connect to the database, catch connection errors, and wait briefly before retrying until the connection succeeds or a timeout threshold is reached.",
+      "known_without_rag": false
+    },
+    {
+      "id": "h03",
+      "type": "vocabulary",
+      "question": "Is a similarity score of 0.83 the same as 83% confidence?",
+      "expected_answer": "No. A similarity score is not a confidence.",
+      "no_context_answer": "No. A similarity score measures how close two items are in a feature space, while confidence represents the statistical probability that a prediction is correct. They are mathematically distinct metrics.",
+      "known_without_rag": true
+    },
+    {
+      "id": "h04",
+      "type": "split_answer",
+      "question": "When is version 2 of the RAG project due?",
+      "expected_answer": "November 4th.",
+      "no_context_answer": "I don't know.",
+      "known_without_rag": false
+    },
+    {
+      "id": "h05",
+      "type": "split_answer",
+      "question": "What is prompt injection, and which ticket in the triage dataset tests it?",
+      "expected_answer": "Instructions hidden in input that make an AI system ignore its rules; ticket TCK-10087.",
+      "no_context_answer": "Prompt injection is a security vulnerability where an attacker provides malicious input to a large language model to override its original instructions and force it to execute unintended actions.\n\nI don't know which specific ticket in the \"triage dataset\" you are referring to, as that dataset is not provided.",
+      "known_without_rag": false
+    },
+    {
+      "id": "h06",
+      "type": "other",
+      "question": "Why must the LLM key stay on the server?",
+      "expected_answer": "The browser never sees the API key; the server is the only part that talks to the provider.",
+      "no_context_answer": "To prevent unauthorized access, tampering, or misuse of the API key, which could lead to service hijacking or unexpected financial charges.",
+      "known_without_rag": false
+    },
+    {
+      "id": "u01",
+      "type": "not_in_corpus",
+      "question": "How do I configure a Kubernetes Ingress controller?",
+      "expected_answer": "Not in the corpus.",
+      "no_context_answer": "To configure a Kubernetes Ingress controller:\n\n1. **Choose a controller:** Select one (e.g., NGINX, HAProxy, Traefik).\n2. **Install:** Deploy it using Helm or official YAML manifests provided by the project.\n3. **Configure:** Define an `Ingress` resource (YAML) specifying hostnames, paths, and backend services.\n4. **Expose:** Ensure the controller has an external IP (typically via a `LoadBalancer` service).\n5. **Apply:** Apply your configuration using `kubectl apply -f ingress.yaml`.",
+      "known_without_rag": false
+    },
+    {
+      "id": "u02",
+      "type": "not_in_corpus",
+      "question": "What percentage of the final grade is the RAG project worth?",
+      "expected_answer": "Not in the corpus (the project is described, but not its grading).",
+      "no_context_answer": "I don't know.",
+      "known_without_rag": false
+    },
+    {
+      "id": "u03",
+      "type": "not_in_corpus",
+      "question": "Which embedding model does Pinecone use by default?",
+      "expected_answer": "Not in the corpus (Pinecone is only named as a managed vector database).",
+      "no_context_answer": "Pinecone does not have a single \"default\" embedding model; it is a vector database that allows you to use any embedding model of your choice. However, if you use Pinecone's **Inference** feature, it currently defaults to **`multilingual-e5-large`**.",
+      "known_without_rag": false
+    },
+    {
+      "id": "u04",
+      "type": "not_in_corpus",
+      "question": "How do I write a Dockerfile multi-stage build for a React app?",
+      "expected_answer": "Not in the corpus (Compose reuses an existing Dockerfile; multi-stage builds are not covered).",
+      "no_context_answer": "To perform a multi-stage build for a React app, use a \"builder\" stage to install dependencies and build the app, then copy the output to a lightweight web server (like Nginx).\n\n```dockerfile\n# Stage 1: Build\nFROM node:18-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm run build\n\n# Stage 2: Serve\nFROM nginx:alpine\nCOPY --from=builder /app/dist /usr/share/nginx/html\nEXPOSE 80\nCMD [\"nginx\", \"-g\", \"daemon off;\"]\n```\n*(Note: Replace `dist` with `build` if you are using Create React App.)*",
+      "known_without_rag": false
+    }
+  ]
+}

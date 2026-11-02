@@ -1,0 +1,2064 @@
+{
+  "set": "courses",
+  "label": "c400-o10",
+  "date": "2026-11-03T00:04:07",
+  "settings": {
+    "chunk_size": 400,
+    "overlap_percent": 10,
+    "top_k": 5
+  },
+  "documents": [
+    "ai-systems-c4-llm-api-integration.md",
+    "ai-systems-c6-rag.md",
+    "cybersecurity-vocabulary-60-terms.md",
+    "devops-foundations.md",
+    "docker-compose-multi-container.md"
+  ],
+  "with_answers": false,
+  "summary": {
+    "overall": {
+      "n": 18,
+      "hit@1": 0.333,
+      "hit@3": 0.667,
+      "hit@5": 0.778,
+      "hit@10": 0.944,
+      "recall@1": 0.306,
+      "recall@3": 0.639,
+      "recall@5": 0.75,
+      "recall@10": 0.944
+    },
+    "by_type": {
+      "exact_identifier": {
+        "n": 2,
+        "hit@1": 0.5,
+        "hit@3": 0.5,
+        "hit@5": 0.5,
+        "hit@10": 0.5,
+        "recall@1": 0.5,
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "recall@10": 0.5
+      },
+      "other": {
+        "n": 11,
+        "hit@1": 0.364,
+        "hit@3": 0.818,
+        "hit@5": 0.909,
+        "hit@10": 1.0,
+        "recall@1": 0.364,
+        "recall@3": 0.818,
+        "recall@5": 0.909,
+        "recall@10": 1.0
+      },
+      "split_answer": {
+        "n": 2,
+        "hit@1": 0.5,
+        "hit@3": 0.5,
+        "hit@5": 1.0,
+        "hit@10": 1.0,
+        "recall@1": 0.25,
+        "recall@3": 0.25,
+        "recall@5": 0.75,
+        "recall@10": 1.0
+      },
+      "vocabulary": {
+        "n": 3,
+        "hit@1": 0.0,
+        "hit@3": 0.333,
+        "hit@5": 0.333,
+        "hit@10": 1.0,
+        "recall@1": 0.0,
+        "recall@3": 0.333,
+        "recall@5": 0.333,
+        "recall@10": 1.0
+      }
+    },
+    "n_unanswerable": 4
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "other",
+      "answerable": true,
+      "question": "What chunk size and overlap are used in the norag_rag lab?",
+      "expected_answer": "800 characters with 10% overlap (80 characters).",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 9,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0027",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.5063,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0032",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.5051,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0029",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4344,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4028,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0013",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3971,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0049",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3645,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0026",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3618,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0047",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3472,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0031",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3324,
+          "relevant": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0001",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3285,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "type": "other",
+      "answerable": true,
+      "question": "How many dimensions do the vectors of all-MiniLM-L6-v2 have?",
+      "expected_answer": "384 dimensions.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0036",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4623,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0065",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4431,
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0040",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.386,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0038",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.379,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0041",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3551,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2265,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0039",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.216,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0033",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2155,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0011",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2142,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0089",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2081,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "type": "other",
+      "answerable": true,
+      "question": "Who is Denis Amselemovitch?",
+      "expected_answer": "A fictional character whose paragraph was inserted into the Crime and Punishment extract (needle-in-the-haystack demo).",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0014",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.5219,
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0016",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3977,
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0015",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3571,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0070",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2744,
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0060",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2491,
+          "relevant": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0071",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1987,
+          "relevant": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0016",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.1742,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0067",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1562,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0015",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.1357,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0065",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1298,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "type": "exact_identifier",
+      "answerable": true,
+      "question": "On which local URL does the triage app run with npm run dev?",
+      "expected_answer": "http://localhost:3033",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0014",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4142,
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0013",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4098,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0064",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3776,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0002",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3652,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0017",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3624,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0011",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3602,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0055",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3264,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0058",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3178,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0003",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3129,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0005",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3114,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "type": "other",
+      "answerable": true,
+      "question": "What are the four triage categories?",
+      "expected_answer": "billing, technical_bug, account, feature_request",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 5,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0020",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4167,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0022",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4037,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0002",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.352,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0027",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3484,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a1545ffb8289#0028",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3391,
+          "relevant": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0019",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3359,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0035",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3312,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0040",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3241,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3208,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0081",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3131,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "type": "exact_identifier",
+      "answerable": true,
+      "question": "What status should the triage API return when the model output is not valid JSON?",
+      "expected_answer": "502 invalid_model_output, retried once and logged.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "first_relevant_rank": null,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0042",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.6681,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0061",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.534,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0038",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.5152,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0041",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.491,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a1545ffb8289#0062",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4895,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0035",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4652,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0044",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4567,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0063",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4566,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0003",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4331,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0022",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4278,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "type": "other",
+      "answerable": true,
+      "question": "What does CALMS stand for?",
+      "expected_answer": "Culture, Automation, Lean, Measurement, Sharing.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "3402d307db3b#0037",
+          "filename": "devops-foundations.md",
+          "score": 0.3913,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "3402d307db3b#0030",
+          "filename": "devops-foundations.md",
+          "score": 0.3906,
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "3402d307db3b#0031",
+          "filename": "devops-foundations.md",
+          "score": 0.3383,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0018",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2625,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8c50fa8ed3e8#0086",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2455,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8c50fa8ed3e8#0051",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2297,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "3402d307db3b#0007",
+          "filename": "devops-foundations.md",
+          "score": 0.2232,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3402d307db3b#0035",
+          "filename": "devops-foundations.md",
+          "score": 0.2129,
+          "relevant": true
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8c50fa8ed3e8#0014",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2098,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0077",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2024,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "type": "other",
+      "answerable": true,
+      "question": "When was the Agile Manifesto introduced, and by how many people?",
+      "expected_answer": "In 2001, by 17 software practitioners.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "3402d307db3b#0010",
+          "filename": "devops-foundations.md",
+          "score": 0.6417,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "3402d307db3b#0011",
+          "filename": "devops-foundations.md",
+          "score": 0.5477,
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "3402d307db3b#0009",
+          "filename": "devops-foundations.md",
+          "score": 0.4495,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "3402d307db3b#0017",
+          "filename": "devops-foundations.md",
+          "score": 0.3749,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "3402d307db3b#0012",
+          "filename": "devops-foundations.md",
+          "score": 0.374,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3402d307db3b#0016",
+          "filename": "devops-foundations.md",
+          "score": 0.3726,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "3402d307db3b#0000",
+          "filename": "devops-foundations.md",
+          "score": 0.3545,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3402d307db3b#0005",
+          "filename": "devops-foundations.md",
+          "score": 0.3433,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "3402d307db3b#0030",
+          "filename": "devops-foundations.md",
+          "score": 0.3005,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3402d307db3b#0019",
+          "filename": "devops-foundations.md",
+          "score": 0.2979,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "type": "other",
+      "answerable": true,
+      "question": "Where does PostgreSQL 16 write its data inside the container?",
+      "expected_answer": "/var/lib/postgresql/data",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0008",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5758,
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0030",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5712,
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0009",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5483,
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0024",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.526,
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0028",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5088,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0019",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4871,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0029",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.476,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0023",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4723,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0031",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4686,
+          "relevant": true
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0012",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4638,
+          "relevant": true
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "other",
+      "answerable": true,
+      "question": "Does docker compose down delete the named volume?",
+      "expected_answer": "No, the named volume is retained by default (only down --volumes removes it).",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 3,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0025",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.7077,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0056",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6345,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0026",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6305,
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0052",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6279,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0041",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6172,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0050",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6061,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0027",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5711,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0005",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5107,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0023",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5086,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0039",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4881,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "other",
+      "answerable": true,
+      "question": "What is residual risk?",
+      "expected_answer": "The risk that remains after controls are applied.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "8c50fa8ed3e8#0036",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.5572,
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8c50fa8ed3e8#0034",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.4551,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8c50fa8ed3e8#0037",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.4415,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "8c50fa8ed3e8#0011",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.402,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8c50fa8ed3e8#0033",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3953,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8c50fa8ed3e8#0039",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3923,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8c50fa8ed3e8#0010",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3675,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8c50fa8ed3e8#0040",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3581,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8c50fa8ed3e8#0044",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3518,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "8c50fa8ed3e8#0042",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3505,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "other",
+      "answerable": true,
+      "question": "What is credential stuffing?",
+      "expected_answer": "Using username-and-password pairs stolen elsewhere to try to log in to another service.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "8c50fa8ed3e8#0070",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.488,
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0059",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3398,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8c50fa8ed3e8#0021",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.333,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0058",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3017,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8c50fa8ed3e8#0060",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2845,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0018",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2791,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8c50fa8ed3e8#0055",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2776,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0075",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2711,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8c50fa8ed3e8#0024",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2651,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0052",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2554,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h01",
+      "type": "vocabulary",
+      "answerable": true,
+      "question": "My app container cannot reach Postgres at localhost:5432. Why?",
+      "expected_answer": "Inside the app container, localhost is the app container itself; use the service name db:5432.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 10,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0019",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.7062,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0018",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6788,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0009",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6493,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0035",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6375,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0021",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6332,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0008",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6081,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5734,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0030",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5529,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0020",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5366,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0003",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5246,
+          "relevant": true
+        }
+      ]
+    },
+    {
+      "id": "h02",
+      "type": "vocabulary",
+      "answerable": true,
+      "question": "How can I make my app wait until the database actually accepts connections?",
+      "expected_answer": "Use depends_on with condition: service_healthy and a pg_isready healthcheck on db.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0035",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5448,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0036",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4817,
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0022",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.439,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0002",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4101,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0034",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4054,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0003",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3761,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0037",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3735,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0016",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3695,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0018",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3561,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0047",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3523,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h03",
+      "type": "vocabulary",
+      "answerable": true,
+      "question": "Is a similarity score of 0.83 the same as 83% confidence?",
+      "expected_answer": "No. A similarity score is not a confidence.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 7,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0037",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3177,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0039",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3051,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0006",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.304,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0073",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2188,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0049",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.213,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0028",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1713,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0047",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1703,
+          "relevant": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0019",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1598,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0032",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1583,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0052",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.157,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h04",
+      "type": "split_answer",
+      "answerable": true,
+      "question": "When is version 2 of the RAG project due?",
+      "expected_answer": "November 4th.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 5,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0001",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.5226,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0013",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4938,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0074",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4223,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3779,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0076",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3705,
+          "relevant": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3451,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0058",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3278,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3402d307db3b#0067",
+          "filename": "devops-foundations.md",
+          "score": 0.3212,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0010",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3128,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0002",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3123,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h05",
+      "type": "split_answer",
+      "answerable": true,
+      "question": "What is prompt injection, and which ticket in the triage dataset tests it?",
+      "expected_answer": "Instructions hidden in input that make an AI system ignore its rules; ticket TCK-10087.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.5,
+        "3": 0.5,
+        "5": 0.5,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0046",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.562,
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0022",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.547,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0018",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4896,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0057",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4552,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a1545ffb8289#0064",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4107,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0063",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4092,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8c50fa8ed3e8#0075",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.4048,
+          "relevant": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0062",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4047,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0003",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3987,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0023",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3851,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h06",
+      "type": "other",
+      "answerable": true,
+      "question": "Why must the LLM key stay on the server?",
+      "expected_answer": "The browser never sees the API key; the server is the only part that talks to the provider.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0015",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4032,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0010",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3778,
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0016",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3758,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0055",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3326,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0046",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3255,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3117,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3078,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0067",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2975,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8c50fa8ed3e8#0029",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2893,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0012",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2789,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u01",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "How do I configure a Kubernetes Ingress controller?",
+      "expected_answer": "Not in the corpus.",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0058",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3804,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0021",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2614,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2358,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0007",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2234,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "3402d307db3b#0066",
+          "filename": "devops-foundations.md",
+          "score": 0.2229,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2218,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0040",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2216,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0009",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.212,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0009",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2109,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0002",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2029,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u02",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "What percentage of the final grade is the RAG project worth?",
+      "expected_answer": "Not in the corpus (the project is described, but not its grading).",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0051",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3733,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0029",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3583,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0013",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3516,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0027",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.338,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0001",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3241,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0076",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3101,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0084",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3084,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0010",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2808,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.276,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0002",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2752,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u03",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "Which embedding model does Pinecone use by default?",
+      "expected_answer": "Not in the corpus (Pinecone is only named as a managed vector database).",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0044",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3876,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0034",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3636,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0089",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3631,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0011",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3616,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0041",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3555,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0067",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3514,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0033",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3121,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0045",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3113,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0046",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3035,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2947,
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u04",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "How do I write a Dockerfile multi-stage build for a React app?",
+      "expected_answer": "Not in the corpus (Compose reuses an existing Dockerfile; multi-stage builds are not covered).",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0040",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4223,
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0039",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3677,
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0000",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3529,
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0008",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3457,
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0006",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3371,
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0007",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3358,
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0005",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3327,
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0056",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3322,
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0041",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3306,
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0023",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3272,
+          "relevant": false
+        }
+      ]
+    }
+  ]
+}

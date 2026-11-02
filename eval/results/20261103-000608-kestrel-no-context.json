@@ -1,0 +1,86 @@
+{
+  "set": "kestrel",
+  "model": "gemini-3.1-flash-lite-preview",
+  "rows": [
+    {
+      "id": "q01",
+      "type": "exact_identifier",
+      "question": "What does error KST-2044 mean and how do I fix it?",
+      "expected_answer": "The data source refused the connection because the Kestrel IP addresses are not on its allowlist. Add both 203.0.113.10 and 203.0.113.11; adding only one causes intermittent errors.",
+      "no_context_answer": "I don't know.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q02",
+      "type": "exact_identifier",
+      "question": "A user gets KST-4012 when accepting an invitation. What should support tell them?",
+      "expected_answer": "There is no free seat. An Admin must free a seat, or the Owner must add seats or upgrade. The same invitation then works if it is less than 7 days old.",
+      "no_context_answer": "I don't know.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q03",
+      "type": "split_answer",
+      "question": "What happens, step by step, when a customer's card payment fails?",
+      "expected_answer": "E-mail to the Owner and billing contact, retries after 1, 3 and 7 days, then a 21-day grace period (everything works), then read-only, then suspension at 60 days. Nothing is deleted.",
+      "no_context_answer": "When a card payment fails, the following steps typically occur:\n\n1.  **Authorization Request:** The merchant sends payment details to their processor, which forwards them to the card network (e.g., Visa/Mastercard) and the customer's issuing bank.\n2.  **Validation Check:** The issuing bank verifies the account status, funds, and security criteria (e.g., CVV, AVS).\n3.  **Decline Triggered:** If the bank identifies an issue (e.g., insufficient funds, incorrect PIN, suspected fraud, or expired card), it rejects the transaction.\n4.  **Response Sent:** The bank sends a decline code back through the network to the merchant.\n5.  **Customer Notification:** The merchant receives the error code and displays a \"Payment Failed\" message to the customer.\n6.  **Resolution:** The customer is prompted to retry, use a different payment method, or contact their bank.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q04",
+      "type": "split_answer",
+      "question": "Which plans include single sign-on, and how does an admin set it up?",
+      "expected_answer": "Business and Enterprise. An Admin opens Settings → Security → Single sign-on, downloads the Kestrel SP metadata, registers Kestrel in the identity provider, pastes the IdP metadata URL back, tests with one Admin, then enforces it.",
+      "no_context_answer": "To provide an accurate answer, please specify which platform or service you are referring to (e.g., Slack, Notion, Microsoft 365). \n\nIf you are asking about a general service, I don't know which one you mean.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q05",
+      "type": "vocabulary",
+      "question": "I lost my phone and I can't log in anymore. What can I do?",
+      "expected_answer": "Use a backup code. Without one, ask a workspace Admin to reset your second factor. If you are the only Admin or the Owner, contact support from the account's e-mail address; identity verification can take up to 2 business days.",
+      "no_context_answer": "If you are locked out due to two-factor authentication (2FA), use the **backup codes** you were given during setup, or use the **\"Account Recovery\"** option on the platform's login page to verify your identity. If those options fail, contact the service provider's official customer support.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q06",
+      "type": "versions",
+      "question": "Can I get a refund on my annual plan 45 days after it renewed?",
+      "expected_answer": "Yes, under the current (March 2026) policy: annual plans are refundable within 60 days of renewal, pro-rated from the request date. The old 2025 policy allowed only 30 days.",
+      "no_context_answer": "It depends on the company's specific refund policy. Many companies have a 30-day window for annual refunds, making 45 days too late, but others may offer pro-rated refunds or exceptions. You should check the terms of service for the specific service you are using.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q07",
+      "type": "versions",
+      "question": "How much do I save by paying annually instead of monthly?",
+      "expected_answer": "20% compared with twelve months of monthly billing (it was 15% under the 2025 policy).",
+      "no_context_answer": "I don't know. The amount saved depends on the specific policy, subscription, or service provider you are using.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q08",
+      "type": "two_hop",
+      "question": "Error KST-5031 happened on the last two scheduled reports. Which team should support contact, and where?",
+      "expected_answer": "Messaging, which owns postroom: post in #oncall-messaging as SEV-2. Outside 08:00–20:00 on weekdays, escalate to the Platform on-call.",
+      "no_context_answer": "I don't know.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q09",
+      "type": "not_in_corpus",
+      "question": "Is there a Kestrel mobile app for iPhone?",
+      "expected_answer": "Not in the documents.",
+      "no_context_answer": "No, there is no official Kestrel mobile app for iPhone. However, the Kestrel brand (by Nielsen-Kellerman) offers the **Kestrel LiNK** app, which connects via Bluetooth to compatible Kestrel weather meters.",
+      "known_without_rag": false
+    },
+    {
+      "id": "q10",
+      "type": "not_in_corpus",
+      "question": "How much does one seat cost per month on the Business plan?",
+      "expected_answer": "Not in the documents (the billing policy says prices are on the pricing page).",
+      "no_context_answer": "The cost per seat on the Business plan depends on the specific service you are referring to (e.g., Slack, Notion, OpenAI, etc.). Please specify which service you are asking about.",
+      "known_without_rag": false
+    }
+  ]
+}
