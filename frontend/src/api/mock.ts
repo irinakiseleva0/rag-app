@@ -1,4 +1,4 @@
-import type { Api, AskResult, DocumentInfo, Reference, Settings } from './types'
+import type { Api, AskResult, DocumentInfo, EvalRunResult, Reference, Settings } from './types'
 
 // In-memory fake backend, used while the real one is not ready (VITE_USE_MOCK=true).
 // Ask behaviour: "notfound" in the question -> not_found, "error" -> error.
@@ -81,6 +81,46 @@ export const mockApi: Api = {
       answer: 'This is a mock answer. It is built only from the two references below.',
       references: fakeReferences(req.doc_ids, req.top_k),
       error: null,
+    }
+  },
+
+  async listEvalSets() {
+    await delay()
+    return [
+      { name: 'kestrel', n_questions: 10, corpus_files: ['product-guide.md'], uploaded: 5 },
+      { name: 'courses', n_questions: 22, corpus_files: ['ai-systems-c6-rag.md'], uploaded: 0 },
+    ]
+  },
+
+  async runEval(req): Promise<EvalRunResult> {
+    await delay(1200)
+    const block = (n: number, base: number) => ({
+      n,
+      'hit@1': base, 'hit@3': base + 0.1, 'hit@5': base + 0.15, 'hit@10': 1,
+      'recall@1': base - 0.1, 'recall@3': base, 'recall@5': base + 0.1, 'recall@10': 1,
+    })
+    return {
+      file: `eval/results/mock-${req.set_name}-${req.label}.json`,
+      settings: { ...settings },
+      summary: {
+        overall: block(8, 0.62),
+        by_type: { exact_identifier: block(2, 0.5), two_hop: block(1, 0) },
+        n_unanswerable: 2,
+      },
+      rows: [
+        {
+          id: 'q01', type: 'exact_identifier', answerable: true,
+          question: 'What does error KST-2044 mean?', first_relevant_rank: 7,
+          hit: { '1': false, '3': false, '5': false, '10': true },
+          recall: { '1': 0, '3': 0, '5': 0, '10': 1 },
+          ...(req.answers ? { answer: { status: 'not_found', text: null, references: [] } } : {}),
+        },
+        {
+          id: 'q09', type: 'not_in_corpus', answerable: false,
+          question: 'Is there a Kestrel mobile app for iPhone?', first_relevant_rank: null,
+          hit: {}, recall: {},
+        },
+      ],
     }
   },
 }

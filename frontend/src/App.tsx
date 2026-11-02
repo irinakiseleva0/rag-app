@@ -5,6 +5,7 @@ import { errorMessage } from './errors'
 import { DocumentsPanel } from './components/DocumentsPanel'
 import { SettingsPanel } from './components/SettingsPanel'
 import { AskPanel } from './components/AskPanel'
+import { EvalPanel } from './components/EvalPanel'
 import './App.css'
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
   const [docsError, setDocsError] = useState<string | null>(null)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
+  const [tab, setTab] = useState<'ask' | 'eval'>('ask')
   const [settings, setSettings] = useState<Settings | null>(null)
   const [settingsSaving, setSettingsSaving] = useState(false)
   const [settingsError, setSettingsError] = useState<string | null>(null)
@@ -105,10 +107,21 @@ export default function App() {
         </aside>
 
         <main>
-          <AskPanel
-            selectedIds={documents.filter((d) => selectedIds.has(d.id)).map((d) => d.id)}
-            topK={settings?.top_k ?? null}
-          />
+          <div className="tabs" role="tablist" aria-label="Views">
+            <button type="button" role="tab" aria-selected={tab === 'ask'} onClick={() => setTab('ask')}>
+              Ask
+            </button>
+            <button type="button" role="tab" aria-selected={tab === 'eval'} onClick={() => setTab('eval')}>
+              Evaluation
+            </button>
+          </div>
+          {tab === 'ask' && (
+            <AskPanel
+              selectedIds={documents.filter((d) => selectedIds.has(d.id)).map((d) => d.id)}
+              topK={settings?.top_k ?? null}
+            />
+          )}
+          {tab === 'eval' && <EvalPanel />}
         </main>
       </div>
     </div>
