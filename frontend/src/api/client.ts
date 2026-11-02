@@ -6,6 +6,8 @@ import {
   DocumentListSchema,
   RetrieveResultSchema,
   SettingsSchema,
+  EvalRunResultSchema,
+  EvalSetListSchema,
 } from './types'
 import type { Api } from './types'
 
@@ -71,4 +73,8 @@ export const realApi: Api = {
   retrieve: (body) => request('/retrieve', RetrieveResultSchema, jsonInit('POST', body)),
 
   ask: (body) => request('/ask', AskResultSchema, jsonInit('POST', body)),
+
+  listEvalSets: () => request('/eval/sets', EvalSetListSchema),
+
+  runEval: (body) => request('/eval/run', EvalRunResultSchema, jsonInit('POST', body)),
 }
