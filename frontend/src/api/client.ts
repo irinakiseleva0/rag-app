@@ -8,6 +8,10 @@ import {
   SettingsSchema,
   EvalRunResultSchema,
   EvalSetListSchema,
+  QuestionWordsSchema,
+  SetQuestionListSchema,
+  VocabularySchema,
+  WordDetailSchema,
 } from './types'
 import type { Api } from './types'
 
@@ -77,4 +81,13 @@ export const realApi: Api = {
   listEvalSets: () => request('/eval/sets', EvalSetListSchema),
 
   runEval: (body) => request('/eval/run', EvalRunResultSchema, jsonInit('POST', body)),
+
+  vocabulary: (docIds) => request('/words/vocabulary', VocabularySchema, jsonInit('POST', { doc_ids: docIds })),
+
+  wordDetail: (word, docIds) =>
+    request('/words/word', WordDetailSchema, jsonInit('POST', { word, doc_ids: docIds })),
+
+  questionWords: (body) => request('/words/question', QuestionWordsSchema, jsonInit('POST', body)),
+
+  listSetQuestions: () => request('/words/questions', SetQuestionListSchema),
 }

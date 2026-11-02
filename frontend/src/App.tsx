@@ -6,6 +6,7 @@ import { DocumentsPanel } from './components/DocumentsPanel'
 import { SettingsPanel } from './components/SettingsPanel'
 import { AskPanel } from './components/AskPanel'
 import { EvalPanel } from './components/EvalPanel'
+import { WordsPanel } from './components/WordsPanel'
 import './App.css'
 
 export default function App() {
@@ -14,7 +15,7 @@ export default function App() {
   const [docsError, setDocsError] = useState<string | null>(null)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
-  const [tab, setTab] = useState<'ask' | 'eval'>('ask')
+  const [tab, setTab] = useState<'ask' | 'eval' | 'words'>('ask')
   const [settings, setSettings] = useState<Settings | null>(null)
   const [settingsSaving, setSettingsSaving] = useState(false)
   const [settingsError, setSettingsError] = useState<string | null>(null)
@@ -114,6 +115,9 @@ export default function App() {
             <button type="button" role="tab" aria-selected={tab === 'eval'} onClick={() => setTab('eval')}>
               Evaluation
             </button>
+            <button type="button" role="tab" aria-selected={tab === 'words'} onClick={() => setTab('words')}>
+              Words
+            </button>
           </div>
           {tab === 'ask' && (
             <AskPanel
@@ -122,6 +126,12 @@ export default function App() {
             />
           )}
           {tab === 'eval' && <EvalPanel />}
+          {tab === 'words' && (
+            <WordsPanel
+              key={documents.filter((d) => selectedIds.has(d.id)).map((d) => d.id).join(',')}
+              docIds={documents.filter((d) => selectedIds.has(d.id)).map((d) => d.id)}
+            />
+          )}
         </main>
       </div>
     </div>

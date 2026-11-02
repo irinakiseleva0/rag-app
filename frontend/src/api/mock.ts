@@ -123,4 +123,44 @@ export const mockApi: Api = {
       ],
     }
   },
+
+  async vocabulary() {
+    await delay()
+    return {
+      n_chunks: 46, n_tokens: 5200, n_distinct: 3,
+      words: [
+        { word: 'the', count: 300, n_chunks: 46, stop: true },
+        { word: 'kst-2044', count: 3, n_chunks: 2, stop: false },
+        { word: 'allowlist', count: 4, n_chunks: 2, stop: false },
+      ],
+    }
+  },
+
+  async wordDetail(word) {
+    await delay()
+    return {
+      word: word.toLowerCase(), stop: false, count: 3, n_chunks: 1,
+      chunks: [{ chunk_id: 'doc#0004', filename: 'support-runbook-errors.md', chunk_index: 4,
+                 count: 3, is_answer: false, text: `Mock chunk mentioning ${word} three times.` }],
+    }
+  },
+
+  async questionWords(req) {
+    await delay()
+    return {
+      question: req.question || 'I lost my phone and I can\u2019t log in anymore.',
+      n_chunks: 46, answerable: true,
+      answer_chunks: [{ chunk_id: 'doc#0006', filename: 'product-guide.md', chunk_index: 6 }],
+      tokens: [
+        { word: 'lost', stop: false, count: 1, n_chunks: 1, in_answer_chunks: 0, chunks: [] },
+        { word: 'phone', stop: false, count: 0, n_chunks: 0, in_answer_chunks: 0, chunks: [] },
+      ],
+      missing: ['phone'],
+    }
+  },
+
+  async listSetQuestions() {
+    await delay()
+    return [{ set_name: 'kestrel', id: 'q05', type: 'vocabulary', question: 'I lost my phone and I can\u2019t log in anymore. What can I do?' }]
+  },
 }

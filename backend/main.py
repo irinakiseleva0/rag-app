@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 
 from eval_routes import make_eval_router
 from llm import answer_question
+from words_routes import make_words_router
 from schemas import AskResult, DocumentInfo, QuestionRequest, RetrieveResult, Settings
 from store import Store
 
@@ -29,6 +30,7 @@ app.add_middleware(
 
 # Evaluation from the frontend (V2). The lambda reads the current store.
 app.include_router(make_eval_router(lambda: store))
+app.include_router(make_words_router(lambda: store))
 
 
 @app.exception_handler(RequestValidationError)

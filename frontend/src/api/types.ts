@@ -100,6 +100,67 @@ export type EvalRow = z.infer<typeof EvalRowSchema>
 export type EvalRunResult = z.infer<typeof EvalRunResultSchema>
 export type EvalRunRequest = { set_name: string; label: string; answers: boolean }
 
+// ---------- Words analytics (V2) ----------
+
+export const VocabularySchema = z.object({
+  n_chunks: z.number().int(),
+  n_tokens: z.number().int(),
+  n_distinct: z.number().int(),
+  words: z.array(
+    z.object({ word: z.string(), count: z.number().int(), n_chunks: z.number().int(), stop: z.boolean() }),
+  ),
+})
+
+const WordChunkSchema = z.object({
+  chunk_id: z.string(),
+  filename: z.string(),
+  chunk_index: z.number().int(),
+  count: z.number().int(),
+  is_answer: z.boolean(),
+  text: z.string().optional(),
+})
+
+export const WordDetailSchema = z.object({
+  word: z.string(),
+  stop: z.boolean(),
+  count: z.number().int(),
+  n_chunks: z.number().int(),
+  chunks: z.array(WordChunkSchema),
+})
+
+export const QuestionWordsSchema = z.object({
+  question: z.string(),
+  n_chunks: z.number().int(),
+  answerable: z.boolean().nullable(),
+  answer_chunks: z.array(z.object({ chunk_id: z.string(), filename: z.string(), chunk_index: z.number().int() })),
+  tokens: z.array(
+    z.object({
+      word: z.string(),
+      stop: z.boolean(),
+      count: z.number().int(),
+      n_chunks: z.number().int(),
+      in_answer_chunks: z.number().int(),
+      chunks: z.array(WordChunkSchema),
+    }),
+  ),
+  missing: z.array(z.string()),
+})
+
+export const SetQuestionListSchema = z.array(
+  z.object({ set_name: z.string(), id: z.string(), type: z.string(), question: z.string() }),
+)
+
+export type Vocabulary = z.infer<typeof VocabularySchema>
+export type WordDetail = z.infer<typeof WordDetailSchema>
+export type QuestionWords = z.infer<typeof QuestionWordsSchema>
+export type SetQuestion = z.infer<typeof SetQuestionListSchema>[number]
+export type QuestionWordsRequest = {
+  doc_ids: string[]
+  question: string
+  set_name?: string
+  question_id?: string
+}
+
 // Both the real client and the mock implement this interface.
 export interface Api {
   listDocuments(): Promise<DocumentInfo[]>
@@ -111,4 +172,8 @@ export interface Api {
   ask(request: AskRequest): Promise<AskResult>
   listEvalSets(): Promise<EvalSet[]>
   runEval(request: EvalRunRequest): Promise<EvalRunResult>
+  vocabulary(docIds: string[]): Promise<Vocabulary>
+  wordDetail(word: string, docIds: string[]): Promise<WordDetail>
+  questionWords(request: QuestionWordsRequest): Promise<QuestionWords>
+  listSetQuestions(): Promise<SetQuestion[]>
 }
