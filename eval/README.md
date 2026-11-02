@@ -1,31 +1,47 @@
-# Retrieval evaluation
+# Evaluation (V2)
 
-`questions.json`: 22 questions on `docs/corpus/`.
+Two question sets, same JSONL format (Kestrel format):
 
-| Type | Count | Purpose |
-|---|---|---|
-| normal | 12 | Facts stated clearly on one slide |
-| hard | 6 | Paraphrase, vocabulary mismatch, multi-column slide, two documents |
-| unanswerable | 4 | Not in the corpus: the app should answer `not_found` |
+| Set | File | Corpus | Questions |
+|---|---|---|---|
+| `kestrel` | `questions/kestrel.jsonl` | `docs/kestrel/` (provided) | 10 starter questions |
+| `courses` | `questions/courses.jsonl` | `docs/corpus/` (our course decks, not committed) | 22 questions (V1 set converted to JSONL; ids and wording unchanged) |
 
-Each answerable question has `evidence`: exact short phrase(s) from the corpus.
-A question is a **hit** when every evidence phrase appears in the top-k retrieved chunks.
-Phrases stay valid when chunk size changes, so V1 and V2 results are comparable.
+`questions.json` is the original V1 file, kept for history.
+
+Question types: `exact_identifier`, `split_answer`, `vocabulary`, `not_in_corpus`, `versions`, `two_hop`, `other`.
+
+## Relevance and metrics
+
+A retrieved chunk is **relevant** to an evidence item if it comes from the same source file
+and contains the quote (case, quotes and whitespace normalized). See `metrics.py`.
+
+- **Hit@k**: at least one evidence quote is in the top k chunks.
+- **Recall@k**: share of the evidence quotes found in the top k chunks (useful for split answers).
+- k = 1, 3, 5, 10, overall and per question type.
+- Unanswerable questions (`answerable: false`) are left out of the retrieval measure.
 
 ## Run
 
+Backend running, both corpora uploaded (the script only searches the documents of the chosen corpus).
+
 ```powershell
-python eval/run_eval.py --check-only            # evidence phrases exist in docs/corpus
-python eval/run_eval.py --label v1-baseline     # backend running, corpus uploaded
-python eval/run_eval.py --label v1-ask --ask    # also calls /ask (uses the LLM)
+python eval/run_eval.py --set kestrel --check-only          # quotes exist in the corpus
+python eval/run_eval.py --set kestrel --label c800-o10       # retrieval only: fast, no LLM
+python eval/run_eval.py --set courses --label c800-o10
+python eval/run_eval.py --set kestrel --label c800-o10 --answers   # also generates answers (LLM)
 ```
 
-Results are saved in `eval/results/<date>-<label>.json`.
+Results: `eval/results/<date>-<set>-<label>.json` (settings, summary table, every retrieved chunk with
+a `relevant` flag, and with `--answers` the answer plus empty `grade` / `grade_note` fields to fill in by hand).
 
-## Metrics
+## No-context test
 
-- `hit_rate_at_k`: share of answerable questions whose evidence is in the top-k chunks.
-- `mrr`: mean reciprocal rank (1 = evidence in the first chunk, 0 = not retrieved).
-- `mean_top_score_answerable` vs `mean_top_score_unanswerable`: if they are close,
-  a similarity threshold cannot detect unanswerable questions.
-- `correct_refusal_rate` (with `--ask`): share of unanswerable questions answered `not_found`.
+Asks every question to the LLM without retrieval (backend venv active, key in `backend/.env`):
+
+```powershell
+python eval/no_context.py --set kestrel
+python eval/no_context.py --set courses
+```
+
+Then set `known_without_rag` to `true` or `false` by hand in the result file.
