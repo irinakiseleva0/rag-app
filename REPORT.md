@@ -170,7 +170,8 @@ Ideas for V2 (to measure, not yet done):
 | Member | V2 work |
 |---|---|
 | Irina Kiseleva | Kestrel corpus and question sets (JSONL), no-context test, evaluation (Hit@k / Recall@k, CLI + Evaluation tab), Words tab (backend + frontend), hidden `/about` page, hand grading, README |
-| Paulo Rogerio Guimaraes Filho | TODO |
+
+| Paulo Rogerio Guimaraes Filho | Review of the Words PR (code read, 33 tests run), `.gitattributes` fix for known failure 7 (LF line endings), review of the V2 report |
 
 ## Corpora and question sets
 
@@ -325,8 +326,19 @@ A question picked from a set uses the evaluation's relevance rule to mark the an
 Kestrel is fictional and provided for the project. The course decks are teachers' material.
 
 ### Paulo
+### Paulo
 
-TODO
+**Line endings: LF for the corpus files.**
+On Windows, Git turned the files into CRLF: longer text, different chunks (44 instead of 43).
+`.gitattributes` keeps LF in `docs/` and `eval/questions/`, where the exact text matters. Same chunks for everyone.
+
+**Words: no stemming, I agree.**
+We see the words like a keyword search would.
+Stemming would match "paying" and "payment", but could break codes like KST-2044.
+
+**Words backend: review.**
+`words_routes.py` uses `store.collection` directly; a method in `Store` would keep the ChromaDB code in one place.
+The index is rebuilt for every request: fine for our small corpora, a big one would need a cache.
 
 ## Known failures (V2)
 
