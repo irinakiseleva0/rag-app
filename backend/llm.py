@@ -5,7 +5,7 @@ from google import genai
 from google.genai import types
 from pydantic import ValidationError
 
-from schemas import AskResult, LLMAnswer
+from schemas import AskResult, Cost, LLMAnswer
 
 logger = logging.getLogger("rag")
 
@@ -39,7 +39,10 @@ def call_gemini(prompt):
             response_schema=LLMAnswer,
         ),
     )
-    return response.text or ""
+    tokens = 0
+    if response.usage_metadata:
+        tokens = response.usage_metadata.total_token_count or 0
+    return response.text or "", tokens
 
 
 def error(message):
@@ -61,13 +64,18 @@ def answer_question(question, chunks, llm=call_gemini):
         logger.exception("Gemini call failed")
         return error("The LLM call failed (Gemini unavailable or quota exceeded).")
 
+    tokens = 0
+    if isinstance(raw, tuple):
+        raw, tokens = raw
+    cost = Cost(llm_calls=1, tokens=tokens)
+
     try:
         parsed = LLMAnswer.model_validate_json(raw)
     except ValidationError:
         return error("The model returned an invalid answer (not the expected JSON).")
 
     if parsed.status == "not_found":
-        return AskResult(status="not_found", answer="", references=[], error=None)
+        return AskResult(status="not_found", answer="", references=[], error=None, cost=cost)
 
     if parsed.answer.strip() == "":
         return error("The model said it answered but the answer is empty.")
@@ -85,4 +93,4 @@ def answer_question(question, chunks, llm=call_gemini):
         if c.chunk_id in parsed.used_chunk_ids:
             used.append(c)
 
-    return AskResult(status="answered", answer=parsed.answer, references=used, error=None)
+    return AskResult(status="answered", answer=parsed.answer, references=used, error=None, cost=cost)

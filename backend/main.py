@@ -1,4 +1,5 @@
 import logging
+import time
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -9,6 +10,7 @@ from fastapi.responses import JSONResponse
 
 from eval_routes import make_eval_router
 from llm import answer_question
+from retrieval import hybrid_search
 from words_routes import make_words_router
 from schemas import AskResult, DocumentInfo, QuestionRequest, RetrieveResult, Settings
 from store import Store
@@ -20,6 +22,7 @@ MAX_FILE_SIZE = 2 * 1024 * 1024
 
 app = FastAPI()
 store = Store(Path(__file__).parent / "data")
+graph = None
 
 app.add_middleware(
     CORSMiddleware,
@@ -97,16 +100,28 @@ def put_settings(settings: Settings):
 @app.post("/retrieve", response_model=RetrieveResult)
 def retrieve(req: QuestionRequest):
     check_doc_ids(req.doc_ids)
-    chunks = store.search(req.question, req.doc_ids, req.top_k)
-    return RetrieveResult(chunks=chunks)
+    try:
+        chunks, path, cost = hybrid_search(store, req, graph)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    return RetrieveResult(chunks=chunks, graph_path=path, cost=cost)
 
 
 @app.post("/ask", response_model=AskResult)
 def ask(req: QuestionRequest):
     check_doc_ids(req.doc_ids)
+    start = time.perf_counter()
     try:
-        chunks = store.search(req.question, req.doc_ids, req.top_k)
+        chunks, path, cost = hybrid_search(store, req, graph)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
     except Exception:
         logger.exception("Retrieval failed")
         return AskResult(status="error", answer="", references=[], error="Retrieval failed. See the backend logs.")
-    return answer_question(req.question, chunks)
+
+    result = answer_question(req.question, chunks)
+    result.graph_path = path
+    result.cost.llm_calls += cost.llm_calls
+    result.cost.tokens += cost.tokens
+    result.cost.latency_ms = int((time.perf_counter() - start) * 1000)
+    return result

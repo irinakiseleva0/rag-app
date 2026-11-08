@@ -212,3 +212,30 @@ def test_internal_error_is_hidden(client, monkeypatch):
     r = client.get("/documents")
     assert r.status_code == 500
     assert "secret" not in r.json()["detail"]
+
+def test_retrieve_dense_and_bm25(client):
+    doc_id = upload(client, "a.md", DOC).json()["id"]
+    body = {"question": "docker images", "doc_ids": [doc_id], "top_k": 3,
+            "retrievers": {"dense": True, "bm25": True, "graph": False}}
+    res = client.post("/retrieve", json=body).json()
+    assert len(res["chunks"]) == 3
+    assert res["graph_path"] is None
+    names = {f["retriever"] for c in res["chunks"] for f in c["found_by"]}
+    assert names == {"dense", "bm25"}
+
+
+def test_retrieve_needs_one_retriever(client):
+    body = {"question": "docker", "top_k": 3, "retrievers": {"dense": False, "bm25": False, "graph": False}}
+    assert client.post("/retrieve", json=body).status_code == 400
+
+
+def test_graph_not_built(client):
+    body = {"question": "docker", "top_k": 3, "retrievers": {"dense": True, "graph": True}}
+    assert client.post("/retrieve", json=body).status_code == 400
+
+
+def test_ask_reports_cost(client, monkeypatch):
+    doc_id = upload(client, "a.md", DOC).json()["id"]
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Containers.", "used_chunk_ids": ["FIRST_ID"]}')
+    res = ask(client, doc_id)
+    assert res["cost"]["llm_calls"] == 1

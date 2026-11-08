@@ -15,6 +15,11 @@ class Settings(BaseModel):
     top_k: int = Field(ge=1, le=50)
 
 
+class Found(BaseModel):
+    retriever: Literal["dense", "bm25", "graph"]
+    rank: int
+
+
 class Reference(BaseModel):
     chunk_id: str
     filename: str
@@ -23,16 +28,34 @@ class Reference(BaseModel):
     char_end: int
     text: str
     score: float
+    found_by: list[Found] = []
+    rrf_score: float | None = None
+
+
+class Retrievers(BaseModel):
+    dense: bool = True
+    bm25: bool = False
+    graph: bool = False
+
+
+class Cost(BaseModel):
+    llm_calls: int = 0
+    tokens: int = 0
+    latency_ms: int = 0
 
 
 class QuestionRequest(BaseModel):
     question: str = Field(min_length=1)
     doc_ids: list[str] = []
     top_k: int = Field(ge=1, le=50)
+    retrievers: Retrievers = Retrievers()
+    candidates: int = Field(default=20, ge=1, le=100)
 
 
 class RetrieveResult(BaseModel):
     chunks: list[Reference]
+    graph_path: dict | None = None
+    cost: Cost = Cost()
 
 
 class AskResult(BaseModel):
@@ -40,6 +63,8 @@ class AskResult(BaseModel):
     answer: str
     references: list[Reference]
     error: str | None = None
+    graph_path: dict | None = None
+    cost: Cost = Cost()
 
 
 class LLMAnswer(BaseModel):
