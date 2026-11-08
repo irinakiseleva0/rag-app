@@ -8,7 +8,7 @@ from pydantic import ValidationError
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from graph_build import build_graph, load_kestrel_chunks
+from graph_build import build_graph, load_kestrel_chunks, normalize_entity_name
 from graph_schema import Entity, Extraction
 
 
@@ -59,6 +59,7 @@ def test_invalid_json_retried_once_then_recorded_and_skipped():
     assert graph["stats"]["tokens"] == 23
     assert graph["stats"]["chunks"] == 2
     assert len(graph["failures"]) == 1
+    assert graph["stats"]["failures"] == 1
     assert graph["failures"][0]["chunk_id"] == "doc#0000"
     assert graph["failures"][0]["error"]
     assert all(node["chunk_ids"] == ["doc#0001"] for node in graph["nodes"])
@@ -84,13 +85,73 @@ def test_schema_validation_failure_can_recover_on_retry():
     assert len(graph["edges"]) == 1
 
 
-def test_normalization_and_type_are_both_used_for_resolution():
+def test_resolution_ignores_type_and_records_all_types_in_order():
     graph = build_graph(chunks()[:1], llm=lambda prompt: response(
         triple("The   Messaging"), triple(" messaging "), triple("Messaging", "Service")
     ))
-    assert len(graph["nodes"]) == 3
+    assert len(graph["nodes"]) == 2
     assert len(graph["merges"]) == 1
-    assert graph["merges"][0]["names"] == ["The   Messaging", " messaging "]
+    assert graph["merges"][0]["names"] == ["The   Messaging", " messaging ", "Messaging"]
+    node = graph["nodes"][0]
+    assert node["type"] == "Team"
+    assert node["types"] == ["Team", "Service"]
+
+
+def test_team_suffix_merges_names_and_keeps_provenance():
+    replies = iter([response(triple("Platform team")), response(triple("Platform"))])
+    graph = build_graph(chunks(), llm=lambda prompt: next(replies))
+    assert len(graph["nodes"]) == 2
+    node = graph["nodes"][0]
+    assert node["types"] == ["Team"]
+    assert node["chunk_ids"] == ["doc#0000", "doc#0001"]
+    assert graph["merges"] == [{"node_id": node["id"], "names": ["Platform team", "Platform"]}]
+    assert graph["stats"]["dropped"] == 0
+
+
+def test_self_loop_is_dropped_after_normalization_even_with_different_types():
+    item = triple("The Delivery team")
+    graph = build_graph(chunks()[:1], llm=lambda prompt: response(item, triple()))
+    assert graph["stats"]["dropped"] == 1
+    assert graph["stats"]["llm_calls"] == 1
+    assert graph["stats"]["failures"] == 0
+    assert len(graph["edges"]) == 1
+    assert len(graph["nodes"]) == 2
+    assert all("The Delivery team" not in node["aliases"] for node in graph["nodes"])
+
+
+@pytest.mark.parametrize("name", ["no", " YES ", "The none", "n/a", "post", "ab", "The X service"])
+@pytest.mark.parametrize("endpoint", ["subject", "object"])
+def test_invalid_normalized_names_are_dropped(name, endpoint):
+    item = triple()
+    item[endpoint]["name"] = name
+    graph = build_graph(chunks()[:1], llm=lambda prompt: response(item))
+    assert graph["nodes"] == graph["edges"] == []
+    assert graph["stats"]["dropped"] == 1
+    assert graph["failures"] == []
+
+
+def test_normalization_removes_service_suffix():
+    assert normalize_entity_name("  The   Delivery  Service ") == "delivery"
+
+
+def test_raised_by_is_valid_and_prompt_includes_extraction_rules():
+    item = {
+        "subject": {"name": "KST-1234", "type": "ErrorCode"},
+        "relation": "RAISED_BY",
+        "object": {"name": "Delivery", "type": "Service"},
+    }
+
+    def fake_llm(prompt):
+        assert "RAISED_BY" in prompt
+        assert "named exactly as written" in prompt
+        assert '"escalate to the team that owns <service>"' in prompt
+        assert '"Owner: <team>" under a service heading' in prompt
+        assert "subject and object are the same entity" in prompt
+        assert "word fragments" in prompt
+        return response(item)
+
+    graph = build_graph(chunks()[:1], llm=fake_llm)
+    assert graph["edges"][0]["relation"] == "RAISED_BY"
 
 
 @pytest.mark.parametrize("name", ["", "   "])
@@ -135,3 +196,4 @@ def test_empty_chunks_do_not_call_llm():
     assert graph["nodes"] == graph["edges"] == graph["merges"] == graph["failures"] == []
     assert graph["stats"]["chunks"] == graph["stats"]["llm_calls"] == graph["stats"]["tokens"] == 0
     assert graph["stats"]["seconds"] >= 0
+    assert graph["stats"]["dropped"] == graph["stats"]["failures"] == 0

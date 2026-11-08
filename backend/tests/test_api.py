@@ -229,7 +229,8 @@ def test_retrieve_needs_one_retriever(client):
     assert client.post("/retrieve", json=body).status_code == 400
 
 
-def test_graph_not_built(client):
+def test_graph_not_built(client, monkeypatch):
+    monkeypatch.setattr(main, "graph", None)
     body = {"question": "docker", "top_k": 3, "retrievers": {"dense": True, "graph": True}}
     assert client.post("/retrieve", json=body).status_code == 400
 

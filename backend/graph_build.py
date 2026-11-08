@@ -25,6 +25,16 @@ Return JSON with a triples list. Each triple has subject and object entities
 (each with name and type), and a relation from the allowed list.
 Preserve entity names as stated. Return {{"triples": []}} if none are stated.
 
+Rules:
+- Every error code like KST-1234 mentioned in the chunk is an ErrorCode entity
+  named exactly as written.
+- "raised by <service>" -> (ErrorCode) RAISED_BY (Service).
+- "escalate to the team that owns <service>" -> (ErrorCode) ESCALATES_TO (Service <service>).
+- "Owner: <team>" under a service heading -> (Team) OWNS (Service).
+- Never output a triple whose subject and object are the same entity.
+- Entity names must be full names written in the chunk, never words like
+  "no", "yes", "none", or word fragments.
+
 Chunk [{chunk_id}]:
 {text}
 """
@@ -75,11 +85,19 @@ def load_kestrel_chunks(store, limit=None):
     return chunks if limit is None else chunks[:limit]
 
 
-def entity_key(entity):
-    name = " ".join(entity.name.lower().split())
+def normalize_entity_name(name):
+    name = " ".join(name.lower().split())
     if name.startswith("the "):
         name = name[4:]
-    return name, entity.type.value
+    for suffix in (" team", " service"):
+        if name.endswith(suffix):
+            name = name[:-len(suffix)]
+            break
+    return name
+
+
+def entity_key(entity):
+    return normalize_entity_name(entity.name)
 
 
 def build_graph(chunks, llm=call_gemini):
@@ -88,7 +106,7 @@ def build_graph(chunks, llm=call_gemini):
     nodes = {}
     edges = {}
     failures = []
-    chunk_count = llm_calls = tokens = 0
+    chunk_count = llm_calls = tokens = dropped = 0
 
     def resolve(entity, chunk_id):
         key = entity_key(entity)
@@ -97,10 +115,13 @@ def build_graph(chunks, llm=call_gemini):
                 "id": f"n{len(nodes) + 1}",
                 "name": entity.name,
                 "type": entity.type.value,
+                "types": [],
                 "aliases": [],
                 "chunk_ids": [],
             }
         node = nodes[key]
+        if entity.type.value not in node["types"]:
+            node["types"].append(entity.type.value)
         if entity.name not in node["aliases"]:
             node["aliases"].append(entity.name)
         if chunk_id not in node["chunk_ids"]:
@@ -138,6 +159,14 @@ def build_graph(chunks, llm=call_gemini):
         if extraction is None:
             continue
         for triple in extraction.triples:
+            subject_key = entity_key(triple.subject)
+            object_key = entity_key(triple.object)
+            if subject_key == object_key or any(
+                len(name) < 3 or name in {"no", "yes", "none", "n/a", "post"}
+                for name in (subject_key, object_key)
+            ):
+                dropped += 1
+                continue
             source = resolve(triple.subject, chunk_id)
             target = resolve(triple.object, chunk_id)
             relation = triple.relation.value
@@ -163,6 +192,7 @@ def build_graph(chunks, llm=call_gemini):
         "stats": {
             "chunks": chunk_count, "nodes": len(nodes), "edges": len(edges),
             "merges": len(merges), "llm_calls": llm_calls, "tokens": tokens,
+            "dropped": dropped, "failures": len(failures),
             "seconds": perf_counter() - started,
             "model": os.getenv("GEMINI_MODEL", DEFAULT_MODEL),
         },

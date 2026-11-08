@@ -70,7 +70,7 @@ def retriever(tmp_path, graph, missing=()):
 def test_reverse_edges_reach_two_hops_and_stop(tmp_path, graph):
     result = retriever(tmp_path, graph).search("What does KST-2044 mean?", [], 10)
     assert [ref.chunk_id for ref in result["chunks"]] == [
-        "a#0000", "a#0001", "b#0001", "b#0002"
+        "a#0000", "a#0001", "b#0001", "b#0002", "b#0000"
     ]
     assert result["path"] == {
         "entities": ["KST-2044"],
@@ -100,7 +100,8 @@ def test_document_filter_runs_before_limit(tmp_path, graph):
 def test_ranking_hop_scores_ties_and_reference_metadata(tmp_path, graph):
     refs = retriever(tmp_path, graph).search("KST-2044", [], 10)["chunks"]
     assert [(ref.chunk_id, ref.score) for ref in refs] == [
-        ("a#0000", 1.0), ("a#0001", 0.5), ("b#0001", 0.3333), ("b#0002", 0.3333)
+        ("a#0000", 1.0), ("a#0001", 0.5), ("b#0001", 0.5),
+        ("b#0002", 0.3333), ("b#0000", 0.25)
     ]
     assert refs[0].filename == "runbook.md"
     assert refs[0].chunk_index == 0
@@ -121,14 +122,14 @@ def test_partial_names_and_short_aliases_do_not_link(tmp_path, graph, question):
 
 def test_missing_chroma_chunks_are_skipped(tmp_path, graph):
     refs = retriever(tmp_path, graph, missing=["a#0000"]).search("KST-2044", [], 10)["chunks"]
-    assert [ref.chunk_id for ref in refs] == ["a#0001", "b#0001", "b#0002"]
+    assert [ref.chunk_id for ref in refs] == ["a#0001", "b#0001", "b#0002", "b#0000"]
 
 
 def test_multiple_seeds_score_each_edge_once_at_shortest_hop(tmp_path, graph):
     result = retriever(tmp_path, graph).search("KST-2044 and Delivery", [], 10)
     scores = {ref.chunk_id: ref.score for ref in result["chunks"]}
     assert scores == {"a#0000": 1.0, "b#0000": 1.0, "a#0001": 0.5,
-                      "b#0001": 0.5, "b#0002": 0.5, "c#0000": 0.3333}
+                      "b#0001": 0.75, "b#0002": 0.5, "c#0000": 0.5}
     assert len(result["path"]["edges"]) == 3
 
 
@@ -136,6 +137,23 @@ def test_node_and_edge_contributions_sum(tmp_path, graph):
     graph["edges"][0]["chunk_ids"].append("a#0000")
     result = retriever(tmp_path, graph).search("KST-2044", [], 10)
     assert result["chunks"][0].score == 1.5
+
+
+def test_reached_node_contributes_its_own_chunks_at_each_hop(tmp_path, graph):
+    graph["nodes"][2]["chunk_ids"] = ["b#0003"]
+    result = retriever(tmp_path, graph).search("KST-2044", [], 10)
+    scores = {ref.chunk_id: ref.score for ref in result["chunks"]}
+    assert scores["b#0000"] == 0.25
+    assert scores["b#0003"] == 0.1667
+    assert "c#0000" not in scores
+
+
+def test_linking_uses_shared_team_and_service_normalization(tmp_path, graph):
+    graph["nodes"][2]["name"] = "The Messaging team"
+    graph["nodes"][1]["aliases"] = ["The Courier service"]
+    searcher = retriever(tmp_path, graph)
+    assert searcher.search("Messaging", [], 10)["path"]["entities"] == ["The Messaging team"]
+    assert searcher.search("Courier", [], 10)["path"]["entities"] == ["Delivery"]
 
 
 def test_graph_integrates_with_hybrid_search(tmp_path, graph):

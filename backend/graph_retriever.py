@@ -5,12 +5,8 @@ import re
 from collections import defaultdict, deque
 from pathlib import Path
 
+from graph_build import normalize_entity_name as normalize
 from schemas import Reference
-
-
-def normalize(text):
-    text = " ".join(text.lower().split())
-    return text[4:] if text.startswith("the ") else text
 
 
 class GraphRetriever:
@@ -73,6 +69,8 @@ class GraphRetriever:
                 neighbor = edge["target"] if edge["source"] == node_id else edge["source"]
                 if neighbor not in visited_nodes:
                     visited_nodes.add(neighbor)
+                    for chunk_id in self.nodes[neighbor]["chunk_ids"]:
+                        scores[chunk_id] += 0.5 / (1 + hop)
                     queue.append((neighbor, hop))
 
         allowed_docs = set(doc_ids)

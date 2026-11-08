@@ -16,6 +16,7 @@ class EntityType(str, Enum):
 
 
 class RelationType(str, Enum):
+    RAISED_BY = "RAISED_BY"
     OWNS = "OWNS"
     ESCALATES_TO = "ESCALATES_TO"
     CONTACT_VIA = "CONTACT_VIA"

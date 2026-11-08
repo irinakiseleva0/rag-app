@@ -1,0 +1,1253 @@
+{
+  "set": "kestrel",
+  "label": "graph-only",
+  "date": "2026-11-08T18:24:18",
+  "settings": {
+    "chunk_size": 800,
+    "overlap_percent": 10,
+    "top_k": 5
+  },
+  "documents": [
+    "billing-policy-2025.md",
+    "billing-policy-2026.md",
+    "product-guide.md",
+    "service-catalog.md",
+    "support-runbook-errors.md"
+  ],
+  "retrievers": {
+    "dense": false,
+    "bm25": false,
+    "graph": true
+  },
+  "candidates": 20,
+  "with_answers": false,
+  "summary": {
+    "overall": {
+      "n": 8,
+      "hit@1": 0.25,
+      "hit@3": 0.25,
+      "hit@5": 0.25,
+      "hit@10": 0.25,
+      "recall@1": 0.188,
+      "recall@3": 0.25,
+      "recall@5": 0.25,
+      "recall@10": 0.25
+    },
+    "by_type": {
+      "exact_identifier": {
+        "n": 2,
+        "hit@1": 0.5,
+        "hit@3": 0.5,
+        "hit@5": 0.5,
+        "hit@10": 0.5,
+        "recall@1": 0.5,
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "recall@10": 0.5
+      },
+      "split_answer": {
+        "n": 2,
+        "hit@1": 0.5,
+        "hit@3": 0.5,
+        "hit@5": 0.5,
+        "hit@10": 0.5,
+        "recall@1": 0.25,
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "recall@10": 0.5
+      },
+      "two_hop": {
+        "n": 1,
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "hit@10": 0.0,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0
+      },
+      "versions": {
+        "n": 2,
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "hit@10": 0.0,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0
+      },
+      "vocabulary": {
+        "n": 1,
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "hit@10": 0.0,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0
+      }
+    },
+    "n_unanswerable": 2,
+    "cost_per_question": {
+      "llm_calls": 0.0,
+      "tokens": 0.0,
+      "latency_ms": 1.1
+    }
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "exact_identifier",
+      "answerable": true,
+      "question": "What does error KST-2044 mean and how do I fix it?",
+      "expected_answer": "The data source refused the connection because the Kestrel IP addresses are not on its allowlist. Add both 203.0.113.10 and 203.0.113.11; adding only one causes intermittent errors.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 2
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "2f6285882623#0004",
+          "filename": "support-runbook-errors.md",
+          "score": 1.5,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fa8fac4ff42d#0003",
+          "filename": "service-catalog.md",
+          "score": 0.6667,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "fa8fac4ff42d#0001",
+          "filename": "service-catalog.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        }
+      ],
+      "graph_path": {
+        "entities": [
+          "KST-2044"
+        ],
+        "edges": [
+          {
+            "from": "KST-2044",
+            "relation": "ESCALATES_TO",
+            "to": "Data Integrations",
+            "chunk_id": "2f6285882623#0004"
+          },
+          {
+            "from": "Data Integrations",
+            "relation": "OWNS",
+            "to": "connector-hub",
+            "chunk_id": "fa8fac4ff42d#0001"
+          },
+          {
+            "from": "Tomasz Wójcik",
+            "relation": "LEADS",
+            "to": "Data Integrations",
+            "chunk_id": "fa8fac4ff42d#0003"
+          },
+          {
+            "from": "Data Integrations",
+            "relation": "CONTACT_VIA",
+            "to": "#oncall-data-integrations",
+            "chunk_id": "fa8fac4ff42d#0003"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q02",
+      "type": "exact_identifier",
+      "answerable": true,
+      "question": "A user gets KST-4012 when accepting an invitation. What should support tell them?",
+      "expected_answer": "There is no free seat. An Admin must free a seat, or the Owner must add seats or upgrade. The same invitation then works if it is less than 7 days old.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 0
+      },
+      "retrieved": [],
+      "graph_path": {
+        "entities": [],
+        "edges": []
+      }
+    },
+    {
+      "id": "q03",
+      "type": "split_answer",
+      "answerable": true,
+      "question": "What happens, step by step, when a customer's card payment fails?",
+      "expected_answer": "E-mail to the Owner and billing contact, retries after 1, 3 and 7 days, then a 21-day grace period (everything works), then read-only, then suspension at 60 days. Nothing is deleted.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 0
+      },
+      "retrieved": [],
+      "graph_path": {
+        "entities": [],
+        "edges": []
+      }
+    },
+    {
+      "id": "q04",
+      "type": "split_answer",
+      "answerable": true,
+      "question": "Which plans include single sign-on, and how does an admin set it up?",
+      "expected_answer": "Business and Enterprise. An Admin opens Settings → Security → Single sign-on, downloads the Kestrel SP metadata, registers Kestrel in the identity provider, pastes the IdP metadata URL back, tests with one Admin, then enforces it.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.5,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 2
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "426f8556e12d#0001",
+          "filename": "product-guide.md",
+          "score": 3.5,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "426f8556e12d#0011",
+          "filename": "product-guide.md",
+          "score": 3.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "426f8556e12d#0005",
+          "filename": "product-guide.md",
+          "score": 2.0,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 3
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a0d43d9d1022#0000",
+          "filename": "billing-policy-2026.md",
+          "score": 1.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "b83e17037f15#0000",
+          "filename": "billing-policy-2025.md",
+          "score": 1.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "426f8556e12d#0010",
+          "filename": "product-guide.md",
+          "score": 0.6667,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        }
+      ],
+      "graph_path": {
+        "entities": [
+          "Plans",
+          "single sign-on"
+        ],
+        "edges": [
+          {
+            "from": "Free",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Starter",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Team",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Business",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Business",
+            "relation": "OWNS",
+            "to": "single sign-on",
+            "chunk_id": "426f8556e12d#0005"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "OWNS",
+            "to": "single sign-on",
+            "chunk_id": "426f8556e12d#0005"
+          },
+          {
+            "from": "Free",
+            "relation": "CONTACT_VIA",
+            "to": "Help centre",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Free",
+            "relation": "CONTACT_VIA",
+            "to": "community forum",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Starter",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Starter",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Team",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Team",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Team",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Business",
+            "relation": "APPLIES_TO",
+            "to": "Embedding",
+            "chunk_id": "426f8556e12d#0010"
+          },
+          {
+            "from": "Business",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Business",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Business",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "APPLIES_TO",
+            "to": "Embedding",
+            "chunk_id": "426f8556e12d#0010"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "CONTACT_VIA",
+            "to": "named contact",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Enterprise",
+            "chunk_id": "a0d43d9d1022#0000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q05",
+      "type": "vocabulary",
+      "answerable": true,
+      "question": "I lost my phone and I can't log in anymore. What can I do?",
+      "expected_answer": "Use a backup code. Without one, ask a workspace Admin to reset your second factor. If you are the only Admin or the Owner, contact support from the account's e-mail address; identity verification can take up to 2 business days.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 0
+      },
+      "retrieved": [],
+      "graph_path": {
+        "entities": [],
+        "edges": []
+      }
+    },
+    {
+      "id": "q06",
+      "type": "versions",
+      "answerable": true,
+      "question": "Can I get a refund on my annual plan 45 days after it renewed?",
+      "expected_answer": "Yes, under the current (March 2026) policy: annual plans are refundable within 60 days of renewal, pro-rated from the request date. The old 2025 policy allowed only 30 days.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 2
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "b83e17037f15#0002",
+          "filename": "billing-policy-2025.md",
+          "score": 1.5,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        }
+      ],
+      "graph_path": {
+        "entities": [
+          "Plan"
+        ],
+        "edges": [
+          {
+            "from": "Invoices",
+            "relation": "PART_OF",
+            "to": "Plan",
+            "chunk_id": "b83e17037f15#0002"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q07",
+      "type": "versions",
+      "answerable": true,
+      "question": "How much do I save by paying annually instead of monthly?",
+      "expected_answer": "20% compared with twelve months of monthly billing (it was 15% under the 2025 policy).",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 0
+      },
+      "retrieved": [],
+      "graph_path": {
+        "entities": [],
+        "edges": []
+      }
+    },
+    {
+      "id": "q08",
+      "type": "two_hop",
+      "answerable": true,
+      "question": "Error KST-5031 happened on the last two scheduled reports. Which team should support contact, and where?",
+      "expected_answer": "Messaging, which owns postroom: post in #oncall-messaging as SEV-2. Outside 08:00–20:00 on weekdays, escalate to the Platform on-call.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 2
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "426f8556e12d#0011",
+          "filename": "product-guide.md",
+          "score": 3.6667,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a0d43d9d1022#0000",
+          "filename": "billing-policy-2026.md",
+          "score": 3.1667,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "426f8556e12d#0001",
+          "filename": "product-guide.md",
+          "score": 2.8333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "b83e17037f15#0000",
+          "filename": "billing-policy-2025.md",
+          "score": 2.8333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "2f6285882623#0010",
+          "filename": "support-runbook-errors.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "b83e17037f15#0004",
+          "filename": "billing-policy-2025.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "fa8fac4ff42d#0002",
+          "filename": "service-catalog.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "fa8fac4ff42d#0003",
+          "filename": "service-catalog.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        }
+      ],
+      "graph_path": {
+        "entities": [
+          "Team"
+        ],
+        "edges": [
+          {
+            "from": "Team",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Team",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Team",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Team",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Free",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Starter",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Business",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Starter",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Business",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Owner",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "b83e17037f15#0004"
+          },
+          {
+            "from": "Business",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "retries",
+            "chunk_id": "2f6285882623#0010"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "REPLACES",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Finance",
+            "relation": "OWNS",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Starter",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Business",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Enterprise",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "ledger",
+            "relation": "APPLIES_TO",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "fa8fac4ff42d#0002"
+          },
+          {
+            "from": "Payments Core",
+            "relation": "OWNS",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "fa8fac4ff42d#0003"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q09",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "Is there a Kestrel mobile app for iPhone?",
+      "expected_answer": "Not in the documents.",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 2
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "2f6285882623#0001",
+          "filename": "support-runbook-errors.md",
+          "score": 1.5,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        }
+      ],
+      "graph_path": {
+        "entities": [
+          "Kestrel"
+        ],
+        "edges": [
+          {
+            "from": "Kestrel",
+            "relation": "PART_OF",
+            "to": "KST-1001",
+            "chunk_id": "2f6285882623#0001"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q10",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "How much does one seat cost per month on the Business plan?",
+      "expected_answer": "Not in the documents (the billing policy says prices are on the pricing page).",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 1
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "426f8556e12d#0011",
+          "filename": "product-guide.md",
+          "score": 3.6667,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a0d43d9d1022#0000",
+          "filename": "billing-policy-2026.md",
+          "score": 3.1667,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "426f8556e12d#0001",
+          "filename": "product-guide.md",
+          "score": 2.8333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "b83e17037f15#0000",
+          "filename": "billing-policy-2025.md",
+          "score": 2.8333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "426f8556e12d#0005",
+          "filename": "product-guide.md",
+          "score": 1.8333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "426f8556e12d#0010",
+          "filename": "product-guide.md",
+          "score": 1.8333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "b83e17037f15#0002",
+          "filename": "billing-policy-2025.md",
+          "score": 1.5,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "2f6285882623#0010",
+          "filename": "support-runbook-errors.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "b83e17037f15#0004",
+          "filename": "billing-policy-2025.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "fa8fac4ff42d#0002",
+          "filename": "service-catalog.md",
+          "score": 0.3333,
+          "found_by": [
+            {
+              "retriever": "graph",
+              "rank": 10
+            }
+          ],
+          "relevant": false
+        }
+      ],
+      "graph_path": {
+        "entities": [
+          "Business",
+          "Plan"
+        ],
+        "edges": [
+          {
+            "from": "Business",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Business",
+            "relation": "OWNS",
+            "to": "single sign-on",
+            "chunk_id": "426f8556e12d#0005"
+          },
+          {
+            "from": "Business",
+            "relation": "APPLIES_TO",
+            "to": "Embedding",
+            "chunk_id": "426f8556e12d#0010"
+          },
+          {
+            "from": "Business",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Business",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Business",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Invoices",
+            "relation": "PART_OF",
+            "to": "Plan",
+            "chunk_id": "b83e17037f15#0002"
+          },
+          {
+            "from": "Free",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Starter",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Team",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "PART_OF",
+            "to": "Plans",
+            "chunk_id": "426f8556e12d#0001"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "OWNS",
+            "to": "single sign-on",
+            "chunk_id": "426f8556e12d#0005"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "APPLIES_TO",
+            "to": "Embedding",
+            "chunk_id": "426f8556e12d#0010"
+          },
+          {
+            "from": "Starter",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Team",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Owner",
+            "relation": "CONTACT_VIA",
+            "to": "E-mail",
+            "chunk_id": "b83e17037f15#0004"
+          },
+          {
+            "from": "Team",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Enterprise",
+            "relation": "CONTACT_VIA",
+            "to": "chat",
+            "chunk_id": "426f8556e12d#0011"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "retries",
+            "chunk_id": "2f6285882623#0010"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "REPLACES",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Finance",
+            "relation": "OWNS",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Starter",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Team",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "Billing and Refund Policy",
+            "relation": "APPLIES_TO",
+            "to": "Enterprise",
+            "chunk_id": "a0d43d9d1022#0000"
+          },
+          {
+            "from": "ledger",
+            "relation": "APPLIES_TO",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "fa8fac4ff42d#0002"
+          },
+          {
+            "from": "Payments Core",
+            "relation": "OWNS",
+            "to": "Billing and Refund Policy",
+            "chunk_id": "fa8fac4ff42d#0003"
+          }
+        ]
+      }
+    }
+  ]
+}

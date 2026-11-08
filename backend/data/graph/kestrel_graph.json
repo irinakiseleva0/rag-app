@@ -2,53 +2,11 @@
   "nodes": [
     {
       "id": "n1",
-      "name": "Customer Support",
-      "type": "Team",
-      "aliases": [
-        "Customer Support"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0000"
-      ]
-    },
-    {
-      "id": "n2",
-      "name": "Kestrel Analytics",
-      "type": "Service",
-      "aliases": [
-        "Kestrel Analytics"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0000",
-        "426f8556e12d#0000"
-      ]
-    },
-    {
-      "id": "n3",
-      "name": "Platform team",
-      "type": "Team",
-      "aliases": [
-        "Platform team"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0000"
-      ]
-    },
-    {
-      "id": "n4",
-      "name": "Kestrel",
-      "type": "Service",
-      "aliases": [
-        "Kestrel"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0001"
-      ]
-    },
-    {
-      "id": "n5",
       "name": "KST-1001",
       "type": "ErrorCode",
+      "types": [
+        "ErrorCode"
+      ],
       "aliases": [
         "KST-1001"
       ],
@@ -57,9 +15,26 @@
       ]
     },
     {
-      "id": "n6",
+      "id": "n2",
+      "name": "Sign-in",
+      "type": "Feature",
+      "types": [
+        "Feature"
+      ],
+      "aliases": [
+        "Sign-in"
+      ],
+      "chunk_ids": [
+        "2f6285882623#0001"
+      ]
+    },
+    {
+      "id": "n3",
       "name": "KST-1012",
       "type": "ErrorCode",
+      "types": [
+        "ErrorCode"
+      ],
       "aliases": [
         "KST-1012"
       ],
@@ -68,9 +43,13 @@
       ]
     },
     {
-      "id": "n7",
+      "id": "n4",
       "name": "Identity",
-      "type": "Team",
+      "type": "Service",
+      "types": [
+        "Service",
+        "Team"
+      ],
       "aliases": [
         "Identity"
       ],
@@ -81,66 +60,12 @@
       ]
     },
     {
-      "id": "n8",
-      "name": "KST-2044",
-      "type": "ErrorCode",
-      "aliases": [
-        "KST-2044"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0004"
-      ]
-    },
-    {
-      "id": "n9",
-      "name": "Data Integrations",
-      "type": "Team",
-      "aliases": [
-        "Data Integrations"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0004",
-        "fa8fac4ff42d#0001",
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "id": "n10",
-      "name": "KST-2051",
-      "type": "ErrorCode",
-      "aliases": [
-        "KST-2051"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0005"
-      ]
-    },
-    {
-      "id": "n11",
-      "name": "no",
-      "type": "Person",
-      "aliases": [
-        "no"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0005"
-      ]
-    },
-    {
-      "id": "n12",
-      "name": "KST-3012",
-      "type": "ErrorCode",
-      "aliases": [
-        "KST-3012"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0005"
-      ]
-    },
-    {
-      "id": "n13",
+      "id": "n5",
       "name": "KST-3020",
       "type": "ErrorCode",
+      "types": [
+        "ErrorCode"
+      ],
       "aliases": [
         "KST-3020"
       ],
@@ -149,20 +74,40 @@
       ]
     },
     {
-      "id": "n14",
-      "name": "Analytics Engine",
-      "type": "Service",
+      "id": "n6",
+      "name": "KST-2xxx",
+      "type": "ErrorCode",
+      "types": [
+        "ErrorCode"
+      ],
       "aliases": [
-        "Analytics Engine"
+        "KST-2xxx"
       ],
       "chunk_ids": [
         "2f6285882623#0006"
       ]
     },
     {
-      "id": "n15",
+      "id": "n7",
+      "name": "KST-5031",
+      "type": "ErrorCode",
+      "types": [
+        "ErrorCode"
+      ],
+      "aliases": [
+        "KST-5031"
+      ],
+      "chunk_ids": [
+        "2f6285882623#0008"
+      ]
+    },
+    {
+      "id": "n8",
       "name": "postroom",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "postroom"
       ],
@@ -173,46 +118,26 @@
       ]
     },
     {
-      "id": "n16",
-      "name": "post",
-      "type": "Team",
+      "id": "n9",
+      "name": "KST-5038",
+      "type": "ErrorCode",
+      "types": [
+        "ErrorCode"
+      ],
       "aliases": [
-        "post"
+        "KST-5038"
       ],
       "chunk_ids": [
-        "2f6285882623#0008"
+        "2f6285882623#0009"
       ]
     },
     {
-      "id": "n17",
-      "name": "Billing and Refund Policy",
-      "type": "Policy",
-      "aliases": [
-        "Billing and Refund Policy"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0010",
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000",
-        "fa8fac4ff42d#0002",
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "id": "n18",
-      "name": "retries",
-      "type": "Feature",
-      "aliases": [
-        "retries"
-      ],
-      "chunk_ids": [
-        "2f6285882623#0010"
-      ]
-    },
-    {
-      "id": "n19",
+      "id": "n10",
       "name": "KST-6010",
       "type": "ErrorCode",
+      "types": [
+        "ErrorCode"
+      ],
       "aliases": [
         "KST-6010"
       ],
@@ -221,322 +146,120 @@
       ]
     },
     {
-      "id": "n20",
+      "id": "n11",
       "name": "Payments Core",
-      "type": "Team",
+      "type": "Service",
+      "types": [
+        "Service",
+        "Team"
+      ],
       "aliases": [
         "Payments Core"
       ],
       "chunk_ids": [
         "2f6285882623#0010",
-        "fa8fac4ff42d#0003",
-        "fa8fac4ff42d#0004"
+        "fa8fac4ff42d#0003"
       ]
     },
     {
-      "id": "n21",
-      "name": "Payments Core",
-      "type": "Service",
+      "id": "n12",
+      "name": "Billing and Refund Policy",
+      "type": "Policy",
+      "types": [
+        "Policy"
+      ],
       "aliases": [
-        "Payments Core"
+        "Billing and Refund Policy"
       ],
       "chunk_ids": [
-        "2f6285882623#0011"
+        "a0d43d9d1022#0000",
+        "b83e17037f15#0000",
+        "fa8fac4ff42d#0002"
       ]
     },
     {
-      "id": "n22",
-      "name": "4.2",
-      "type": "Version",
-      "aliases": [
-        "4.2"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0000"
-      ]
-    },
-    {
-      "id": "n23",
-      "name": "Free",
-      "type": "Plan",
-      "aliases": [
-        "Free"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0001",
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "id": "n24",
-      "name": "Plans",
-      "type": "Plan",
-      "aliases": [
-        "Plans"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0001"
-      ]
-    },
-    {
-      "id": "n25",
+      "id": "n13",
       "name": "Starter",
       "type": "Plan",
+      "types": [
+        "Plan"
+      ],
       "aliases": [
         "Starter"
       ],
       "chunk_ids": [
-        "426f8556e12d#0001",
-        "426f8556e12d#0011",
         "a0d43d9d1022#0000",
         "b83e17037f15#0000"
       ]
     },
     {
-      "id": "n26",
+      "id": "n14",
       "name": "Team",
       "type": "Plan",
+      "types": [
+        "Plan"
+      ],
       "aliases": [
         "Team"
       ],
       "chunk_ids": [
-        "426f8556e12d#0001",
-        "426f8556e12d#0011",
         "a0d43d9d1022#0000",
         "b83e17037f15#0000"
       ]
     },
     {
-      "id": "n27",
+      "id": "n15",
       "name": "Business",
       "type": "Plan",
+      "types": [
+        "Plan"
+      ],
       "aliases": [
         "Business"
       ],
       "chunk_ids": [
-        "426f8556e12d#0001",
-        "426f8556e12d#0005",
-        "426f8556e12d#0010",
-        "426f8556e12d#0011",
         "a0d43d9d1022#0000",
         "b83e17037f15#0000"
       ]
     },
     {
-      "id": "n28",
+      "id": "n16",
       "name": "Enterprise",
       "type": "Plan",
+      "types": [
+        "Plan"
+      ],
       "aliases": [
         "Enterprise"
       ],
       "chunk_ids": [
-        "426f8556e12d#0001",
-        "426f8556e12d#0005",
-        "426f8556e12d#0010",
-        "426f8556e12d#0011",
         "a0d43d9d1022#0000",
         "b83e17037f15#0000"
       ]
     },
     {
-      "id": "n29",
-      "name": "single sign-on",
-      "type": "Feature",
-      "aliases": [
-        "single sign-on"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0005"
-      ]
-    },
-    {
-      "id": "n30",
-      "name": "Embedding",
-      "type": "Feature",
-      "aliases": [
-        "Embedding"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0010"
-      ]
-    },
-    {
-      "id": "n31",
-      "name": "Help centre",
-      "type": "Channel",
-      "aliases": [
-        "Help centre"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "id": "n32",
-      "name": "community forum",
-      "type": "Channel",
-      "aliases": [
-        "community forum"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "id": "n33",
-      "name": "E-mail",
-      "type": "Channel",
-      "aliases": [
-        "E-mail",
-        "e-mail"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0011",
-        "b83e17037f15#0004"
-      ]
-    },
-    {
-      "id": "n34",
-      "name": "chat",
-      "type": "Channel",
-      "aliases": [
-        "chat"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "id": "n35",
-      "name": "named contact",
-      "type": "Channel",
-      "aliases": [
-        "named contact"
-      ],
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "id": "n36",
-      "name": "Finance",
-      "type": "Team",
-      "aliases": [
-        "Finance"
-      ],
-      "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
-      ]
-    },
-    {
-      "id": "n37",
-      "name": "workspace Owner",
-      "type": "Person",
-      "aliases": [
-        "workspace Owner"
-      ],
-      "chunk_ids": [
-        "a0d43d9d1022#0004"
-      ]
-    },
-    {
-      "id": "n38",
-      "name": "billing@kestrel.example",
-      "type": "Channel",
-      "aliases": [
-        "billing@kestrel.example"
-      ],
-      "chunk_ids": [
-        "a0d43d9d1022#0004",
-        "a0d43d9d1022#0007",
-        "b83e17037f15#0005"
-      ]
-    },
-    {
-      "id": "n39",
-      "name": "billing@kestrel.exa",
-      "type": "Channel",
-      "aliases": [
-        "billing@kestrel.exa"
-      ],
-      "chunk_ids": [
-        "a0d43d9d1022#0006"
-      ]
-    },
-    {
-      "id": "n40",
-      "name": "Billing",
-      "type": "Service",
-      "aliases": [
-        "Billing"
-      ],
-      "chunk_ids": [
-        "a0d43d9d1022#0006",
-        "b83e17037f15#0005"
-      ]
-    },
-    {
-      "id": "n41",
-      "name": "Billing questions",
-      "type": "Service",
-      "aliases": [
-        "Billing questions"
-      ],
-      "chunk_ids": [
-        "a0d43d9d1022#0007"
-      ]
-    },
-    {
-      "id": "n42",
-      "name": "Invoices",
-      "type": "Feature",
-      "aliases": [
-        "Invoices"
-      ],
-      "chunk_ids": [
-        "b83e17037f15#0002"
-      ]
-    },
-    {
-      "id": "n43",
-      "name": "Plan",
-      "type": "Plan",
-      "aliases": [
-        "Plan"
-      ],
-      "chunk_ids": [
-        "b83e17037f15#0002"
-      ]
-    },
-    {
-      "id": "n44",
-      "name": "Owner",
-      "type": "Person",
-      "aliases": [
-        "Owner"
-      ],
-      "chunk_ids": [
-        "b83e17037f15#0004"
-      ]
-    },
-    {
-      "id": "n45",
+      "id": "n17",
       "name": "Platform",
       "type": "Team",
+      "types": [
+        "Team"
+      ],
       "aliases": [
         "Platform"
       ],
       "chunk_ids": [
         "fa8fac4ff42d#0000",
-        "fa8fac4ff42d#0003",
-        "fa8fac4ff42d#0005"
+        "fa8fac4ff42d#0002",
+        "fa8fac4ff42d#0003"
       ]
     },
     {
-      "id": "n46",
+      "id": "n18",
       "name": "gateway",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "gateway"
       ],
@@ -545,9 +268,12 @@
       ]
     },
     {
-      "id": "n47",
+      "id": "n19",
       "name": "tication",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "tication"
       ],
@@ -556,9 +282,27 @@
       ]
     },
     {
-      "id": "n48",
+      "id": "n20",
+      "name": "Data Integrations",
+      "type": "Team",
+      "types": [
+        "Team"
+      ],
+      "aliases": [
+        "Data Integrations"
+      ],
+      "chunk_ids": [
+        "fa8fac4ff42d#0001",
+        "fa8fac4ff42d#0003"
+      ]
+    },
+    {
+      "id": "n21",
       "name": "connector-hub",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "connector-hub"
       ],
@@ -567,21 +311,28 @@
       ]
     },
     {
-      "id": "n49",
+      "id": "n22",
       "name": "Analytics Engine",
       "type": "Team",
+      "types": [
+        "Team"
+      ],
       "aliases": [
         "Analytics Engine"
       ],
       "chunk_ids": [
         "fa8fac4ff42d#0001",
+        "fa8fac4ff42d#0002",
         "fa8fac4ff42d#0003"
       ]
     },
     {
-      "id": "n50",
+      "id": "n23",
       "name": "query-engine",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "query-engine"
       ],
@@ -590,9 +341,12 @@
       ]
     },
     {
-      "id": "n51",
+      "id": "n24",
       "name": "scheduler",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "scheduler"
       ],
@@ -601,9 +355,41 @@
       ]
     },
     {
-      "id": "n52",
+      "id": "n25",
+      "name": "delivery",
+      "type": "Service",
+      "types": [
+        "Service"
+      ],
+      "aliases": [
+        "delivery"
+      ],
+      "chunk_ids": [
+        "fa8fac4ff42d#0002"
+      ]
+    },
+    {
+      "id": "n26",
+      "name": "Messaging",
+      "type": "Team",
+      "types": [
+        "Team"
+      ],
+      "aliases": [
+        "Messaging"
+      ],
+      "chunk_ids": [
+        "fa8fac4ff42d#0002",
+        "fa8fac4ff42d#0003"
+      ]
+    },
+    {
+      "id": "n27",
       "name": "mailman",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "mailman"
       ],
@@ -612,9 +398,26 @@
       ]
     },
     {
-      "id": "n53",
+      "id": "n28",
+      "name": "embed-svc",
+      "type": "Service",
+      "types": [
+        "Service"
+      ],
+      "aliases": [
+        "embed-svc"
+      ],
+      "chunk_ids": [
+        "fa8fac4ff42d#0002"
+      ]
+    },
+    {
+      "id": "n29",
       "name": "ledger",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "ledger"
       ],
@@ -623,9 +426,26 @@
       ]
     },
     {
-      "id": "n54",
+      "id": "n30",
+      "name": "payment processor",
+      "type": "Service",
+      "types": [
+        "Service"
+      ],
+      "aliases": [
+        "payment processor"
+      ],
+      "chunk_ids": [
+        "fa8fac4ff42d#0003"
+      ]
+    },
+    {
+      "id": "n31",
       "name": "audit-log",
       "type": "Service",
+      "types": [
+        "Service"
+      ],
       "aliases": [
         "audit-log"
       ],
@@ -634,9 +454,12 @@
       ]
     },
     {
-      "id": "n55",
+      "id": "n32",
       "name": "Samuel Okafor",
       "type": "Person",
+      "types": [
+        "Person"
+      ],
       "aliases": [
         "Samuel Okafor"
       ],
@@ -645,20 +468,12 @@
       ]
     },
     {
-      "id": "n56",
-      "name": "#oncall-platform",
-      "type": "Channel",
-      "aliases": [
-        "#oncall-platform"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "id": "n57",
+      "id": "n33",
       "name": "Priya Raman",
       "type": "Person",
+      "types": [
+        "Person"
+      ],
       "aliases": [
         "Priya Raman"
       ],
@@ -667,20 +482,12 @@
       ]
     },
     {
-      "id": "n58",
-      "name": "#oncall-identity",
-      "type": "Channel",
-      "aliases": [
-        "#oncall-identity"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "id": "n59",
+      "id": "n34",
       "name": "Tomasz Wójcik",
       "type": "Person",
+      "types": [
+        "Person"
+      ],
       "aliases": [
         "Tomasz Wójcik"
       ],
@@ -689,20 +496,12 @@
       ]
     },
     {
-      "id": "n60",
-      "name": "#oncall-data-integrations",
-      "type": "Channel",
-      "aliases": [
-        "#oncall-data-integrations"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "id": "n61",
+      "id": "n35",
       "name": "Léa Fontaine",
       "type": "Person",
+      "types": [
+        "Person"
+      ],
       "aliases": [
         "Léa Fontaine"
       ],
@@ -711,114 +510,59 @@
       ]
     },
     {
-      "id": "n62",
-      "name": "#oncall-analytics",
-      "type": "Channel",
-      "aliases": [
-        "#oncall-analytics"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "id": "n63",
+      "id": "n36",
       "name": "Inès Moreau",
       "type": "Person",
+      "types": [
+        "Person"
+      ],
       "aliases": [
         "Inès Moreau"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003",
-        "fa8fac4ff42d#0004"
-      ]
-    },
-    {
-      "id": "n64",
-      "name": "Messaging",
-      "type": "Team",
-      "aliases": [
-        "Messaging"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0003",
-        "fa8fac4ff42d#0004"
-      ]
-    },
-    {
-      "id": "n65",
-      "name": "#oncall-messaging",
-      "type": "Channel",
-      "aliases": [
-        "#oncall-messaging"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0003",
-        "fa8fac4ff42d#0004"
-      ]
-    },
-    {
-      "id": "n66",
-      "name": "#oncall-payments",
-      "type": "Channel",
-      "aliases": [
-        "#oncall-payments"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0004"
-      ]
-    },
-    {
-      "id": "n67",
-      "name": "Jonas Berg",
-      "type": "Person",
-      "aliases": [
-        "Jonas Berg"
-      ],
-      "chunk_ids": [
-        "fa8fac4ff42d#0004"
+        "fa8fac4ff42d#0003"
       ]
     }
   ],
   "edges": [
     {
       "source": "n1",
-      "relation": "OWNS",
-      "target": "n2",
-      "chunk_ids": [
-        "2f6285882623#0000"
-      ]
-    },
-    {
-      "source": "n3",
-      "relation": "ESCALATES_TO",
-      "target": "n3",
-      "chunk_ids": [
-        "2f6285882623#0000"
-      ]
-    },
-    {
-      "source": "n4",
       "relation": "PART_OF",
-      "target": "n5",
+      "target": "n2",
       "chunk_ids": [
         "2f6285882623#0001"
       ]
     },
     {
-      "source": "n6",
+      "source": "n3",
       "relation": "ESCALATES_TO",
-      "target": "n7",
+      "target": "n4",
       "chunk_ids": [
         "2f6285882623#0003"
       ]
     },
     {
-      "source": "n8",
+      "source": "n5",
       "relation": "ESCALATES_TO",
-      "target": "n9",
+      "target": "n6",
       "chunk_ids": [
-        "2f6285882623#0004"
+        "2f6285882623#0006"
+      ]
+    },
+    {
+      "source": "n7",
+      "relation": "RAISED_BY",
+      "target": "n8",
+      "chunk_ids": [
+        "2f6285882623#0008"
+      ]
+    },
+    {
+      "source": "n9",
+      "relation": "ESCALATES_TO",
+      "target": "n8",
+      "chunk_ids": [
+        "2f6285882623#0009"
       ]
     },
     {
@@ -826,530 +570,235 @@
       "relation": "ESCALATES_TO",
       "target": "n11",
       "chunk_ids": [
-        "2f6285882623#0005"
+        "2f6285882623#0010"
       ]
     },
     {
       "source": "n12",
-      "relation": "ESCALATES_TO",
-      "target": "n11",
+      "relation": "APPLIES_TO",
+      "target": "n13",
       "chunk_ids": [
-        "2f6285882623#0005"
+        "a0d43d9d1022#0000",
+        "b83e17037f15#0000"
       ]
     },
     {
-      "source": "n13",
-      "relation": "ESCALATES_TO",
+      "source": "n12",
+      "relation": "APPLIES_TO",
       "target": "n14",
       "chunk_ids": [
-        "2f6285882623#0006"
+        "a0d43d9d1022#0000",
+        "b83e17037f15#0000"
       ]
     },
     {
-      "source": "n15",
-      "relation": "ESCALATES_TO",
-      "target": "n16",
-      "chunk_ids": [
-        "2f6285882623#0008"
-      ]
-    },
-    {
-      "source": "n15",
-      "relation": "OWNS",
+      "source": "n12",
+      "relation": "APPLIES_TO",
       "target": "n15",
       "chunk_ids": [
-        "2f6285882623#0009"
+        "a0d43d9d1022#0000",
+        "b83e17037f15#0000"
+      ]
+    },
+    {
+      "source": "n12",
+      "relation": "APPLIES_TO",
+      "target": "n16",
+      "chunk_ids": [
+        "a0d43d9d1022#0000",
+        "b83e17037f15#0000"
       ]
     },
     {
       "source": "n17",
-      "relation": "APPLIES_TO",
+      "relation": "OWNS",
       "target": "n18",
-      "chunk_ids": [
-        "2f6285882623#0010"
-      ]
-    },
-    {
-      "source": "n19",
-      "relation": "ESCALATES_TO",
-      "target": "n20",
-      "chunk_ids": [
-        "2f6285882623#0010"
-      ]
-    },
-    {
-      "source": "n21",
-      "relation": "ESCALATES_TO",
-      "target": "n21",
-      "chunk_ids": [
-        "2f6285882623#0011"
-      ]
-    },
-    {
-      "source": "n2",
-      "relation": "PART_OF",
-      "target": "n22",
-      "chunk_ids": [
-        "426f8556e12d#0000"
-      ]
-    },
-    {
-      "source": "n23",
-      "relation": "PART_OF",
-      "target": "n24",
-      "chunk_ids": [
-        "426f8556e12d#0001"
-      ]
-    },
-    {
-      "source": "n25",
-      "relation": "PART_OF",
-      "target": "n24",
-      "chunk_ids": [
-        "426f8556e12d#0001"
-      ]
-    },
-    {
-      "source": "n26",
-      "relation": "PART_OF",
-      "target": "n24",
-      "chunk_ids": [
-        "426f8556e12d#0001"
-      ]
-    },
-    {
-      "source": "n27",
-      "relation": "PART_OF",
-      "target": "n24",
-      "chunk_ids": [
-        "426f8556e12d#0001"
-      ]
-    },
-    {
-      "source": "n28",
-      "relation": "PART_OF",
-      "target": "n24",
-      "chunk_ids": [
-        "426f8556e12d#0001"
-      ]
-    },
-    {
-      "source": "n27",
-      "relation": "OWNS",
-      "target": "n29",
-      "chunk_ids": [
-        "426f8556e12d#0005"
-      ]
-    },
-    {
-      "source": "n28",
-      "relation": "OWNS",
-      "target": "n29",
-      "chunk_ids": [
-        "426f8556e12d#0005"
-      ]
-    },
-    {
-      "source": "n27",
-      "relation": "APPLIES_TO",
-      "target": "n30",
-      "chunk_ids": [
-        "426f8556e12d#0010"
-      ]
-    },
-    {
-      "source": "n28",
-      "relation": "APPLIES_TO",
-      "target": "n30",
-      "chunk_ids": [
-        "426f8556e12d#0010"
-      ]
-    },
-    {
-      "source": "n23",
-      "relation": "CONTACT_VIA",
-      "target": "n31",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n23",
-      "relation": "CONTACT_VIA",
-      "target": "n32",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n25",
-      "relation": "CONTACT_VIA",
-      "target": "n33",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n26",
-      "relation": "CONTACT_VIA",
-      "target": "n33",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n26",
-      "relation": "CONTACT_VIA",
-      "target": "n34",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n27",
-      "relation": "CONTACT_VIA",
-      "target": "n33",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n27",
-      "relation": "CONTACT_VIA",
-      "target": "n34",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n28",
-      "relation": "CONTACT_VIA",
-      "target": "n33",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n28",
-      "relation": "CONTACT_VIA",
-      "target": "n34",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n28",
-      "relation": "CONTACT_VIA",
-      "target": "n35",
-      "chunk_ids": [
-        "426f8556e12d#0011"
-      ]
-    },
-    {
-      "source": "n17",
-      "relation": "REPLACES",
-      "target": "n17",
-      "chunk_ids": [
-        "a0d43d9d1022#0000"
-      ]
-    },
-    {
-      "source": "n36",
-      "relation": "OWNS",
-      "target": "n17",
-      "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
-      ]
-    },
-    {
-      "source": "n17",
-      "relation": "APPLIES_TO",
-      "target": "n25",
-      "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
-      ]
-    },
-    {
-      "source": "n17",
-      "relation": "APPLIES_TO",
-      "target": "n26",
-      "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
-      ]
-    },
-    {
-      "source": "n17",
-      "relation": "APPLIES_TO",
-      "target": "n27",
-      "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
-      ]
-    },
-    {
-      "source": "n17",
-      "relation": "APPLIES_TO",
-      "target": "n28",
-      "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
-      ]
-    },
-    {
-      "source": "n37",
-      "relation": "CONTACT_VIA",
-      "target": "n38",
-      "chunk_ids": [
-        "a0d43d9d1022#0004"
-      ]
-    },
-    {
-      "source": "n39",
-      "relation": "CONTACT_VIA",
-      "target": "n40",
-      "chunk_ids": [
-        "a0d43d9d1022#0006"
-      ]
-    },
-    {
-      "source": "n38",
-      "relation": "CONTACT_VIA",
-      "target": "n41",
-      "chunk_ids": [
-        "a0d43d9d1022#0007"
-      ]
-    },
-    {
-      "source": "n42",
-      "relation": "PART_OF",
-      "target": "n43",
-      "chunk_ids": [
-        "b83e17037f15#0002"
-      ]
-    },
-    {
-      "source": "n44",
-      "relation": "CONTACT_VIA",
-      "target": "n33",
-      "chunk_ids": [
-        "b83e17037f15#0004"
-      ]
-    },
-    {
-      "source": "n38",
-      "relation": "CONTACT_VIA",
-      "target": "n40",
-      "chunk_ids": [
-        "b83e17037f15#0005"
-      ]
-    },
-    {
-      "source": "n45",
-      "relation": "OWNS",
-      "target": "n46",
       "chunk_ids": [
         "fa8fac4ff42d#0000"
       ]
     },
     {
-      "source": "n7",
+      "source": "n4",
       "relation": "OWNS",
-      "target": "n47",
+      "target": "n19",
       "chunk_ids": [
         "fa8fac4ff42d#0001"
       ]
     },
     {
-      "source": "n9",
+      "source": "n20",
       "relation": "OWNS",
-      "target": "n48",
+      "target": "n21",
       "chunk_ids": [
         "fa8fac4ff42d#0001"
       ]
     },
     {
-      "source": "n49",
+      "source": "n22",
       "relation": "OWNS",
-      "target": "n50",
+      "target": "n23",
       "chunk_ids": [
         "fa8fac4ff42d#0001"
       ]
     },
     {
-      "source": "n49",
+      "source": "n22",
       "relation": "OWNS",
-      "target": "n51",
+      "target": "n24",
       "chunk_ids": [
         "fa8fac4ff42d#0001"
       ]
     },
     {
-      "source": "n15",
+      "source": "n22",
+      "relation": "OWNS",
+      "target": "n25",
+      "chunk_ids": [
+        "fa8fac4ff42d#0002"
+      ]
+    },
+    {
+      "source": "n26",
+      "relation": "OWNS",
+      "target": "n8",
+      "chunk_ids": [
+        "fa8fac4ff42d#0002"
+      ]
+    },
+    {
+      "source": "n8",
       "relation": "REPLACES",
-      "target": "n52",
+      "target": "n27",
       "chunk_ids": [
         "fa8fac4ff42d#0002"
       ]
     },
     {
-      "source": "n53",
+      "source": "n17",
+      "relation": "OWNS",
+      "target": "n28",
+      "chunk_ids": [
+        "fa8fac4ff42d#0002"
+      ]
+    },
+    {
+      "source": "n12",
       "relation": "APPLIES_TO",
-      "target": "n17",
+      "target": "n29",
       "chunk_ids": [
         "fa8fac4ff42d#0002"
       ]
     },
     {
-      "source": "n20",
+      "source": "n11",
       "relation": "OWNS",
+      "target": "n30",
+      "chunk_ids": [
+        "fa8fac4ff42d#0003"
+      ]
+    },
+    {
+      "source": "n4",
+      "relation": "OWNS",
+      "target": "n31",
+      "chunk_ids": [
+        "fa8fac4ff42d#0003"
+      ]
+    },
+    {
+      "source": "n32",
+      "relation": "MEMBER_OF",
       "target": "n17",
       "chunk_ids": [
         "fa8fac4ff42d#0003"
       ]
     },
     {
-      "source": "n7",
-      "relation": "OWNS",
-      "target": "n54",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n55",
+      "source": "n32",
       "relation": "LEADS",
-      "target": "n45",
+      "target": "n17",
       "chunk_ids": [
         "fa8fac4ff42d#0003"
       ]
     },
     {
-      "source": "n45",
-      "relation": "CONTACT_VIA",
-      "target": "n56",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n57",
-      "relation": "LEADS",
-      "target": "n7",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n7",
-      "relation": "CONTACT_VIA",
-      "target": "n58",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n59",
-      "relation": "LEADS",
-      "target": "n9",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n9",
-      "relation": "CONTACT_VIA",
-      "target": "n60",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n61",
-      "relation": "LEADS",
-      "target": "n49",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n49",
-      "relation": "CONTACT_VIA",
-      "target": "n62",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n63",
-      "relation": "LEADS",
-      "target": "n64",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003"
-      ]
-    },
-    {
-      "source": "n64",
-      "relation": "CONTACT_VIA",
-      "target": "n65",
-      "chunk_ids": [
-        "fa8fac4ff42d#0003",
-        "fa8fac4ff42d#0004"
-      ]
-    },
-    {
-      "source": "n63",
+      "source": "n33",
       "relation": "MEMBER_OF",
-      "target": "n64",
+      "target": "n4",
       "chunk_ids": [
-        "fa8fac4ff42d#0004"
+        "fa8fac4ff42d#0003"
       ]
     },
     {
-      "source": "n20",
-      "relation": "CONTACT_VIA",
-      "target": "n66",
+      "source": "n33",
+      "relation": "LEADS",
+      "target": "n4",
       "chunk_ids": [
-        "fa8fac4ff42d#0004"
+        "fa8fac4ff42d#0003"
       ]
     },
     {
-      "source": "n67",
+      "source": "n34",
       "relation": "MEMBER_OF",
       "target": "n20",
       "chunk_ids": [
-        "fa8fac4ff42d#0004"
+        "fa8fac4ff42d#0003"
       ]
     },
     {
-      "source": "n45",
-      "relation": "ESCALATES_TO",
-      "target": "n45",
+      "source": "n34",
+      "relation": "LEADS",
+      "target": "n20",
       "chunk_ids": [
-        "fa8fac4ff42d#0005"
+        "fa8fac4ff42d#0003"
       ]
-    }
-  ],
-  "merges": [
+    },
     {
-      "node_id": "n33",
-      "names": [
-        "E-mail",
-        "e-mail"
+      "source": "n35",
+      "relation": "MEMBER_OF",
+      "target": "n22",
+      "chunk_ids": [
+        "fa8fac4ff42d#0003"
+      ]
+    },
+    {
+      "source": "n35",
+      "relation": "LEADS",
+      "target": "n22",
+      "chunk_ids": [
+        "fa8fac4ff42d#0003"
+      ]
+    },
+    {
+      "source": "n36",
+      "relation": "MEMBER_OF",
+      "target": "n26",
+      "chunk_ids": [
+        "fa8fac4ff42d#0003"
       ]
     }
   ],
-  "failures": [],
+  "merges": [],
+  "failures": [
+    {
+      "chunk_id": "fa8fac4ff42d#0004",
+      "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.1-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 18.594302502s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.1-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '18s'}]}}"
+    },
+    {
+      "chunk_id": "fa8fac4ff42d#0005",
+      "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.1-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 16.974406798s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.1-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '16s'}]}}"
+    }
+  ],
   "stats": {
     "chunks": 44,
-    "nodes": 67,
-    "edges": 68,
-    "merges": 1,
+    "nodes": 36,
+    "edges": 31,
+    "merges": 0,
     "llm_calls": 44,
-    "tokens": 21078,
-    "seconds": 345.2934236000001,
+    "tokens": 24145,
+    "dropped": 2,
+    "failures": 2,
+    "seconds": 178.61112450000655,
     "model": "gemini-3.1-flash-lite-preview"
   }
 }
