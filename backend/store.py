@@ -5,6 +5,7 @@ from pathlib import Path
 
 import chromadb
 
+from bm25 import BM25Index
 from chunking import split_text
 from schemas import DocumentInfo, Reference, Settings
 
@@ -20,6 +21,16 @@ class Store:
         self.embedding_function = embedding_function
         self.client = chromadb.PersistentClient(path=str(data_dir / "chroma"))
         self.collection = self.get_collection()
+        self.bm25 = BM25Index(data_dir / "bm25.sqlite3")
+        if self.bm25.count() == 0 and self.collection.count() > 0:
+            self.build_bm25_from_chroma()
+
+    def build_bm25_from_chroma(self):
+        data = self.collection.get(include=["documents", "metadatas"])
+        rows = []
+        for chunk_id, text, meta in zip(data["ids"], data["documents"], data["metadatas"]):
+            rows.append({"chunk_id": chunk_id, "text": text, **meta})
+        self.bm25.add(rows)
 
     def get_collection(self):
         if self.embedding_function is None:
@@ -53,6 +64,7 @@ class Store:
                 "char_end": c["end"],
             })
         self.collection.add(ids=ids, documents=texts, metadatas=metadatas)
+        self.bm25.add([{"chunk_id": i, "text": t, **m} for i, t, m in zip(ids, texts, metadatas)])
         return len(chunks)
 
     def add_document(self, filename, text):
@@ -76,6 +88,7 @@ class Store:
         if doc_id not in ids:
             return False
         self.collection.delete(where={"doc_id": doc_id})
+        self.bm25.delete_document(doc_id)
         path = self.files_dir / f"{doc_id}.txt"
         if path.exists():
             path.unlink()
@@ -98,12 +111,16 @@ class Store:
     def reindex_all(self, settings):
         self.client.delete_collection("chunks")
         self.collection = self.get_collection()
+        self.bm25.clear()
         docs = self.list_documents()
         for doc in docs:
             path = self.files_dir / f"{doc.id}.txt"
             text = path.read_bytes().decode("utf-8")
             doc.n_chunks = self.index_document(doc, text, settings)
         self.save_documents(docs)
+
+    def bm25_search(self, question, doc_ids, top_k):
+        return [Reference(**r) for r in self.bm25.search(question, doc_ids, top_k)]
 
     def search(self, question, doc_ids, top_k):
         if self.collection.count() == 0:
