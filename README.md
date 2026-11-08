@@ -1,9 +1,9 @@
-# RAG App — V2
+# RAG App — V3
 
 A web app that answers questions about a document corpus, with references
 to the passages used. EPITA BCS S5 — AI Systems Integration & Operations.
 
-Team: Irina Kiseleva (frontend, evaluation), Paulo Rogerio Guimaraes Filho (backend).
+Team: Irina Kiseleva (frontend, evaluation, concept graph), Paulo Rogerio Guimaraes Filho (backend, BM25, fusion, evaluation runs).
 Design choices, results and known failures: see [REPORT.md](REPORT.md).
 
 ## Structure
@@ -13,7 +13,9 @@ Design choices, results and known failures: see [REPORT.md](REPORT.md).
 | `backend/` | FastAPI + ChromaDB + Gemini ([backend/README.md](backend/README.md)) |
 | `frontend/` | React + Vite + TypeScript |
 | `eval/` | Question sets (JSONL), evaluation scripts, results ([eval/README.md](eval/README.md)) |
-| `API.md` | API contract between frontend and backend |
+| `API.md` | API contract between frontend and backend (V1/V2) |
+| `docs/api-contract.md` | V3 changes: retrievers, `found_by`, `graph_path`, cost |
+| `backend/data/graph/` | Kestrel concept graph (`kestrel_graph.json`, and v1 kept for the report) |
 | `REPORT.md` | Team, decision log, evaluation results, known failures |
 | `docs/kestrel/` | Kestrel Analytics knowledge base (provided corpus, fictional) |
 | `docs/corpus/` | Our corpus: course decks in Markdown (not committed) |
@@ -70,9 +72,39 @@ The main area has three tabs:
 
 Chunk size, overlap and top-k are in **Retrieval settings** (left panel). Changing chunk size or overlap re-indexes every document.
 
+## Retrievers (V3)
+
+Three retrievers, fused with RRF (Reciprocal Rank Fusion, k = 60):
+
+| Retriever | What it is | Index |
+|---|---|---|
+| `dense` | embeddings (all-MiniLM-L6-v2), cosine | `backend/data/chroma/` |
+| `bm25` | keyword search, SQLite FTS5 | `backend/data/bm25.sqlite3` |
+| `graph` | concept graph, entities of the question + 2 hops (Kestrel only) | `backend/data/graph/kestrel_graph.json` |
+
+Default: `dense` + `bm25`. The graph is used when it is switched on and the graph file exists.
+
+**In the UI:** the retriever toggles (dense / BM25 / graph) in the Ask tab. Each reference shows which retriever found it and at which rank.
+
+**In the API:** `"retrievers": {"dense": true, "bm25": true, "graph": false}` in `/ask` and `/retrieve`, and `"candidates"` (chunks taken from each retriever before fusion, default 20). See [docs/api-contract.md](docs/api-contract.md).
+
+The BM25 index is filled when a document is uploaded. Documents uploaded before V3 are copied from Chroma into BM25 at the first start.
+
+### Build the concept graph
+
+Kestrel must be uploaded first, and `GOOGLE_API_KEY` set in `backend/.env`.
+
+```powershell
+cd backend
+python graph_build.py --limit 5     # test the prompt on 5 chunks
+python graph_build.py               # whole Kestrel corpus (one LLM call per chunk, about 3 min on the free tier)
+```
+
+The graph is written to `backend/data/graph/kestrel_graph.json` and loaded when the backend starts (restart it after a build).
+
 ## Evaluation
 
-Question sets: `eval/questions/kestrel.jsonl` (10 provided) and `eval/questions/courses.jsonl` (22, ours).
+Question sets: `eval/questions/kestrel.jsonl` (10 provided + 2 two_hop ours) and `eval/questions/courses.jsonl` (22, ours).
 Both corpora must be uploaded; each run only searches the documents of its own corpus.
 
 **From the UI:** tab **Evaluation** → choose the set, type a configuration label (e.g. `c800-o10`) → **Run evaluation**.
@@ -85,6 +117,20 @@ python eval/run_eval.py --set kestrel --label c800-o10            # retrieval on
 python eval/run_eval.py --set courses --label c800-o10
 python eval/run_eval.py --set kestrel --label c800-o10 --answers  # also generates answers (LLM)
 ```
+
+**Retrievers (V3).** `--retrievers` takes any combination of `dense`, `bm25`, `graph` (default `dense`). `--set both` runs the two sets one after the other. The label is the list of retrievers unless `--label` is given.
+
+```powershell
+python eval/run_eval.py --set both --retrievers dense
+python eval/run_eval.py --set both --retrievers dense,bm25
+python eval/run_eval.py --set kestrel --retrievers dense,bm25,graph
+python eval/run_eval.py --set kestrel --retrievers graph
+python eval/run_eval.py --set kestrel --retrievers dense,bm25,graph --candidates 40
+```
+
+Each result file also keeps, for every retrieved chunk, `found_by` (retriever and rank) and the cost per question (LLM calls, tokens, latency).
+
+**Graph extraction quality:** `python eval/sample_triples.py` picks 10 random triples (seed 42) and writes them with their chunks to `eval/triple_grades.md` for hand grading.
 
 **No-context test** (LLM without retrieval; backend venv active, key in `backend/.env`):
 
