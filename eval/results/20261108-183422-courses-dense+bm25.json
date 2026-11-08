@@ -1,0 +1,4221 @@
+{
+  "set": "courses",
+  "label": "dense+bm25",
+  "date": "2026-11-08T18:34:22",
+  "settings": {
+    "chunk_size": 800,
+    "overlap_percent": 10,
+    "top_k": 5
+  },
+  "documents": [
+    "ai-systems-c4-llm-api-integration.md",
+    "ai-systems-c6-rag.md",
+    "cybersecurity-vocabulary-60-terms.md",
+    "devops-foundations.md",
+    "docker-compose-multi-container.md"
+  ],
+  "retrievers": {
+    "dense": true,
+    "bm25": true,
+    "graph": false
+  },
+  "candidates": 20,
+  "with_answers": false,
+  "summary": {
+    "overall": {
+      "n": 18,
+      "hit@1": 0.5,
+      "hit@3": 0.889,
+      "hit@5": 1.0,
+      "hit@10": 1.0,
+      "recall@1": 0.5,
+      "recall@3": 0.861,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    "by_type": {
+      "exact_identifier": {
+        "n": 2,
+        "hit@1": 0.5,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "hit@10": 1.0,
+        "recall@1": 0.5,
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "other": {
+        "n": 11,
+        "hit@1": 0.727,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "hit@10": 1.0,
+        "recall@1": 0.727,
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "split_answer": {
+        "n": 2,
+        "hit@1": 0.0,
+        "hit@3": 0.5,
+        "hit@5": 1.0,
+        "hit@10": 1.0,
+        "recall@1": 0.0,
+        "recall@3": 0.25,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "vocabulary": {
+        "n": 3,
+        "hit@1": 0.0,
+        "hit@3": 0.667,
+        "hit@5": 1.0,
+        "hit@10": 1.0,
+        "recall@1": 0.0,
+        "recall@3": 0.667,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      }
+    },
+    "n_unanswerable": 4,
+    "cost_per_question": {
+      "llm_calls": 0.0,
+      "tokens": 0.0,
+      "latency_ms": 355.7
+    }
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "other",
+      "answerable": true,
+      "question": "What chunk size and overlap are used in the norag_rag lab?",
+      "expected_answer": "800 characters with 10% overlap (80 characters).",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 343
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0013",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4666,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0015",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3381,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0016",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3364,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.409,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0031",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3222,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0020",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2389,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 12
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0014",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2402,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 11
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0024",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2101,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 17
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2631,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 14
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0029",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2531,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 10
+            },
+            {
+              "retriever": "bm25",
+              "rank": 16
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "type": "other",
+      "answerable": true,
+      "question": "How many dimensions do the vectors of all-MiniLM-L6-v2 have?",
+      "expected_answer": "384 dimensions.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 3,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 328
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0018",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3139,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0020",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3985,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0032",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2704,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0019",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3011,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0021",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1989,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0017",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.164,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0023",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.14,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 11
+            },
+            {
+              "retriever": "bm25",
+              "rank": 12
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0024",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1525,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 10
+            },
+            {
+              "retriever": "bm25",
+              "rank": 15
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0044",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1138,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 14
+            },
+            {
+              "retriever": "bm25",
+              "rank": 11
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0030",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.1797,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "type": "other",
+      "answerable": true,
+      "question": "Who is Denis Amselemovitch?",
+      "expected_answer": "A fictional character whose paragraph was inserted into the Crime and Punishment extract (needle-in-the-haystack demo).",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 332
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0008",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2351,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0007",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1822,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0035",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1276,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0030",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1276,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0033",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1006,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0027",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.0728,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 14
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0029",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.0628,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 19
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0034",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.0681,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 15
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0008",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.1499,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0006",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1156,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "type": "exact_identifier",
+      "answerable": true,
+      "question": "On which local URL does the triage app run with npm run dev?",
+      "expected_answer": "http://localhost:3033",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 321
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0006",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3445,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0007",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.365,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3807,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0005",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4385,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a1545ffb8289#0032",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3299,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0029",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2694,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0002",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2187,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 14
+            },
+            {
+              "retriever": "bm25",
+              "rank": 12
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3402d307db3b#0001",
+          "filename": "devops-foundations.md",
+          "score": 0.21,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 18
+            },
+            {
+              "retriever": "bm25",
+              "rank": 20
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0003",
+          "filename": "docker-compose-multi-container.md",
+          "score": 7.3906,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0022",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2816,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "type": "other",
+      "answerable": true,
+      "question": "What are the four triage categories?",
+      "expected_answer": "billing, technical_bug, account, feature_request",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 3,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 337
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0032",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3278,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3266,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0014",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3767,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0000",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.355,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a1545ffb8289#0031",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3038,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0010",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2705,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 13
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0005",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2892,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0009",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2464,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 18
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0013",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3097,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0038",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2961,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 14
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "type": "exact_identifier",
+      "answerable": true,
+      "question": "What status should the triage API return when the model output is not valid JSON?",
+      "expected_answer": "502 invalid_model_output, retried once and logged.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 361
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0021",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.665,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0011",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.5261,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3831,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 10
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0031",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.5194,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a1545ffb8289#0020",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4684,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0023",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3257,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 11
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0000",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2796,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 17
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0017",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4526,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 15
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0005",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3847,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0024",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2965,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 15
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "type": "other",
+      "answerable": true,
+      "question": "What does CALMS stand for?",
+      "expected_answer": "Culture, Automation, Lean, Measurement, Sharing.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 353
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "3402d307db3b#0015",
+          "filename": "devops-foundations.md",
+          "score": 0.3279,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "3402d307db3b#0017",
+          "filename": "devops-foundations.md",
+          "score": 0.2312,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "3402d307db3b#0016",
+          "filename": "devops-foundations.md",
+          "score": 0.2295,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "3402d307db3b#0014",
+          "filename": "devops-foundations.md",
+          "score": 0.1924,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "3402d307db3b#0000",
+          "filename": "devops-foundations.md",
+          "score": 0.167,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 13
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3402d307db3b#0011",
+          "filename": "devops-foundations.md",
+          "score": 0.2221,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8c50fa8ed3e8#0001",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2165,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3402d307db3b#0005",
+          "filename": "devops-foundations.md",
+          "score": 0.1955,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "3402d307db3b#0018",
+          "filename": "devops-foundations.md",
+          "score": 3.3807,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "8c50fa8ed3e8#0043",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.1904,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "type": "other",
+      "answerable": true,
+      "question": "When was the Agile Manifesto introduced, and by how many people?",
+      "expected_answer": "In 2001, by 17 software practitioners.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 395
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "3402d307db3b#0005",
+          "filename": "devops-foundations.md",
+          "score": 0.6089,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "3402d307db3b#0008",
+          "filename": "devops-foundations.md",
+          "score": 0.3561,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "3402d307db3b#0004",
+          "filename": "devops-foundations.md",
+          "score": 0.438,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "3402d307db3b#0000",
+          "filename": "devops-foundations.md",
+          "score": 0.3368,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "3402d307db3b#0006",
+          "filename": "devops-foundations.md",
+          "score": 0.3512,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "3402d307db3b#0017",
+          "filename": "devops-foundations.md",
+          "score": 0.3175,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8c50fa8ed3e8#0000",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 3.2078,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3402d307db3b#0015",
+          "filename": "devops-foundations.md",
+          "score": 0.3082,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8c50fa8ed3e8#0008",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 3.1916,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3402d307db3b#0018",
+          "filename": "devops-foundations.md",
+          "score": 0.299,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "type": "other",
+      "answerable": true,
+      "question": "Where does PostgreSQL 16 write its data inside the container?",
+      "expected_answer": "/var/lib/postgresql/data",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 327
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0014",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5755,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5127,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0006",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4895,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0011",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5576,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0015",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5083,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0012",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5161,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 11
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4569,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0026",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4654,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0019",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.408,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0001",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3408,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 18
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "other",
+      "answerable": true,
+      "question": "Does docker compose down delete the named volume?",
+      "expected_answer": "No, the named volume is retained by default (only down --volumes removes it).",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 335
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0013",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6307,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0025",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6002,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0028",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5803,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0012",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5377,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0026",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5429,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0016",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4996,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0014",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5285,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0003",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4431,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 14
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0011",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4481,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 12
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0021",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4808,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 10
+            },
+            {
+              "retriever": "bm25",
+              "rank": 11
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "other",
+      "answerable": true,
+      "question": "What is residual risk?",
+      "expected_answer": "The risk that remains after controls are applied.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 373
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "8c50fa8ed3e8#0018",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.5111,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8c50fa8ed3e8#0017",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.459,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8c50fa8ed3e8#0022",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.4012,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "8c50fa8ed3e8#0020",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3433,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8c50fa8ed3e8#0021",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3517,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8c50fa8ed3e8#0005",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3574,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8c50fa8ed3e8#0016",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3646,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 10
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8c50fa8ed3e8#0019",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3157,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8c50fa8ed3e8#0006",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3619,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "8c50fa8ed3e8#0004",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2567,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 13
+            },
+            {
+              "retriever": "bm25",
+              "rank": 12
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "other",
+      "answerable": true,
+      "question": "What is credential stuffing?",
+      "expected_answer": "Using username-and-password pairs stolen elsewhere to try to log in to another service.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 367
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "8c50fa8ed3e8#0035",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.3631,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "8c50fa8ed3e8#0023",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2493,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8c50fa8ed3e8#0034",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2525,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0029",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2933,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0037",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 3.7951,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "8c50fa8ed3e8#0011",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2777,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "8c50fa8ed3e8#0010",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2668,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "8c50fa8ed3e8#0041",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 3.5316,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "8c50fa8ed3e8#0029",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.2616,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "3402d307db3b#0030",
+          "filename": "devops-foundations.md",
+          "score": 3.4462,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h01",
+      "type": "vocabulary",
+      "answerable": true,
+      "question": "My app container cannot reach Postgres at localhost:5432. Why?",
+      "expected_answer": "Inside the app container, localhost is the app container itself; use the service name db:5432.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 5,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 378
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6722,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0009",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.731,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.6424,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0011",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.5775,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0001",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4612,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0005",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.495,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 10
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0017",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4439,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 11
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0015",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4766,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0019",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4781,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0014",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4469,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 10
+            },
+            {
+              "retriever": "bm25",
+              "rank": 11
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h02",
+      "type": "vocabulary",
+      "answerable": true,
+      "question": "How can I make my app wait until the database actually accepts connections?",
+      "expected_answer": "Use depends_on with condition: service_healthy and a pg_isready healthcheck on db.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 353
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0017",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4597,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0018",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4175,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3356,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0008",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3355,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0001",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3894,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0019",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3188,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0015",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2514,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 14
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0026",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2752,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 12
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0009",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3057,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 10
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0011",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2981,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 11
+            },
+            {
+              "retriever": "bm25",
+              "rank": 12
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h03",
+      "type": "vocabulary",
+      "answerable": true,
+      "question": "Is a similarity score of 0.83 the same as 83% confidence?",
+      "expected_answer": "No. A similarity score is not a confidence.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 2,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 419
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0018",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2857,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0023",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1452,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0003",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1611,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0024",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.0986,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 15
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0019",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2469,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0044",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 7.7821,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0015",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.184,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0002",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 7.4925,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0007",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1672,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0036",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.1638,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h04",
+      "type": "split_answer",
+      "answerable": true,
+      "question": "When is version 2 of the RAG project due?",
+      "expected_answer": "November 4th.",
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 5,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 345
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4256,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0006",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.4502,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0029",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3645,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0037",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3742,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0038",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3357,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0005",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3667,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 10
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "3402d307db3b#0019",
+          "filename": "devops-foundations.md",
+          "score": 0.2741,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.264,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 18
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0035",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2368,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 19
+            },
+            {
+              "retriever": "bm25",
+              "rank": 16
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0027",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 6.1428,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h05",
+      "type": "split_answer",
+      "answerable": true,
+      "question": "What is prompt injection, and which ticket in the triage dataset tests it?",
+      "expected_answer": "Instructions hidden in input that make an AI system ignore its rules; ticket TCK-10087.",
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.0,
+        "3": 0.5,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 3,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 374
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0011",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4715,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0031",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4125,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0023",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.4694,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "chunk_id": "a1545ffb8289#0016",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3749,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8c50fa8ed3e8#0037",
+          "filename": "cybersecurity-vocabulary-60-terms.md",
+          "score": 0.4151,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0032",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.418,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0014",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3297,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 17
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3907,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 12
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0009",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3621,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 10
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0013",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3502,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 14
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "h06",
+      "type": "other",
+      "answerable": true,
+      "question": "Why must the LLM key stay on the server?",
+      "expected_answer": "The browser never sees the API key; the server is the only part that talks to the provider.",
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "first_relevant_rank": 1,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 347
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "a1545ffb8289#0005",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3104,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0008",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.3332,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a1545ffb8289#0007",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2553,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0026",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.265,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 13
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a1545ffb8289#0027",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2956,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 15
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "a1545ffb8289#0000",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2269,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 12
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "a1545ffb8289#0001",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2158,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 16
+            },
+            {
+              "retriever": "bm25",
+              "rank": 17
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0033",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 6.5897,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "a1545ffb8289#0029",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 5.9685,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "a1545ffb8289#0028",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 5.6016,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u01",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "How do I configure a Kubernetes Ingress controller?",
+      "expected_answer": "Not in the corpus.",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 320
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0003",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.1687,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a1545ffb8289#0029",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2907,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.273,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "3402d307db3b#0025",
+          "filename": "devops-foundations.md",
+          "score": 4.1808,
+          "found_by": [
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0010",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2236,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0002",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2174,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "dfafb86a7749#0005",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2156,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "3402d307db3b#0033",
+          "filename": "devops-foundations.md",
+          "score": 0.1786,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0020",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.1784,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0024",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.169,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u02",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "What percentage of the final grade is the RAG project worth?",
+      "expected_answer": "Not in the corpus (the project is described, but not its grading).",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 421
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0006",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3565,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0000",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3088,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0038",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2968,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0005",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3044,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0029",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.229,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 13
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0037",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2411,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 12
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0014",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2532,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 12
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "a1545ffb8289#0025",
+          "filename": "ai-systems-c4-llm-api-integration.md",
+          "score": 0.2771,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 19
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0028",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.246,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 17
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0001",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2415,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 11
+            },
+            {
+              "retriever": "bm25",
+              "rank": 15
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u03",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "Which embedding model does Pinecone use by default?",
+      "expected_answer": "Not in the corpus (Pinecone is only named as a managed vector database).",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 301
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "7b96f3a22deb#0017",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3467,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7b96f3a22deb#0022",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.3098,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "7b96f3a22deb#0023",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2648,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 5
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "7b96f3a22deb#0021",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2586,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 6
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "7b96f3a22deb#0012",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.269,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 7
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "7b96f3a22deb#0020",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2986,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 9
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "7b96f3a22deb#0033",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2145,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 11
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "7b96f3a22deb#0044",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2528,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 11
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "7b96f3a22deb#0005",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2332,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 10
+            },
+            {
+              "retriever": "bm25",
+              "rank": 10
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "7b96f3a22deb#0016",
+          "filename": "ai-systems-c6-rag.md",
+          "score": 0.2341,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 18
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    },
+    {
+      "id": "u04",
+      "type": "not_in_corpus",
+      "answerable": false,
+      "question": "How do I write a Dockerfile multi-stage build for a React app?",
+      "expected_answer": "Not in the corpus (Compose reuses an existing Dockerfile; multi-stage builds are not covered).",
+      "hit": {},
+      "recall": {},
+      "first_relevant_rank": null,
+      "cost": {
+        "llm_calls": 0,
+        "tokens": 0,
+        "latency_ms": 396
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "chunk_id": "dfafb86a7749#0003",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.4121,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 1
+            },
+            {
+              "retriever": "bm25",
+              "rank": 3
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfafb86a7749#0020",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3947,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 3
+            },
+            {
+              "retriever": "bm25",
+              "rank": 2
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "dfafb86a7749#0007",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3995,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 2
+            },
+            {
+              "retriever": "bm25",
+              "rank": 4
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "chunk_id": "dfafb86a7749#0004",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3526,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 7
+            },
+            {
+              "retriever": "bm25",
+              "rank": 1
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "chunk_id": "dfafb86a7749#0002",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.3923,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 4
+            },
+            {
+              "retriever": "bm25",
+              "rank": 12
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 6,
+          "chunk_id": "dfafb86a7749#0001",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2617,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 13
+            },
+            {
+              "retriever": "bm25",
+              "rank": 6
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 7,
+          "chunk_id": "3402d307db3b#0019",
+          "filename": "devops-foundations.md",
+          "score": 0.2926,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 9
+            },
+            {
+              "retriever": "bm25",
+              "rank": 11
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 8,
+          "chunk_id": "dfafb86a7749#0025",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.352,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 8
+            },
+            {
+              "retriever": "bm25",
+              "rank": 15
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 9,
+          "chunk_id": "dfafb86a7749#0008",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2319,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 20
+            },
+            {
+              "retriever": "bm25",
+              "rank": 5
+            }
+          ],
+          "relevant": false
+        },
+        {
+          "rank": 10,
+          "chunk_id": "dfafb86a7749#0019",
+          "filename": "docker-compose-multi-container.md",
+          "score": 0.2418,
+          "found_by": [
+            {
+              "retriever": "dense",
+              "rank": 17
+            },
+            {
+              "retriever": "bm25",
+              "rank": 8
+            }
+          ],
+          "relevant": false
+        }
+      ]
+    }
+  ]
+}
