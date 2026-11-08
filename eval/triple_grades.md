@@ -4,7 +4,7 @@ Grades: correct / wrong / unsupported
 
 ## 1. (Payments Core) -OWNS-> (payment processor)
 
-Chunk: `fa8fac4ff42d#0003`
+Chunk: `service-catalog.md#0003`
 
 ```
 s the grace period and read-only rules of the Billing and Refund Policy. Talks to the payment processor; never stores full card numbers.
@@ -48,7 +48,7 @@ Owner: **Identity**.
 
 ## 2. (KST-5031) -RAISED_BY-> (postroom)
 
-Chunk: `2f6285882623#0008`
+Chunk: `support-runbook-errors.md#0008`
 
 ```
 by the current Owner from **Settings → Members**.
@@ -80,7 +80,7 @@ by the current Owner from **Settings → Members**.
 
 ## 3. (KST-1001) -PART_OF-> (Sign-in)
 
-Chunk: `2f6285882623#0001`
+Chunk: `support-runbook-errors.md#0001`
 
 ```
 Escalations go to the team that owns the service involved. The owning team of each service and its on-call channel are listed in the Service Catalog.
@@ -126,7 +126,7 @@ Escalations go to the team that owns the service involved. The owning team of ea
 
 ## 4. (Samuel Okafor) -LEADS-> (Platform)
 
-Chunk: `fa8fac4ff42d#0003`
+Chunk: `service-catalog.md#0003`
 
 ```
 s the grace period and read-only rules of the Billing and Refund Policy. Talks to the payment processor; never stores full card numbers.
@@ -170,7 +170,7 @@ Owner: **Identity**.
 
 ## 5. (Billing and Refund Policy) -APPLIES_TO-> (Business)
 
-Chunk: `a0d43d9d1022#0000`
+Chunk: `billing-policy-2026.md#0000`
 
 ```
 # Kestrel Analytics — Billing and Refund Policy
@@ -206,7 +206,7 @@ Paid plans are billed per seat, either monthly or annually. Monthly pl
 
 ## 6. (Billing and Refund Policy) -APPLIES_TO-> (Team)
 
-Chunk: `a0d43d9d1022#0000`
+Chunk: `billing-policy-2026.md#0000`
 
 ```
 # Kestrel Analytics — Billing and Refund Policy
@@ -242,7 +242,7 @@ Paid plans are billed per seat, either monthly or annually. Monthly pl
 
 ## 7. (Priya Raman) -LEADS-> (Identity)
 
-Chunk: `fa8fac4ff42d#0003`
+Chunk: `service-catalog.md#0003`
 
 ```
 s the grace period and read-only rules of the Billing and Refund Policy. Talks to the payment processor; never stores full card numbers.
@@ -286,7 +286,7 @@ Owner: **Identity**.
 
 ## 8. (KST-5038) -ESCALATES_TO-> (postroom)
 
-Chunk: `2f6285882623#0009`
+Chunk: `support-runbook-errors.md#0009`
 
 ```
 s, or for several customers on the same day, escalate to the team that owns postroom, as SEV-2.
@@ -328,7 +328,7 @@ s, or for several customers on the same day, escalate to the team that owns post
 
 ## 9. (Léa Fontaine) -LEADS-> (Analytics Engine)
 
-Chunk: `fa8fac4ff42d#0003`
+Chunk: `service-catalog.md#0003`
 
 ```
 s the grace period and read-only rules of the Billing and Refund Policy. Talks to the payment processor; never stores full card numbers.
@@ -372,7 +372,7 @@ Owner: **Identity**.
 
 ## 10. (Identity) -OWNS-> (audit-log)
 
-Chunk: `fa8fac4ff42d#0003`
+Chunk: `service-catalog.md#0003`
 
 ```
 s the grace period and read-only rules of the Billing and Refund Policy. Talks to the payment processor; never stores full card numbers.
@@ -422,4 +422,4 @@ correct: 8 / wrong: 2 / unsupported: 0
 
 - Both wrong triples come from chunk boundaries (800 characters). In #1 the `### ledger` heading is in the previous chunk; in #8 the end of the KST-5031 section spills into the KST-5038 chunk. The extractor only sees one chunk at a time.
 - Cost of #8: a question about KST-5038 follows KST-5038 → postroom → Messaging and pulls chunks that suggest escalating to Messaging, while the correct answer is "do not escalate".
-- Sample bias: 5 of the 10 triples come from the same chunk (`fa8fac4ff42d#0003`, the teams table). Table rows are easy to extract, so 8/10 is probably optimistic for prose chunks.
+- Sample bias: 5 of the 10 triples come from the same chunk (`service-catalog.md#0003`, the teams table). Table rows are easy to extract, so 8/10 is probably optimistic for prose chunks.

@@ -34,7 +34,7 @@ class Reference(BaseModel):
 
 class Retrievers(BaseModel):
     dense: bool = True
-    bm25: bool = False
+    bm25: bool = True
     graph: bool = False
 
 

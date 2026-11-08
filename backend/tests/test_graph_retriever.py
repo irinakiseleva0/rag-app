@@ -159,7 +159,7 @@ def test_linking_uses_shared_team_and_service_normalization(tmp_path, graph):
 def test_graph_integrates_with_hybrid_search(tmp_path, graph):
     searcher = retriever(tmp_path, graph)
     request = QuestionRequest(question="KST-2044", top_k=3,
-                              retrievers=Retrievers(dense=False, graph=True))
+                              retrievers=Retrievers(dense=False, bm25=False, graph=True))
     refs, path, cost = hybrid_search(searcher.store, request, searcher)
     assert [ref.chunk_id for ref in refs] == ["a#0000", "a#0001", "b#0001"]
     assert all(ref.found_by[0].retriever == "graph" for ref in refs)

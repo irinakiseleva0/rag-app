@@ -1,6 +1,6 @@
 # API contract V3
 
-Same endpoints as V2 (`POST /retrieve`, `POST /ask`). New fields are optional, so the V2 front and eval still work (default = dense only).
+Same endpoints as V2 (`POST /retrieve`, `POST /ask`). New fields are optional, so the V2 front and eval still work (default = dense + BM25, our default configuration, see REPORT.md).
 
 ## Request
 
@@ -16,7 +16,7 @@ Same endpoints as V2 (`POST /retrieve`, `POST /ask`). New fields are optional, s
 
 - `retrievers`: at least one must be on, otherwise 400.
 - `candidates`: how many chunks each retriever gives before fusion (default 20).
-- `graph: true` returns 400 until the graph is plugged in.
+- `graph: true` returns 400 if `backend/data/graph/kestrel_graph.json` is missing.
 
 ## Response (`/ask`)
 
@@ -48,13 +48,13 @@ Same endpoints as V2 (`POST /retrieve`, `POST /ask`). New fields are optional, s
 - `/retrieve` returns `{ "chunks": [...], "graph_path": ..., "cost": ... }` with the same chunk format.
 - `graph_path` is `null` when the graph is off. When on: `{ "entities": [...], "edges": [{ "from", "relation", "to", "chunk_id" }] }`.
 
-## Plugging the graph (Irina)
+## Graph retriever
 
-In `backend/main.py`, `graph` is `None`. Replace it with an object that has:
+`backend/main.py` loads `backend/data/graph/kestrel_graph.json` if it exists. The retriever has:
 
 ```python
 def search(self, question, doc_ids, n):
     return {"chunks": [Reference, ...], "path": {...}, "llm_calls": 0, "tokens": 0}
 ```
 
-`chunks` must be ranked, best first, and use the same `chunk_id`s as Chroma (`<doc_id>#0003`).
+In the graph file, chunks are stored as `<filename>#0003` (doc ids are random and change at every upload). The retriever maps them back to the local `<doc_id>#0003`.
