@@ -465,7 +465,6 @@ The same effect, smaller, on q05 (vocabulary, "I lost my phone and I can't log i
 
 What would fix it: weighted RRF (lower weight for BM25 on long questions) or a date / status filter on the policies. Not done in V3 (weighted RRF is the teams-of-3 piece).
 
-## Decision log (V3)
 ## Concept graph (Kestrel)
 
 This section covers how the graph is built and used. Its retrieval numbers are in "Results", and what happened to its chunks after fusion is in "After fusion" above.
@@ -550,6 +549,8 @@ Sample bias: 5 of the 10 triples come from the same chunk (the teams table). Tab
 - Only Kestrel has a graph; our own course corpus does not.
 - Optional features not implemented: time validity (`from` / `until`), properties, aliases from an LLM.
 - The UI path for the KST-5031 question shows the wrong edge `KST-5038 ESCALATES_TO postroom` (graded triple #8): the bad triple is followed at query time.
+
+## Decision log (V3)
 ### Paulo
 
 **BM25 index: SQLite FTS5, in `backend/data/bm25.sqlite3`.**
