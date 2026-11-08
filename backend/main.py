@@ -22,7 +22,13 @@ MAX_FILE_SIZE = 2 * 1024 * 1024
 
 app = FastAPI()
 store = Store(Path(__file__).parent / "data")
-graph = None
+graph_path = Path(__file__).parent / "data" / "graph" / "kestrel_graph.json"
+if graph_path.exists():
+    from graph_retriever import GraphRetriever
+
+    graph = GraphRetriever(graph_path, store)
+else:
+    graph = None
 
 app.add_middleware(
     CORSMiddleware,
