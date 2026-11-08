@@ -75,10 +75,8 @@ def load_kestrel_chunks(store, limit=None):
         include=["documents", "metadatas"],
     )
     chunks = [
-        {"chunk_id": chunk_id, "text": text}
-        for chunk_id, text, metadata in zip(
-            result["ids"], result["documents"], result["metadatas"]
-        )
+        {"chunk_id": f"{metadata['filename']}#{metadata['chunk_index']:04d}", "text": text}
+        for text, metadata in zip(result["documents"], result["metadatas"])
         if metadata and metadata.get("filename") in filenames
     ]
     chunks.sort(key=lambda chunk: chunk["chunk_id"])

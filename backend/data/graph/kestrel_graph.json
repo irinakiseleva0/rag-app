@@ -11,7 +11,7 @@
         "KST-1001"
       ],
       "chunk_ids": [
-        "2f6285882623#0001"
+        "support-runbook-errors.md#0001"
       ]
     },
     {
@@ -25,7 +25,7 @@
         "Sign-in"
       ],
       "chunk_ids": [
-        "2f6285882623#0001"
+        "support-runbook-errors.md#0001"
       ]
     },
     {
@@ -39,7 +39,7 @@
         "KST-1012"
       ],
       "chunk_ids": [
-        "2f6285882623#0003"
+        "support-runbook-errors.md#0003"
       ]
     },
     {
@@ -54,9 +54,9 @@
         "Identity"
       ],
       "chunk_ids": [
-        "2f6285882623#0003",
-        "fa8fac4ff42d#0001",
-        "fa8fac4ff42d#0003"
+        "support-runbook-errors.md#0003",
+        "service-catalog.md#0001",
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -70,7 +70,7 @@
         "KST-3020"
       ],
       "chunk_ids": [
-        "2f6285882623#0006"
+        "support-runbook-errors.md#0006"
       ]
     },
     {
@@ -84,7 +84,7 @@
         "KST-2xxx"
       ],
       "chunk_ids": [
-        "2f6285882623#0006"
+        "support-runbook-errors.md#0006"
       ]
     },
     {
@@ -98,7 +98,7 @@
         "KST-5031"
       ],
       "chunk_ids": [
-        "2f6285882623#0008"
+        "support-runbook-errors.md#0008"
       ]
     },
     {
@@ -112,9 +112,9 @@
         "postroom"
       ],
       "chunk_ids": [
-        "2f6285882623#0008",
-        "2f6285882623#0009",
-        "fa8fac4ff42d#0002"
+        "support-runbook-errors.md#0008",
+        "support-runbook-errors.md#0009",
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -128,7 +128,7 @@
         "KST-5038"
       ],
       "chunk_ids": [
-        "2f6285882623#0009"
+        "support-runbook-errors.md#0009"
       ]
     },
     {
@@ -142,7 +142,7 @@
         "KST-6010"
       ],
       "chunk_ids": [
-        "2f6285882623#0010"
+        "support-runbook-errors.md#0010"
       ]
     },
     {
@@ -157,8 +157,8 @@
         "Payments Core"
       ],
       "chunk_ids": [
-        "2f6285882623#0010",
-        "fa8fac4ff42d#0003"
+        "support-runbook-errors.md#0010",
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -172,9 +172,9 @@
         "Billing and Refund Policy"
       ],
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000",
-        "fa8fac4ff42d#0002"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000",
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -188,8 +188,8 @@
         "Starter"
       ],
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -203,8 +203,8 @@
         "Team"
       ],
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -218,8 +218,8 @@
         "Business"
       ],
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -233,8 +233,8 @@
         "Enterprise"
       ],
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -248,9 +248,9 @@
         "Platform"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0000",
-        "fa8fac4ff42d#0002",
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0000",
+        "service-catalog.md#0002",
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -264,7 +264,7 @@
         "gateway"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0000"
+        "service-catalog.md#0000"
       ]
     },
     {
@@ -278,7 +278,7 @@
         "tication"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -292,8 +292,8 @@
         "Data Integrations"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0001",
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0001",
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -307,7 +307,7 @@
         "connector-hub"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -321,9 +321,9 @@
         "Analytics Engine"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0001",
-        "fa8fac4ff42d#0002",
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0001",
+        "service-catalog.md#0002",
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -337,7 +337,7 @@
         "query-engine"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -351,7 +351,7 @@
         "scheduler"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -365,7 +365,7 @@
         "delivery"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -379,8 +379,8 @@
         "Messaging"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0002",
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0002",
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -394,7 +394,7 @@
         "mailman"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -408,7 +408,7 @@
         "embed-svc"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -422,7 +422,7 @@
         "ledger"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -436,7 +436,7 @@
         "payment processor"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -450,7 +450,7 @@
         "audit-log"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -464,7 +464,7 @@
         "Samuel Okafor"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -478,7 +478,7 @@
         "Priya Raman"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -492,7 +492,7 @@
         "Tomasz Wójcik"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -506,7 +506,7 @@
         "Léa Fontaine"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -520,7 +520,7 @@
         "Inès Moreau"
       ],
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     }
   ],
@@ -530,7 +530,7 @@
       "relation": "PART_OF",
       "target": "n2",
       "chunk_ids": [
-        "2f6285882623#0001"
+        "support-runbook-errors.md#0001"
       ]
     },
     {
@@ -538,7 +538,7 @@
       "relation": "ESCALATES_TO",
       "target": "n4",
       "chunk_ids": [
-        "2f6285882623#0003"
+        "support-runbook-errors.md#0003"
       ]
     },
     {
@@ -546,7 +546,7 @@
       "relation": "ESCALATES_TO",
       "target": "n6",
       "chunk_ids": [
-        "2f6285882623#0006"
+        "support-runbook-errors.md#0006"
       ]
     },
     {
@@ -554,7 +554,7 @@
       "relation": "RAISED_BY",
       "target": "n8",
       "chunk_ids": [
-        "2f6285882623#0008"
+        "support-runbook-errors.md#0008"
       ]
     },
     {
@@ -562,7 +562,7 @@
       "relation": "ESCALATES_TO",
       "target": "n8",
       "chunk_ids": [
-        "2f6285882623#0009"
+        "support-runbook-errors.md#0009"
       ]
     },
     {
@@ -570,7 +570,7 @@
       "relation": "ESCALATES_TO",
       "target": "n11",
       "chunk_ids": [
-        "2f6285882623#0010"
+        "support-runbook-errors.md#0010"
       ]
     },
     {
@@ -578,8 +578,8 @@
       "relation": "APPLIES_TO",
       "target": "n13",
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -587,8 +587,8 @@
       "relation": "APPLIES_TO",
       "target": "n14",
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -596,8 +596,8 @@
       "relation": "APPLIES_TO",
       "target": "n15",
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -605,8 +605,8 @@
       "relation": "APPLIES_TO",
       "target": "n16",
       "chunk_ids": [
-        "a0d43d9d1022#0000",
-        "b83e17037f15#0000"
+        "billing-policy-2026.md#0000",
+        "billing-policy-2025.md#0000"
       ]
     },
     {
@@ -614,7 +614,7 @@
       "relation": "OWNS",
       "target": "n18",
       "chunk_ids": [
-        "fa8fac4ff42d#0000"
+        "service-catalog.md#0000"
       ]
     },
     {
@@ -622,7 +622,7 @@
       "relation": "OWNS",
       "target": "n19",
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -630,7 +630,7 @@
       "relation": "OWNS",
       "target": "n21",
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -638,7 +638,7 @@
       "relation": "OWNS",
       "target": "n23",
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -646,7 +646,7 @@
       "relation": "OWNS",
       "target": "n24",
       "chunk_ids": [
-        "fa8fac4ff42d#0001"
+        "service-catalog.md#0001"
       ]
     },
     {
@@ -654,7 +654,7 @@
       "relation": "OWNS",
       "target": "n25",
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -662,7 +662,7 @@
       "relation": "OWNS",
       "target": "n8",
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -670,7 +670,7 @@
       "relation": "REPLACES",
       "target": "n27",
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -678,7 +678,7 @@
       "relation": "OWNS",
       "target": "n28",
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -686,7 +686,7 @@
       "relation": "APPLIES_TO",
       "target": "n29",
       "chunk_ids": [
-        "fa8fac4ff42d#0002"
+        "service-catalog.md#0002"
       ]
     },
     {
@@ -694,7 +694,7 @@
       "relation": "OWNS",
       "target": "n30",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -702,7 +702,7 @@
       "relation": "OWNS",
       "target": "n31",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -710,7 +710,7 @@
       "relation": "MEMBER_OF",
       "target": "n17",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -718,7 +718,7 @@
       "relation": "LEADS",
       "target": "n17",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -726,7 +726,7 @@
       "relation": "MEMBER_OF",
       "target": "n4",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -734,7 +734,7 @@
       "relation": "LEADS",
       "target": "n4",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -742,7 +742,7 @@
       "relation": "MEMBER_OF",
       "target": "n20",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -750,7 +750,7 @@
       "relation": "LEADS",
       "target": "n20",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -758,7 +758,7 @@
       "relation": "MEMBER_OF",
       "target": "n22",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -766,7 +766,7 @@
       "relation": "LEADS",
       "target": "n22",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     },
     {
@@ -774,18 +774,18 @@
       "relation": "MEMBER_OF",
       "target": "n26",
       "chunk_ids": [
-        "fa8fac4ff42d#0003"
+        "service-catalog.md#0003"
       ]
     }
   ],
   "merges": [],
   "failures": [
     {
-      "chunk_id": "fa8fac4ff42d#0004",
+      "chunk_id": "service-catalog.md#0004",
       "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.1-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 18.594302502s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.1-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '18s'}]}}"
     },
     {
-      "chunk_id": "fa8fac4ff42d#0005",
+      "chunk_id": "service-catalog.md#0005",
       "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.1-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 16.974406798s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.1-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '16s'}]}}"
     }
   ],

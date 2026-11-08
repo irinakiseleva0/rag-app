@@ -32,7 +32,7 @@ def upload_kestrel(client):
 
 def test_sets_report_uploaded_documents(client):
     sets = {s["name"]: s for s in client.get("/eval/sets").json()}
-    assert sets["kestrel"]["n_questions"] == 10
+    assert sets["kestrel"]["n_questions"] == 12
     assert sets["kestrel"]["uploaded"] == 0
     upload_kestrel(client)
     sets = {s["name"]: s for s in client.get("/eval/sets").json()}
@@ -56,7 +56,7 @@ def test_run_retrieval_only_writes_a_result_file(client, tmp_path):
     assert res.status_code == 200
     body = res.json()
     assert set(body["summary"]["overall"]) >= {"n", "hit@1", "hit@10", "recall@5"}
-    assert body["summary"]["overall"]["n"] == 8          # 2 unanswerable left out
+    assert body["summary"]["overall"]["n"] == 10         # 2 unanswerable left out
     assert body["summary"]["n_unanswerable"] == 2
     assert "answer" not in body["rows"][0]                # retrieval only by default
     assert list((tmp_path / "results").glob("*-kestrel-test.json"))
@@ -72,6 +72,6 @@ def test_run_with_answers_uses_the_llm(client, monkeypatch):
 
     monkeypatch.setattr(eval_routes.llm, "answer_question", fake_answer)
     body = client.post("/eval/run", json={"set_name": "kestrel", "answers": True}).json()
-    assert len(calls) == 10
+    assert len(calls) == 12
     assert body["rows"][0]["answer"]["status"] == "not_found"
     assert body["rows"][0]["grade"] is None

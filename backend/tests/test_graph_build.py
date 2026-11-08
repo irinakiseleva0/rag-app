@@ -176,14 +176,14 @@ def test_load_filters_exact_kestrel_names_and_applies_limit_after_sorting():
                 "ids": ["z#0001", "a#0000", "other#0000"],
                 "documents": ["later", "first", "unrelated"],
                 "metadatas": [
-                    {"filename": "service-catalog.md"},
-                    {"filename": "product-guide.md"},
-                    {"filename": "other.md"},
+                    {"filename": "service-catalog.md", "chunk_index": 1},
+                    {"filename": "product-guide.md", "chunk_index": 0},
+                    {"filename": "other.md", "chunk_index": 0},
                 ],
             }
 
     store = SimpleNamespace(collection=FakeCollection())
-    assert load_kestrel_chunks(store, limit=1) == [{"chunk_id": "a#0000", "text": "first"}]
+    assert load_kestrel_chunks(store, limit=1) == [{"chunk_id": "product-guide.md#0000", "text": "first"}]
     assert len(load_kestrel_chunks(store)) == 2
     assert load_kestrel_chunks(store, limit=0) == []
 

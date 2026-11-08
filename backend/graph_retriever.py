@@ -9,6 +9,11 @@ from graph_build import normalize_entity_name as normalize
 from schemas import Reference
 
 
+def local_id(chunk_id, by_name):
+    name, index = chunk_id.rsplit("#", 1)
+    return f"{by_name.get(name, name)}#{index}"
+
+
 class GraphRetriever:
     def __init__(self, graph_path, store):
         graph = json.loads(Path(graph_path).read_text(encoding="utf-8"))
@@ -72,6 +77,11 @@ class GraphRetriever:
                     for chunk_id in self.nodes[neighbor]["chunk_ids"]:
                         scores[chunk_id] += 0.5 / (1 + hop)
                     queue.append((neighbor, hop))
+
+        by_name = {doc.filename: doc.id for doc in self.store.list_documents()}
+        scores = {local_id(chunk_id, by_name): score for chunk_id, score in scores.items()}
+        for edge in path["edges"]:
+            edge["chunk_id"] = local_id(edge["chunk_id"], by_name)
 
         allowed_docs = set(doc_ids)
         ranked = sorted(

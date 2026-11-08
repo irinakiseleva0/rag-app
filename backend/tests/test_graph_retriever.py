@@ -63,7 +63,7 @@ def retriever(tmp_path, graph, missing=()):
     chunk_ids = {
         chunk_id for item in graph["nodes"] + graph["edges"] for chunk_id in item["chunk_ids"]
     }
-    store = SimpleNamespace(collection=FakeCollection(chunk_ids - set(missing)))
+    store = SimpleNamespace(collection=FakeCollection(chunk_ids - set(missing)), list_documents=list)
     return GraphRetriever(graph_path, store)
 
 
