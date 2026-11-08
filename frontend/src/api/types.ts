@@ -27,10 +27,33 @@ export const ReferenceSchema = z.object({
   char_end: z.number().int(),
   text: z.string(),
   score: z.number(),
+  found_by: z.array(z.object({
+    retriever: z.enum(['dense', 'bm25', 'graph']),
+    rank: z.number().int().positive(),
+  })).default([]),
+  rrf_score: z.number().nullable().default(null),
 })
+
+export const GraphPathSchema = z.object({
+  entities: z.array(z.string()),
+  edges: z.array(z.object({
+    from: z.string(),
+    relation: z.string(),
+    to: z.string(),
+    chunk_id: z.string(),
+  })),
+})
+
+const CostSchema = z.object({
+  llm_calls: z.number().int().nonnegative().default(0),
+  tokens: z.number().int().nonnegative().default(0),
+  latency_ms: z.number().int().nonnegative().default(0),
+}).default({ llm_calls: 0, tokens: 0, latency_ms: 0 })
 
 export const RetrieveResultSchema = z.object({
   chunks: z.array(ReferenceSchema),
+  graph_path: GraphPathSchema.nullable().default(null),
+  cost: CostSchema,
 })
 
 export const AskResultSchema = z.object({
@@ -38,6 +61,8 @@ export const AskResultSchema = z.object({
   answer: z.string(),
   references: z.array(ReferenceSchema),
   error: z.string().nullable(),
+  graph_path: GraphPathSchema.nullable().default(null),
+  cost: CostSchema,
 })
 
 export type DocumentInfo = z.infer<typeof DocumentInfoSchema>
@@ -45,11 +70,14 @@ export type Settings = z.infer<typeof SettingsSchema>
 export type Reference = z.infer<typeof ReferenceSchema>
 export type RetrieveResult = z.infer<typeof RetrieveResultSchema>
 export type AskResult = z.infer<typeof AskResultSchema>
+export type GraphPath = z.infer<typeof GraphPathSchema>
 
 export type AskRequest = {
   question: string
   doc_ids: string[]
   top_k: number
+  retrievers?: { dense: boolean; bm25: boolean; graph: boolean }
+  candidates?: number
 }
 
 // ---------- Evaluation (V2) ----------

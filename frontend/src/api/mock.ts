@@ -1,4 +1,4 @@
-import type { Api, AskResult, DocumentInfo, EvalRunResult, Reference, Settings } from './types'
+import type { Api, AskRequest, AskResult, DocumentInfo, EvalRunResult, GraphPath, Reference, Settings } from './types'
 
 // In-memory fake backend, used while the real one is not ready (VITE_USE_MOCK=true).
 // Ask behaviour: "notfound" in the question -> not_found, "error" -> error.
@@ -12,9 +12,12 @@ let documents: DocumentInfo[] = [
 
 let settings: Settings = { chunk_size: 800, overlap_percent: 10, top_k: 5 }
 
-function fakeReferences(docIds: string[], topK: number): Reference[] {
-  const selected = documents.filter((d) => docIds.includes(d.id))
-  return selected.slice(0, Math.min(2, topK)).map((doc, i) => ({
+function fakeReferences(req: AskRequest): Reference[] {
+  const retrievers = req.retrievers ?? { dense: true, bm25: false, graph: false }
+  const enabled = (['dense', 'bm25', 'graph'] as const).filter((name) => retrievers[name])
+  if (enabled.length === 0) throw new Error('At least one retriever must be on.')
+  const selected = documents.filter((d) => req.doc_ids.length === 0 || req.doc_ids.includes(d.id))
+  return selected.slice(0, Math.min(2, req.top_k, req.candidates ?? 20)).map((doc, i) => ({
     chunk_id: `${doc.id}#000${i}`,
     filename: doc.filename,
     chunk_index: i,
@@ -22,7 +25,20 @@ function fakeReferences(docIds: string[], topK: number): Reference[] {
     char_end: i * 720 + 800,
     text: `Mock chunk ${i} from ${doc.filename}. In the real app this is the exact text that was sent to the model.`,
     score: 0.82 - i * 0.07,
+    found_by: enabled.map((retriever) => ({ retriever, rank: i + 1 })),
+    rrf_score: Number((enabled.length / (60 + i + 1)).toFixed(5)),
   }))
+}
+
+function fakeGraphPath(req: AskRequest, references: Reference[]): GraphPath | null {
+  if (!req.retrievers?.graph) return null
+  const entity = req.question.match(/\bKST-\d+\b/i)?.[0]
+    ?? req.question.match(/\b(password|billing)\b/i)?.[0]
+  if (!entity || references.length === 0) return { entities: [], edges: [] }
+  return {
+    entities: [entity],
+    edges: [{ from: entity, relation: 'APPLIES_TO', to: 'Mock support', chunk_id: references[0].chunk_id }],
+  }
 }
 
 export const mockApi: Api = {
@@ -64,23 +80,31 @@ export const mockApi: Api = {
 
   async retrieve(req) {
     await delay()
-    return { chunks: fakeReferences(req.doc_ids, req.top_k) }
+    const chunks = fakeReferences(req)
+    return { chunks, graph_path: fakeGraphPath(req, chunks),
+      cost: { llm_calls: 0, tokens: 0, latency_ms: 500 } }
   },
 
   async ask(req): Promise<AskResult> {
     await delay()
     const q = req.question.toLowerCase()
+    const references = fakeReferences(req)
+    const metadata = {
+      graph_path: fakeGraphPath(req, references),
+      cost: { llm_calls: 1, tokens: 240, latency_ms: 500 },
+    }
     if (q.includes('notfound')) {
-      return { status: 'not_found', answer: '', references: [], error: null }
+      return { status: 'not_found', answer: '', references: [], error: null, ...metadata }
     }
     if (q.includes('error')) {
-      return { status: 'error', answer: '', references: [], error: 'Mock error: the model returned invalid JSON.' }
+      return { status: 'error', answer: '', references: [], error: 'Mock error: the model returned invalid JSON.', ...metadata }
     }
     return {
       status: 'answered',
       answer: 'This is a mock answer. It is built only from the two references below.',
-      references: fakeReferences(req.doc_ids, req.top_k),
+      references,
       error: null,
+      ...metadata,
     }
   },
 

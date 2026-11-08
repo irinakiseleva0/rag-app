@@ -26,6 +26,12 @@ export function ReferenceList({ references }: { references: Reference[] }) {
                 chunk {ref.chunk_index}, characters {ref.char_start}–{ref.char_end}, similarity{' '}
                 {ref.score.toFixed(2)}
               </span>
+              {ref.found_by.map(({ retriever, rank }) => (
+                <span className="retriever-badge" key={retriever}>{retriever} #{rank}</span>
+              ))}
+              {ref.rrf_score !== null && (
+                <span className="muted small">RRF: {ref.rrf_score.toFixed(5)}</span>
+              )}
             </button>
             {open && <pre className="chunk-text">{ref.text}</pre>}
           </li>

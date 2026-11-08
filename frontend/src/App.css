@@ -461,3 +461,75 @@ mark {
   padding: 0 0.1em;
   border-radius: 2px;
 }
+
+/* Hybrid retrieval */
+.retriever-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.retriever-options legend {
+  padding: 0 0.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.retriever-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.retriever-option input {
+  accent-color: var(--accent);
+}
+
+.retrieval-cost {
+  margin: 0.75rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.retriever-badge,
+.graph-entity-chip {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.graph-path {
+  margin-top: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.graph-entities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.graph-edges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.graph-edge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+}

@@ -1,9 +1,16 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { api } from '../api'
-import type { AskResult } from '../api'
+import type { AskRequest, AskResult } from '../api'
 import { errorMessage } from '../errors'
 import { ReferenceList } from './ReferenceList'
+import { GraphPath } from './GraphPath'
+
+const retrieverOptions = [
+  { key: 'dense', label: 'Dense' },
+  { key: 'bm25', label: 'BM25' },
+  { key: 'graph', label: 'Graph' },
+] as const
 
 type Props = {
   selectedIds: string[]
@@ -15,6 +22,10 @@ export function AskPanel({ selectedIds, topK }: Props) {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<AskResult | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [retrievers, setRetrievers] = useState<NonNullable<AskRequest['retrievers']>>({
+    dense: true, bm25: true, graph: false,
+  })
+  const enabledCount = Object.values(retrievers).filter(Boolean).length
 
   const blockedReason =
     selectedIds.length === 0
@@ -30,7 +41,7 @@ export function AskPanel({ selectedIds, topK }: Props) {
     setError(null)
     setResult(null)
     try {
-      const res = await api.ask({ question: question.trim(), doc_ids: selectedIds, top_k: topK })
+      const res = await api.ask({ question: question.trim(), doc_ids: selectedIds, top_k: topK, retrievers })
       setResult(res)
     } catch (e) {
       setError(errorMessage(e))
@@ -44,6 +55,22 @@ export function AskPanel({ selectedIds, topK }: Props) {
       <h2 id="ask-title">Ask the documents</h2>
 
       <form onSubmit={handleSubmit}>
+        <fieldset className="retriever-options" disabled={loading}>
+          <legend>Retrievers</legend>
+          {retrieverOptions.map(({ key, label }) => (
+            <label className="retriever-option" key={key}>
+              <input
+                type="checkbox"
+                checked={retrievers[key]}
+                disabled={retrievers[key] && enabledCount === 1}
+                onChange={(event) => setRetrievers((current) => ({
+                  ...current, [key]: event.target.checked,
+                }))}
+              />
+              {label}
+            </label>
+          ))}
+        </fieldset>
         <textarea
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
@@ -70,23 +97,29 @@ export function AskPanel({ selectedIds, topK }: Props) {
         </div>
       )}
 
-      {result?.status === 'error' && (
-        <div className="result error-box" role="alert">
-          <strong>The answer could not be produced.</strong> {result.error ?? 'Unknown error.'}
-        </div>
-      )}
-
-      {result?.status === 'not_found' && (
-        <div className="result neutral-box">
-          The selected documents do not contain an answer to this question.
-        </div>
-      )}
-
-      {result?.status === 'answered' && (
+      {result && (
         <div className="result">
-          <p className="answer">{result.answer}</p>
-          <h3>References</h3>
-          <ReferenceList references={result.references} />
+          {result.status === 'error' && (
+            <div className="error-box" role="alert">
+              <strong>The answer could not be produced.</strong> {result.error ?? 'Unknown error.'}
+            </div>
+          )}
+          {result.status === 'not_found' && (
+            <div className="neutral-box">
+              The selected documents do not contain an answer to this question.
+            </div>
+          )}
+          {result.status === 'answered' && <p className="answer">{result.answer}</p>}
+          <p className="retrieval-cost muted small">
+            LLM calls: {result.cost.llm_calls} · tokens: {result.cost.tokens} · latency: {result.cost.latency_ms} ms
+          </p>
+          <GraphPath path={result.graph_path} />
+          {result.status === 'answered' && (
+            <>
+              <h3>References</h3>
+              <ReferenceList references={result.references} />
+            </>
+          )}
         </div>
       )}
     </section>

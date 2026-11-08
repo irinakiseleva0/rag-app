@@ -466,7 +466,90 @@ The same effect, smaller, on q05 (vocabulary, "I lost my phone and I can't log i
 What would fix it: weighted RRF (lower weight for BM25 on long questions) or a date / status filter on the policies. Not done in V3 (weighted RRF is the teams-of-3 piece).
 
 ## Decision log (V3)
+## Concept graph (Kestrel)
 
+This section covers how the graph is built and used. Its retrieval numbers are in "Results", and what happened to its chunks after fusion is in "After fusion" above.
+
+### Schema
+
+The schema is **fixed**, not open. Kestrel is a small, well-structured support corpus (error codes, services, teams, people, channels, plans, policies), so a closed list of types keeps the graph clean and makes every LLM output checkable.
+
+- Entity types: `ErrorCode`, `Service`, `Team`, `Person`, `Channel`, `Plan`, `Policy`, `Feature`, `Version`.
+- Relation types: `OWNS`, `ESCALATES_TO`, `RAISED_BY`, `CONTACT_VIA`, `MEMBER_OF`, `LEADS`, `APPLIES_TO`, `PART_OF`, `REPLACES`, `DEPENDS_ON`.
+
+Trade-off: an open schema would capture more facts, but with no way to validate them and more synonyms (`owns`, `is owner of`, `maintains`) to merge later.
+
+### Build (`backend/graph_build.py`)
+
+1. One LLM call per Kestrel chunk (Gemini, `gemini-3.1-flash-lite-preview`, temperature 0, JSON output with the Pydantic schema).
+2. **Validation:** every output is checked with `Extraction.model_validate_json` (Pydantic). If it fails, we retry once. If it fails again, the chunk is skipped and logged in `failures`.
+3. **Post-validation filter (v2):** self-loops and entities with junk names (`no`, `yes`, `none`, fragments under 3 characters) are dropped and counted.
+4. **Provenance:** every node and every edge keeps the list of `chunk_id`s it comes from. The same triple found in two chunks is one edge with two chunk ids.
+
+### Entity resolution
+
+Key = normalized name: lowercase, collapsed spaces, leading `the ` removed, trailing ` team` / ` service` removed. In v1 the type was part of the key; in v2 it is not (the first type seen is kept, all types are recorded).
+
+- **Merge we got right (v1):** `E-mail` and `e-mail` → one node.
+- **Merge we missed (v1):** `Platform team` (from the runbook header) and `Platform` (from the service catalog) stayed two nodes. v2 fixes it by stripping the ` team` suffix.
+- Limit: no alias or fuzzy matching. `mailman` and `postroom` are not merged, which is correct (different services), but the graph only links them through a `REPLACES` edge if the LLM extracts it.
+
+### Retrieval (`backend/graph_retriever.py`)
+
+Local search, no LLM at query time:
+
+1. **Entity linking:** node names and aliases are matched as whole phrases in the normalized question.
+2. **Traversal:** breadth-first, both edge directions, up to 2 hops.
+3. **Scoring:** found nodes add 1.0 to their chunks; an edge at hop h adds 1/(1+h); a node reached at hop h adds 0.5/(1+h).
+4. Returns a ranked list of chunks plus the path (entities, edges, chunk ids) shown in the UI.
+
+Other options we considered: LLM-based entity extraction from the question (better recall, but 1 extra LLM call per question); embedding match on entity names, as in LightRAG (handles paraphrases); GraphRAG community summaries for global questions (much higher indexing cost, not needed for a 44-chunk corpus).
+
+### Graph in numbers
+
+| | v1 | v2 (current) |
+|---|---|---|
+| Chunks | 44 | 44 |
+| Entities | 67 | 36 |
+| Relations | 68 | 31 |
+| Merges | 1 | 0 |
+| LLM calls (indexing) | 44 | 44 |
+| Tokens (indexing) | 21,078 | 24,145 |
+| Build time | 345 s | 179 s |
+| Failed chunks | 0 | 2 (HTTP 429, free tier rate limit) |
+| Dropped triples | — | 2 |
+| LLM calls per question | 0 | 0 |
+
+### v1 → v2: what went wrong and what we changed
+
+v1 did not find q08 at all (graph-only Hit@10 = 0). The chain is `KST-5031 → postroom → Messaging → #oncall-messaging`, and two links were missing:
+
+- No `KST-5031` node: from that chunk the LLM extracted `postroom ESCALATES_TO post`.
+- No `Messaging OWNS postroom`, although the catalog says `Owner: Messaging`.
+- Junk triples: `Platform team ESCALATES_TO Platform team` (self-loop), `KST-2051 ESCALATES_TO no`, `Identity OWNS tication` (word cut by a chunk boundary).
+
+v2 changes: a `RAISED_BY` relation, explicit prompt rules (every `KST-####` is an ErrorCode, `Owner: X` under a service heading is `X OWNS service`, no self-loops), the junk filter, name-only resolution, and node-level scoring in the retriever. v2 is smaller (36 entities instead of 67), but graph alone now reaches two_hop Recall@5 0.67 (v1: 0.00 on q08).
+
+### Extraction quality (10 random triples, seed 42)
+
+**8 correct / 2 wrong / 0 unsupported** (details in `eval/triple_grades.md`).
+
+Both wrong triples come from **chunk boundaries** (800 characters):
+
+- `Payments Core OWNS payment processor`: the `### ledger` heading is in the previous chunk, so the LLM attached the owner to the wrong entity.
+- `KST-5038 ESCALATES_TO postroom`: the chunk says `Escalate: no` for KST-5038; the postroom sentence at the top belongs to KST-5031.
+
+**What the bad triple costs:** for a question about KST-5038, the graph follows KST-5038 → postroom → Messaging and pulls chunks that suggest escalating to Messaging, while the correct answer is "do not escalate".
+
+Sample bias: 5 of the 10 triples come from the same chunk (the teams table). Table rows are easy, so 8/10 is probably optimistic for prose chunks.
+
+### Where the graph fails
+
+- Chunk boundaries split sections, and the extractor only sees one chunk at a time (both wrong triples).
+- Entity linking is exact string matching: a question that paraphrases an entity ("the e-mail service" instead of "postroom") finds nothing.
+- Only Kestrel has a graph; our own course corpus does not.
+- Optional features not implemented: time validity (`from` / `until`), properties, aliases from an LLM.
+- The UI path for the KST-5031 question shows the wrong edge `KST-5038 ESCALATES_TO postroom` (graded triple #8): the bad triple is followed at query time.
 ### Paulo
 
 **BM25 index: SQLite FTS5, in `backend/data/bm25.sqlite3`.**
