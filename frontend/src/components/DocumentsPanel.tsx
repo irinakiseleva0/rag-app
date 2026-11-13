@@ -5,6 +5,7 @@ import type { DocumentInfo } from '../api'
 import { errorMessage } from '../errors'
 
 type Props = {
+  advanced: boolean
   documents: DocumentInfo[]
   loading: boolean
   selectedIds: Set<string>
@@ -12,7 +13,7 @@ type Props = {
   onChanged: () => Promise<void>
 }
 
-export function DocumentsPanel({ documents, loading, selectedIds, onToggle, onChanged }: Props) {
+export function DocumentsPanel({ advanced, documents, loading, selectedIds, onToggle, onChanged }: Props) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -37,7 +38,7 @@ export function DocumentsPanel({ documents, loading, selectedIds, onToggle, onCh
   }
 
   async function handleDelete(doc: DocumentInfo) {
-    if (!confirm(`Delete "${doc.filename}" and all its chunks?`)) return
+    if (!confirm(`Delete "${doc.filename}" and all its ${advanced ? 'chunks' : 'passages'}?`)) return
     setBusy(true)
     setError(null)
     try {
@@ -71,7 +72,7 @@ export function DocumentsPanel({ documents, loading, selectedIds, onToggle, onCh
                   onChange={() => onToggle(doc.id)}
                 />
                 <span className="doc-name">{doc.filename}</span>
-                <span className="muted small">{doc.n_chunks} chunks</span>
+                <span className="muted small">{doc.n_chunks} {advanced ? 'chunks' : 'passages'}</span>
               </label>
               <button
                 type="button"

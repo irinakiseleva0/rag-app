@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Reference } from '../api'
 
-export function ReferenceList({ references }: { references: Reference[] }) {
+export function ReferenceList({ references, advanced }: { references: Reference[]; advanced: boolean }) {
   const [openId, setOpenId] = useState<string | null>(null)
 
   if (references.length === 0) {
@@ -22,14 +22,14 @@ export function ReferenceList({ references }: { references: Reference[] }) {
             >
               <span className="ref-number">[{i + 1}]</span>
               <span className="ref-file">{ref.filename}</span>
-              <span className="muted small">
+              {advanced ? <span className="muted small">
                 chunk {ref.chunk_index}, characters {ref.char_start}–{ref.char_end}, similarity{' '}
                 {ref.score.toFixed(2)}
-              </span>
-              {ref.found_by.map(({ retriever, rank }) => (
+              </span> : <span className="muted small">· passage {ref.chunk_index + 1}</span>}
+              {advanced && ref.found_by.map(({ retriever, rank }) => (
                 <span className="retriever-badge" key={retriever}>{retriever} #{rank}</span>
               ))}
-              {ref.rrf_score !== null && (
+              {advanced && ref.rrf_score !== null && (
                 <span className="muted small">RRF: {ref.rrf_score.toFixed(5)}</span>
               )}
             </button>

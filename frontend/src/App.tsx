@@ -10,6 +10,13 @@ import { WordsPanel } from './components/WordsPanel'
 import './App.css'
 
 export default function App() {
+  const [advanced, setAdvanced] = useState(() => {
+    try {
+      return localStorage.getItem('advancedMode') === 'true'
+    } catch {
+      return false
+    }
+  })
   const [documents, setDocuments] = useState<DocumentInfo[]>([])
   const [docsLoading, setDocsLoading] = useState(true)
   const [docsError, setDocsError] = useState<string | null>(null)
@@ -19,6 +26,16 @@ export default function App() {
   const [settings, setSettings] = useState<Settings | null>(null)
   const [settingsSaving, setSettingsSaving] = useState(false)
   const [settingsError, setSettingsError] = useState<string | null>(null)
+
+  function toggleAdvanced(enabled: boolean) {
+    setAdvanced(enabled)
+    if (!enabled) setTab('ask')
+    try {
+      localStorage.setItem('advancedMode', String(enabled))
+    } catch {
+      // Keep the switch usable when browser storage is unavailable.
+    }
+  }
 
   // Ids seen in the previous list: lets us auto-select only newly uploaded documents.
   const knownIds = useRef<Set<string>>(new Set())
@@ -84,12 +101,22 @@ export default function App() {
       <header className="app-header">
         <h1>Corpus Q&amp;A</h1>
         <p className="muted">Answers are built only from the passages shown under each answer.</p>
+        <label className="advanced-mode">
+          <input
+            type="checkbox"
+            role="switch"
+            checked={advanced}
+            onChange={(event) => toggleAdvanced(event.target.checked)}
+          />
+          Advanced mode
+        </label>
         {useMock && <p className="mock-badge">Mock mode: no backend is called.</p>}
       </header>
 
       <div className="layout">
         <aside className="sidebar">
           <DocumentsPanel
+            advanced={advanced}
             documents={documents}
             loading={docsLoading}
             selectedIds={selectedIds}
@@ -98,17 +125,17 @@ export default function App() {
           />
           {docsError && <p className="error-text" role="alert">Could not load documents: {docsError}</p>}
           {/* The key resets the form whenever new settings arrive from the server. */}
-          <SettingsPanel
+          {advanced && <SettingsPanel
             key={settings ? JSON.stringify(settings) : 'loading'}
             settings={settings}
             saving={settingsSaving}
             error={settingsError}
             onSave={saveSettings}
-          />
+          />}
         </aside>
 
         <main>
-          <div className="tabs" role="tablist" aria-label="Views">
+          {advanced && <div className="tabs" role="tablist" aria-label="Views">
             <button type="button" role="tab" aria-selected={tab === 'ask'} onClick={() => setTab('ask')}>
               Ask
             </button>
@@ -118,9 +145,10 @@ export default function App() {
             <button type="button" role="tab" aria-selected={tab === 'words'} onClick={() => setTab('words')}>
               Words
             </button>
-          </div>
+          </div>}
           {tab === 'ask' && (
             <AskPanel
+              advanced={advanced}
               selectedIds={documents.filter((d) => selectedIds.has(d.id)).map((d) => d.id)}
               topK={settings?.top_k ?? null}
             />
