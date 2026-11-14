@@ -81,7 +81,7 @@ export const mockApi: Api = {
   async retrieve(req) {
     await delay()
     const chunks = fakeReferences(req)
-    return { chunks, graph_path: fakeGraphPath(req, chunks),
+    return { trace_id: 'mock-trace', chunks, graph_path: fakeGraphPath(req, chunks),
       cost: { llm_calls: 0, tokens: 0, latency_ms: 500 } }
   },
 
@@ -90,6 +90,7 @@ export const mockApi: Api = {
     const q = req.question.toLowerCase()
     const references = fakeReferences(req)
     const metadata = {
+      trace_id: 'mock-trace',
       graph_path: fakeGraphPath(req, references),
       cost: { llm_calls: 1, tokens: 240, latency_ms: 500 },
     }
@@ -105,6 +106,36 @@ export const mockApi: Api = {
       references,
       error: null,
       ...metadata,
+    }
+  },
+
+  async getTrace(id) {
+    await delay()
+    const candidates = [
+      { chunk_id: 'doc000000001#0000', rank: 1 },
+      { chunk_id: 'doc000000002#0001', rank: 2 },
+    ]
+    return {
+      id, kind: 'question', started_at: new Date().toISOString(),
+      duration_ms: 500, status: 'answered',
+      input: { question: 'How do I reset my password?', doc_ids: [], top_k: 2,
+        retrievers: { dense: true, bm25: true, graph: true }, candidates: 20 },
+      spans: [
+        { name: 'dense', duration_ms: 75, attributes: { candidates } },
+        { name: 'bm25', duration_ms: 10, attributes: { candidates } },
+        { name: 'graph', duration_ms: 25,
+          attributes: { candidates, entities: ['Password reset', 'Account access'], edges_count: 1 } },
+        { name: 'rrf', duration_ms: 2, attributes: { top_k: 2,
+          results: candidates.map(({ chunk_id, rank }) => ({ chunk_id,
+            rrf_score: Number((3 / (60 + rank)).toFixed(5)),
+            found_by: ['dense', 'bm25', 'graph'].map((retriever) => ({ retriever, rank })),
+          })) } },
+        { name: 'llm', duration_ms: 380, attributes: {
+          model: 'gemini-3.1-flash-lite-preview', chunks_sent: candidates.map((c) => c.chunk_id),
+          tokens: 240, status: 'answered', error: null,
+        } },
+      ],
+      totals: { llm_calls: 1, tokens: 240 },
     }
   },
 

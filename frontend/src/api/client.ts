@@ -6,6 +6,7 @@ import {
   DocumentListSchema,
   RetrieveResultSchema,
   SettingsSchema,
+  TraceSchema,
   EvalRunResultSchema,
   EvalSetListSchema,
   QuestionWordsSchema,
@@ -77,6 +78,8 @@ export const realApi: Api = {
   retrieve: (body) => request('/retrieve', RetrieveResultSchema, jsonInit('POST', body)),
 
   ask: (body) => request('/ask', AskResultSchema, jsonInit('POST', body)),
+
+  getTrace: (id) => request(`/traces/${encodeURIComponent(id)}`, TraceSchema),
 
   listEvalSets: () => request('/eval/sets', EvalSetListSchema),
 

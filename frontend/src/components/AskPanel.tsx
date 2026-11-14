@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import type { FormEvent } from 'react'
 import { api } from '../api'
 import type { AskRequest, AskResult } from '../api'
 import { errorMessage } from '../errors'
 import { ReferenceList } from './ReferenceList'
 import { GraphPath } from './GraphPath'
+import { TraceDetails } from './TraceDetails'
 
 const retrieverOptions = [
   { key: 'dense', label: 'Dense' },
@@ -22,6 +23,8 @@ export function AskPanel({ advanced, selectedIds, topK }: Props) {
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<AskResult | null>(null)
+  const [detailsOpen, setDetailsOpen] = useState(false)
+  const detailsId = useId()
   const [error, setError] = useState<string | null>(null)
   const [retrievers, setRetrievers] = useState<NonNullable<AskRequest['retrievers']>>({
     dense: true, bm25: true, graph: true,
@@ -41,6 +44,7 @@ export function AskPanel({ advanced, selectedIds, topK }: Props) {
     setLoading(true)
     setError(null)
     setResult(null)
+    setDetailsOpen(false)
     try {
       const res = await api.ask({ question: question.trim(), doc_ids: selectedIds, top_k: topK, retrievers })
       setResult(res)
@@ -125,6 +129,17 @@ export function AskPanel({ advanced, selectedIds, topK }: Props) {
             </div>
           )}
           {result.status === 'answered' && <p className="answer">{result.answer}</p>}
+          {result.trace_id !== null && (
+            <div className="trace-answer-details">
+              <button type="button" className="link-button" aria-expanded={detailsOpen}
+                aria-controls={detailsId} onClick={() => setDetailsOpen((open) => !open)}>
+                Details
+              </button>
+              <div id={detailsId}>
+                {detailsOpen && <TraceDetails key={result.trace_id} traceId={result.trace_id} />}
+              </div>
+            </div>
+          )}
           {advanced && <p className="retrieval-cost muted small">
             LLM calls: {result.cost.llm_calls} · tokens: {result.cost.tokens} · latency: {result.cost.latency_ms} ms
           </p>}

@@ -573,3 +573,103 @@ mark {
   padding: 0.35rem 0;
   border-bottom: 1px solid var(--line);
 }
+
+/* Answer trace details */
+.trace-answer-details {
+  margin-top: 0.75rem;
+}
+
+.trace-details {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  overflow-wrap: anywhere;
+}
+
+.trace-summary {
+  margin: 0 0 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.trace-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.trace-step {
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.trace-step-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.trace-step-label {
+  flex: 1 1 12rem;
+  font-weight: 600;
+}
+
+.trace-duration {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.trace-bar-track {
+  height: 5px;
+  margin-top: 0.4rem;
+  background: var(--accent-soft);
+  border-radius: 3px;
+}
+
+.trace-bar {
+  height: 100%;
+  min-width: 2px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.trace-error {
+  margin: 0.5rem 0;
+  color: var(--danger);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.trace-attributes {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+}
+
+.trace-attributes p {
+  margin: 0.35rem 0;
+}
+
+.trace-candidates {
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0;
+}
+
+.trace-items {
+  padding-left: 1.25rem;
+  margin: 0.4rem 0;
+}
+
+.trace-json {
+  padding: 0.5rem;
+  background: var(--surface);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.trace-id {
+  margin: 0.75rem 0 0;
+}

@@ -51,12 +51,14 @@ const CostSchema = z.object({
 }).default({ llm_calls: 0, tokens: 0, latency_ms: 0 })
 
 export const RetrieveResultSchema = z.object({
+  trace_id: z.string().nullable().default(null),
   chunks: z.array(ReferenceSchema),
   graph_path: GraphPathSchema.nullable().default(null),
   cost: CostSchema,
 })
 
 export const AskResultSchema = z.object({
+  trace_id: z.string().nullable().default(null),
   status: z.enum(['answered', 'not_found', 'error']),
   answer: z.string(),
   references: z.array(ReferenceSchema),
@@ -65,6 +67,22 @@ export const AskResultSchema = z.object({
   cost: CostSchema,
 })
 
+export const TraceSchema = z.object({
+  id: z.string(),
+  kind: z.enum(['question', 'indexing']),
+  started_at: z.string(),
+  duration_ms: z.number().int().nonnegative(),
+  status: z.string(),
+  input: z.record(z.string(), z.unknown()),
+  spans: z.array(z.object({
+    name: z.string(),
+    duration_ms: z.number().int().nonnegative(),
+    attributes: z.record(z.string(), z.unknown()),
+  })),
+  totals: z.record(z.string(), z.unknown()),
+})
+
+export type Trace = z.infer<typeof TraceSchema>
 export type DocumentInfo = z.infer<typeof DocumentInfoSchema>
 export type Settings = z.infer<typeof SettingsSchema>
 export type Reference = z.infer<typeof ReferenceSchema>
@@ -198,6 +216,7 @@ export interface Api {
   saveSettings(settings: Settings): Promise<Settings>
   retrieve(request: AskRequest): Promise<RetrieveResult>
   ask(request: AskRequest): Promise<AskResult>
+  getTrace(id: string): Promise<Trace>
   listEvalSets(): Promise<EvalSet[]>
   runEval(request: EvalRunRequest): Promise<EvalRunResult>
   vocabulary(docIds: string[]): Promise<Vocabulary>
