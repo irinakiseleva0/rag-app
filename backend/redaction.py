@@ -1,4 +1,5 @@
 import re
+import unicodedata
 
 EMAIL_RE = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b")
 
@@ -15,7 +16,7 @@ FIRST_NAMES = {
     "sam", "samuel", "sara", "sarah", "sophie", "thomas", "tom", "tomasz", "yuki", "zoe",
 }
 
-NAME_RE = re.compile(r"\b([A-ZÀ-Ý][a-zà-ÿ'-]+)( [A-ZÀ-Ý][a-zà-ÿ'-]+)?\b")
+NAME_RE = re.compile(r"\b(?:" + "|".join(n.capitalize() for n in FIRST_NAMES) + r")\b(?: [A-ZÀ-Ý][a-zà-ÿ'-]+)?")
 
 
 def is_phone(match):
@@ -30,6 +31,7 @@ def is_phone(match):
 
 def redact(text):
     found = 0
+    text = unicodedata.normalize("NFC", text)
 
     def email(m):
         nonlocal found
@@ -50,8 +52,6 @@ def redact(text):
 
     def name(m):
         nonlocal found
-        if m.group(1).lower() not in FIRST_NAMES:
-            return m.group(0)
         found += 1
         return "[NAME]"
 
