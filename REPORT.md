@@ -326,7 +326,6 @@ A question picked from a set uses the evaluation's relevance rule to mark the an
 Kestrel is fictional and provided for the project. The course decks are teachers' material.
 
 ### Paulo
-### Paulo
 
 **Line endings: LF for the corpus files.**
 On Windows, Git turned the files into CRLF: longer text, different chunks (44 instead of 43).
@@ -592,3 +591,46 @@ The graph was built with chunk ids like `2f6285882623#0003`. The doc id is rando
 | 5 | BM25 IDF | One FTS5 table for both corpora: the IDF mixes Kestrel and the courses. | One table per corpus, or a corpus column used in the ranking. |
 | 6 | Courses | No graph for our own corpus (optional in V3). | Course decks are mostly definitions, not chains; a subset (DevOps tools → owners) could work. |
 | 7 | Cost per question | Measured on retrieval only (0 LLM calls). Tokens per answer not measured for each configuration. | Run `--answers` for each configuration (1 LLM call per question). |
+
+
+---
+
+# V4
+
+## Decision log (V4)
+
+### Paulo
+
+**Personal data redaction: `backend/redaction.py`, `redact(text) -> (clean_text, found_count)`.**
+E-mails become `[EMAIL]`, phone numbers `[PHONE]`, names `[NAME]`.
+Applied to the question and the chunks before the call to Gemini, and to the question before the trace is written.
+
+**Detection: rules, not an LLM or a library.**
+
+| Option | Why not |
+|---|---|
+| An LLM finds the names | The text goes to a provider to be cleaned, the exact thing we want to avoid. |
+| spaCy / Presidio (NER) | Finds more names, but a big model to install for a small app on a laptop. |
+
+- E-mails: one regex.
+- Phones: a regex, then 9 to 15 digits only. So `203.0.113.10`, `KST-2044`, dates and prices are not phones.
+- Names: a title + a capitalized word (`Dr. Smith`, `Mme Dupont`), or a first name from a list + the next capitalized word.
+
+**Kestrel corpus: 11 replacements, 0 false positives.**
+5 e-mails (billing@, privacy@) and the 6 team leads of `service-catalog.md`. IPs, error codes, hours and prices are not touched.
+
+**Trade-off: the app loses answers.**
+"Who leads Messaging?" can't be answered: the model only sees `| Messaging | [NAME] |`.
+For Kestrel the leads are work contacts, not really private. For a corpus with clients or patients the redaction would matter much more.
+Better option, not done: `[NAME_1]`, `[NAME_2]` sent to the model, real names put back in the answer locally.
+
+**Bug found by a test.**
+In "Ask Inès Moreau", the first version took "Ask Inès" as the name, saw that "ask" is not a first name, and kept everything. Now the regex starts only on a first name from the list.
+
+## Known failures (V4)
+
+| # | Part | Observed | Hypothesis / next step |
+|---|---|---|---|
+| 1 | Redaction: names | A last name alone (`Kowalski`), a lowercase name (`my name is paulo`) or a first name not in the list is not redacted. | Rules only see what is in the list. The 6 Kestrel leads are caught because their first names are in it; a new employee would not be. NER library or a bigger list. |
+| 2 | Redaction: other data | Addresses, IBAN, dates of birth are not handled. | Not in the Kestrel corpus. One regex per type if needed. |
+| 3 | Redaction vs answers | Questions about people ("who leads X") get not_found. | Reversible placeholders (`[NAME_1]`) restored after the answer. |
