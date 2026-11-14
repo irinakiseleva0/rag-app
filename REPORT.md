@@ -1,4 +1,4 @@
-# RAG App — Report (V1 and V2)
+# RAG App — Report (V1 to V4)
 
 V1 sections first, then [V2](#v2).
 
@@ -326,7 +326,6 @@ A question picked from a set uses the evaluation's relevance rule to mark the an
 Kestrel is fictional and provided for the project. The course decks are teachers' material.
 
 ### Paulo
-### Paulo
 
 **Line endings: LF for the corpus files.**
 On Windows, Git turned the files into CRLF: longer text, different chunks (44 instead of 43).
@@ -592,3 +591,100 @@ The graph was built with chunk ids like `2f6285882623#0003`. The doc id is rando
 | 5 | BM25 IDF | One FTS5 table for both corpora: the IDF mixes Kestrel and the courses. | One table per corpus, or a corpus column used in the ranking. |
 | 6 | Courses | No graph for our own corpus (optional in V3). | Course decks are mostly definitions, not chains; a subset (DevOps tools → owners) could work. |
 | 7 | Cost per question | Measured on retrieval only (0 LLM calls). Tokens per answer not measured for each configuration. | Run `--answers` for each configuration (1 LLM call per question). |
+
+
+# V4
+
+## Team (V4)
+
+| Member | V4 work |
+|---|---|
+| Irina Kiseleva | UI clean-up (Advanced mode, clear loading and error messages), tracing (SQLite tracer, spans for every retrieval step, the LLM call and indexing, `/traces` API), Details panel in the UI, this report section |
+| Paulo Rogerio Guimaraes Filho | Personal data redaction (C), README tested from a fresh clone |
+
+## Clean-up (0)
+
+The app now opens in a **simple mode** for someone who knows the documents but nothing about RAG:
+
+- Only the documents and the question box are shown. The tabs (Evaluation, Words), the retrieval settings, the retriever switches, the cost line, the graph path, similarity scores and RRF scores are hidden.
+- A switch **Advanced mode** (top of the page, remembered in the browser) shows everything again, exactly as in V3.
+- Default retrievers: dense + BM25 + graph.
+- "Chunks" are called "passages" and "References" are called "Sources" in simple mode.
+- While waiting: a spinner and "Searching your documents and writing the answer. This usually takes a few seconds."
+- Errors in plain words: backend not reachable ("check that the backend is running, see README"), answer not produced ("please try again in a moment", the technical error only in Advanced mode), no answer in the documents ("try rephrasing the question or selecting other documents").
+
+## Tracing (A)
+
+Every question and every indexing run is recorded as one **trace**, made of **spans** (one per step). Each answer in the UI has a **Details** button that opens its trace.
+
+### What a trace contains
+
+**Question trace** (`/ask` and `/retrieve`):
+
+| Span | Attributes recorded |
+|---|---|
+| `dense` | candidates: `chunk_id` + rank |
+| `bm25` | candidates: `chunk_id` + rank |
+| `graph` | candidates: `chunk_id` + rank, entities found in the question, number of edges followed |
+| `rrf` | top_k, final chunks: `chunk_id`, RRF score, which retrievers found it and at which rank |
+| `llm` | model, `chunk_id`s sent, tokens, status (`answered` / `not_found` / `error`), error message if any |
+
+Plus, for the whole trace: the input (question, selected `doc_ids`, top_k, retrievers, candidates), start time, total duration, final status, total LLM calls and tokens. Every span has its own duration in ms.
+
+**Indexing trace** (upload, or a change of chunk size / overlap that re-indexes everything):
+
+| Span | Attributes recorded |
+|---|---|
+| `chunk` | filename, chunk_size, overlap_percent, number of chunks |
+| `embed` | number of chunks (Chroma add, which computes the embeddings) |
+| `bm25_index` | number of chunks (SQLite FTS5 insert) |
+
+If a step raises an exception, the span records `error` (exception class + message, max 200 characters) and the trace is still saved, with status `error`.
+
+### What we never record
+
+- The text of chunks or documents: only `chunk_id`s (`filename#index` can be opened in the app if needed).
+- API keys or any environment variable.
+- The LLM prompt or the raw LLM output (the answer is already shown to the user; the prompt is the question plus the chunks, which we do not want to copy).
+
+### Where traces live, and for how long
+
+- SQLite, in `backend/data/traces.sqlite3`, one row per trace (id, kind, start time, duration, status, JSON data).
+- `backend/data/` is in `.gitignore`: traces are never committed.
+- Retention by count: the newest **500 traces** are kept; older ones are deleted when a new trace is saved.
+
+### Who can read them
+
+- Anyone who can reach the backend: `GET /traces/{id}` and `GET /traces?kind=question|indexing`. The backend runs on the user's machine and CORS only allows the local front-end.
+- There is **no authentication** on these endpoints. That is acceptable for a local single-user app; on a shared server they would need to be behind a login.
+
+### Does anything leave the machine?
+
+The traces do not: they are written and read locally. The only data that leaves the machine is the LLM call itself (the question and the selected chunks go to Gemini), which was already the case before tracing.
+
+### Options we considered
+
+| Option | Why not |
+|---|---|
+| Langfuse / Arize Phoenix | Good UIs, but one more service to run (Docker or a cloud account). Cloud versions send traces off the machine. Against the "easy to install" goal. |
+| OpenTelemetry + Jaeger | Standard format, but a collector and a Jaeger container for a single-process app. Heavy for what we need. |
+| JSON lines in a log file | Simple, but no lookup by id for the Details button, and rotation must be done by hand. |
+| Python `logging` only | Not structured, cannot be linked to one answer. |
+
+SQLite is in the Python standard library, already used for BM25, needs nothing to install, and gives a lookup by id for the UI.
+
+### Known limits
+
+- The question is stored as typed. Personal data in a question would end up in the trace (see the redaction feature, C).
+- The evaluation command calls `/retrieve`, so an evaluation run creates one trace per question and can push older user traces out of the 500 kept.
+- Tokens are the total reported by Gemini; input and output tokens are not separated.
+- Durations come from `time.perf_counter` in one process: they include Python overhead, not network time between the browser and the backend.
+- The first question after the backend starts is slow in the `dense` span (about 4 s) because the embedding model is loaded on first use. The LLM call is the slowest step on every question (about 16 s of 21 s in our test).
+
+## Personal data redaction (C)
+
+_To be written by Paulo: what is redacted, where (before the LLM call and before the trace is written), what it catches, what it misses, and the trade-off (names replaced means the app cannot answer "who leads Messaging")._
+
+## New feature (B)
+
+Not done. We chose to spend the time on tracing and the clean-up, which are required, rather than ship a half-finished feature.
