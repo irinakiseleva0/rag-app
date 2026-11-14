@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse
 
 from eval_routes import make_eval_router
 from llm import answer_question
+from redaction import redact
 from retrieval import hybrid_search
 from words_routes import make_words_router
 from schemas import AskResult, Cost, DocumentInfo, QuestionRequest, RetrieveResult, Settings
@@ -128,16 +129,18 @@ def indexed_chunks(trace):
                if span["name"] == "embed" and "error" not in span["attributes"])
 
 
-def question_trace(req):
+def question_trace(req, clean_question, redactions):
     return tracer.start("question", {
-        "question": req.question, "doc_ids": req.doc_ids, "top_k": req.top_k,
+        "question": clean_question, "redactions": redactions,
+        "doc_ids": req.doc_ids, "top_k": req.top_k,
         "retrievers": req.retrievers.model_dump(), "candidates": req.candidates,
     })
 
 
 @app.post("/retrieve", response_model=RetrieveResult)
 def retrieve(req: QuestionRequest):
-    trace = question_trace(req)
+    clean, found = redact(req.question)
+    trace = question_trace(req, clean, found)
     status = "error"
     cost = Cost()
     try:
@@ -153,7 +156,8 @@ def retrieve(req: QuestionRequest):
 
 @app.post("/ask", response_model=AskResult)
 def ask(req: QuestionRequest):
-    trace = question_trace(req)
+    clean_q, n_q = redact(req.question)
+    trace = question_trace(req, clean_q, n_q)
     start = time.perf_counter()
     status = "error"
     cost = Cost()
@@ -168,12 +172,22 @@ def ask(req: QuestionRequest):
             return AskResult(status="error", answer="", references=[], trace_id=trace.id,
                              error="Retrieval failed. See the backend logs.")
 
+        redacted_chunks = []
+        redactions_chunks = 0
+        for chunk in chunks:
+            clean_text, n_chunk = redact(chunk.text)
+            redacted_chunks.append(chunk.model_copy(update={"text": clean_text}))
+            redactions_chunks += n_chunk
+
         with trace.span("llm", model=os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview"),
-                        chunks_sent=[chunk.chunk_id for chunk in chunks]) as span:
-            result = answer_question(req.question, chunks)
+                        chunks_sent=[chunk.chunk_id for chunk in chunks],
+                        redactions_question=n_q, redactions_chunks=redactions_chunks) as span:
+            result = answer_question(clean_q, redacted_chunks)
             span.set("tokens", result.cost.tokens)
             span.set("status", result.status)
             span.set("error", result.error or None)
+        originals = {chunk.chunk_id: chunk for chunk in chunks}
+        result.references = [originals[ref.chunk_id] for ref in result.references]
         result.graph_path = path
         result.trace_id = trace.id
         result.cost.llm_calls += cost.llm_calls

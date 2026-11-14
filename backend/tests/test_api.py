@@ -240,3 +240,160 @@ def test_ask_reports_cost(client, monkeypatch):
     fake_gemini(monkeypatch, '{"status": "answered", "answer": "Containers.", "used_chunk_ids": ["FIRST_ID"]}')
     res = ask(client, doc_id)
     assert res["cost"]["llm_calls"] == 1
+
+
+def test_ask_sends_redacted_question_to_llm(client, monkeypatch, tmp_path):
+    from tracing import Tracer
+
+    monkeypatch.setattr(main, "tracer", Tracer(tmp_path / "traces.sqlite3"))
+    doc_id = upload(client, "a.md", DOC).json()["id"]
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Containers.", "used_chunk_ids": ["FIRST_ID"]}')
+    fake_answer = main.answer_question
+    questions = []
+
+    def record_answer(question, chunks):
+        questions.append(question)
+        return fake_answer(question, chunks)
+
+    monkeypatch.setattr(main, "answer_question", record_answer)
+    response = client.post("/ask", json={
+        "question": "Contact jane.doe@example.com or Inès Moreau about docker",
+        "doc_ids": [doc_id], "top_k": 3,
+    })
+    assert response.status_code == 200
+    assert response.json()["status"] == "answered"
+    assert len(questions) == 1
+    assert "[EMAIL]" in questions[0]
+    assert "[NAME]" in questions[0]
+    assert "jane.doe@example.com" not in questions[0]
+    assert "Inès" not in questions[0]
+
+
+@pytest.mark.parametrize("endpoint", ["/ask", "/retrieve"])
+def test_question_trace_stores_redacted_question(client, monkeypatch, tmp_path, endpoint):
+    from tracing import Tracer
+
+    monkeypatch.setattr(main, "tracer", Tracer(tmp_path / "traces.sqlite3"))
+    doc_id = upload(client, "a.md", DOC).json()["id"]
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Containers.", "used_chunk_ids": ["FIRST_ID"]}')
+    response = client.post(endpoint, json={
+        "question": "Contact jane.doe@example.com or Inès Moreau about docker",
+        "doc_ids": [doc_id], "top_k": 3,
+    })
+    assert response.status_code == 200
+    trace_response = client.get("/traces/" + response.json()["trace_id"])
+    assert trace_response.status_code == 200
+    trace = trace_response.json()
+    assert "jane.doe@example.com" not in trace["input"]["question"]
+    assert "Inès" not in trace["input"]["question"]
+    assert "[EMAIL]" in trace["input"]["question"]
+    assert "[NAME]" in trace["input"]["question"]
+    assert trace["input"]["redactions"] >= 2
+    if endpoint == "/ask":
+        llm_span = next(span for span in trace["spans"] if span["name"] == "llm")
+        assert llm_span["attributes"]["redactions_question"] == trace["input"]["redactions"]
+        assert llm_span["attributes"]["redactions_chunks"] == 0
+
+
+@pytest.mark.parametrize("endpoint", ["/ask", "/retrieve"])
+def test_retrieval_keeps_original_question(client, monkeypatch, tmp_path, endpoint):
+    from tracing import Tracer
+
+    monkeypatch.setattr(main, "tracer", Tracer(tmp_path / "traces.sqlite3"))
+    doc_id = upload(client, "a.md", DOC).json()["id"]
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Containers.", "used_chunk_ids": ["FIRST_ID"]}')
+    original = "Contact jane.doe@example.com or Inès Moreau about docker"
+    search = main.hybrid_search
+    questions = []
+
+    def record_search(store, req, graph=None, trace=None):
+        questions.append(req.question)
+        return search(store, req, graph, trace=trace)
+
+    monkeypatch.setattr(main, "hybrid_search", record_search)
+    response = client.post(endpoint, json={"question": original, "doc_ids": [doc_id], "top_k": 3})
+    assert response.status_code == 200
+    assert questions == [original]
+
+
+def test_ask_redacts_question_and_chunk_copies(client, monkeypatch, tmp_path):
+    from tracing import Tracer
+
+    monkeypatch.setattr(main, "tracer", Tracer(tmp_path / "traces.sqlite3"))
+    document = "Lead: Inès Moreau, inès@example.com, docker"
+    doc_id = upload(client, "lead.md", document.encode("utf-8")).json()["id"]
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Containers.", "used_chunk_ids": ["FIRST_ID"]}')
+    fake_answer = main.answer_question
+    received = []
+    retrieved = []
+    search = main.hybrid_search
+
+    def record_search(store, req, graph=None, trace=None):
+        result = search(store, req, graph, trace=trace)
+        retrieved.extend(result[0])
+        return result
+
+    def record_answer(question, chunks):
+        received.append((question, chunks))
+        return fake_answer(question, chunks)
+
+    monkeypatch.setattr(main, "hybrid_search", record_search)
+    monkeypatch.setattr(main, "answer_question", record_answer)
+    response = client.post("/ask", json={
+        "question": "Contact jane.doe@example.com about docker",
+        "doc_ids": [doc_id], "top_k": 3,
+    })
+    assert response.status_code == 200
+    assert response.json()["status"] == "answered"
+    assert len(received) == 1
+    question, chunks = received[0]
+    assert chunks
+    assert "@example.com" not in question
+    assert "Inès" not in question
+    assert "[EMAIL]" in question
+    for original, redacted in zip(retrieved, chunks):
+        assert original is not redacted
+        assert original.text == document
+        assert "Inès" not in redacted.text
+        assert "[NAME]" in redacted.text
+        assert "@example.com" not in redacted.text
+
+
+def test_ask_returns_original_references_after_redaction(client, monkeypatch, tmp_path):
+    from tracing import Tracer
+
+    monkeypatch.setattr(main, "tracer", Tracer(tmp_path / "traces.sqlite3"))
+    document = "Lead: Inès Moreau, inès@example.com, docker"
+    doc_id = upload(client, "lead.md", document.encode("utf-8")).json()["id"]
+    fake_gemini(monkeypatch, '{"status": "answered", "answer": "Containers.", "used_chunk_ids": ["FIRST_ID"]}')
+    originals = {}
+    search = main.hybrid_search
+
+    def record_search(store, req, graph=None, trace=None):
+        result = search(store, req, graph, trace=trace)
+        originals.update({chunk.chunk_id: chunk.model_dump() for chunk in result[0]})
+        return result
+
+    monkeypatch.setattr(main, "hybrid_search", record_search)
+    response = client.post("/ask", json={
+        "question": "Contact jane.doe@example.com about docker",
+        "doc_ids": [doc_id], "top_k": 3,
+    })
+    assert response.status_code == 200
+    result = response.json()
+    assert result["status"] == "answered"
+    assert result["references"]
+    for reference in result["references"]:
+        assert reference == originals[reference["chunk_id"]]
+        assert reference["text"] == document
+        assert "Inès" in reference["text"]
+        assert reference["found_by"]
+        assert reference["rrf_score"] is not None
+    trace_response = client.get("/traces/" + result["trace_id"])
+    assert trace_response.status_code == 200
+    trace = trace_response.json()
+    assert "jane.doe@example.com" not in trace["input"]["question"]
+    assert trace["input"]["redactions"] >= 1
+    llm_span = next(span for span in trace["spans"] if span["name"] == "llm")
+    assert llm_span["attributes"]["redactions_question"] == trace["input"]["redactions"]
+    assert llm_span["attributes"]["redactions_chunks"] >= 1

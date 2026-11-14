@@ -1,3 +1,6 @@
+from tracing import Tracer
+from schemas import QuestionRequest, Reference
+from retrieval import hybrid_search
 import json
 import sys
 from pathlib import Path
@@ -6,10 +9,6 @@ from types import SimpleNamespace
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from retrieval import hybrid_search
-from schemas import QuestionRequest, Reference
-from tracing import Tracer
 
 
 def test_trace_round_trip(tmp_path):
@@ -59,7 +58,8 @@ def test_retention_and_list_filter(tmp_path):
         ids.append(trace.id)
     rows = tracer.list()
     assert [row["id"] for row in rows] == ids[:1:-1]
-    assert all(set(row) == {"id", "kind", "started_at", "duration_ms", "status"} for row in rows)
+    assert all(set(row) == {"id", "kind", "started_at",
+               "duration_ms", "status"} for row in rows)
     assert all(tracer.get(trace_id) is None for trace_id in ids[:2])
     assert [r["id"] for r in tracer.list(kind="indexing")] == [ids[3]]
     assert len(tracer.list(limit=1)) == 1
@@ -93,7 +93,8 @@ def test_hybrid_search_trace_contains_metadata_only(tmp_path):
     plain, plain_path, plain_cost = hybrid_search(store, req)
     assert chunks == plain
     assert path == plain_path
-    assert (cost.llm_calls, cost.tokens) == (plain_cost.llm_calls, plain_cost.tokens)
+    assert (cost.llm_calls, cost.tokens) == (
+        plain_cost.llm_calls, plain_cost.tokens)
     trace.finish("ok", {})
     saved = tracer.get(trace.id)
     assert [s["name"] for s in saved["spans"]] == ["dense", "bm25", "rrf"]
@@ -166,12 +167,14 @@ def test_question_endpoints_and_llm_totals(traced_client, monkeypatch):
     assert saved["spans"][-1]["attributes"] == {
         "model": "test-model", "chunks_sent": ["a#0"], "tokens": 12,
         "status": "answered", "error": None,
+        "redactions_question": 0, "redactions_chunks": 0,
     }
     assert saved["input"]["question"] == body["question"]
     retrieved = client.post("/retrieve", json=body).json()
     saved = main.tracer.get(retrieved["trace_id"])
     assert [s["name"] for s in saved["spans"]] == ["dense", "bm25", "rrf"]
-    rows = client.get("/traces", params={"kind": "question", "limit": 1}).json()
+    rows = client.get(
+        "/traces", params={"kind": "question", "limit": 1}).json()
     assert [row["id"] for row in rows] == [retrieved["trace_id"]]
     assert "spans" not in rows[0]
     assert client.get("/traces/missing").status_code == 404
@@ -194,27 +197,31 @@ def test_retrieval_failure_finishes_trace(traced_client, endpoint, error):
     assert len(rows) == 1
     saved = main.tracer.get(rows[0]["id"])
     assert saved["status"] == "error"
-    assert saved["spans"][0]["attributes"]["error"].startswith(type(error).__name__)
+    assert saved["spans"][0]["attributes"]["error"].startswith(
+        type(error).__name__)
     if response.status_code == 200:
         assert response.json()["trace_id"] == saved["id"]
 
 
 def test_upload_and_reindex_traces(traced_client):
     client, main = traced_client
-    response = client.post("/documents", files={"file": ("notes.md", b"secret body " * 80)})
+    response = client.post(
+        "/documents", files={"file": ("notes.md", b"secret body " * 80)})
     assert response.status_code == 200
     saved = main.tracer.get(main.tracer.list(kind="indexing")[0]["id"])
     assert saved["input"] == {"filename": "notes.md"}
     assert saved["status"] == "ok"
     assert saved["totals"] == {"n_chunks": response.json()["n_chunks"]}
-    assert [s["name"] for s in saved["spans"]] == ["chunk", "embed", "bm25_index"]
+    assert [s["name"] for s in saved["spans"]] == [
+        "chunk", "embed", "bm25_index"]
     assert "secret body" not in json.dumps(saved)
     settings = {"chunk_size": 100, "overlap_percent": 20, "top_k": 3}
     assert client.put("/settings", json=settings).status_code == 200
     saved = main.tracer.get(main.tracer.list(kind="indexing")[0]["id"])
     assert saved["input"] == {"chunk_size": 100, "overlap_percent": 20}
     assert saved["totals"]["n_chunks"] > response.json()["n_chunks"]
-    assert [s["name"] for s in saved["spans"]] == ["chunk", "embed", "bm25_index"]
+    assert [s["name"] for s in saved["spans"]] == [
+        "chunk", "embed", "bm25_index"]
 
 
 def test_indexing_failure_finishes_trace(traced_client):
@@ -224,7 +231,8 @@ def test_indexing_failure_finishes_trace(traced_client):
         raise RuntimeError("embedding unavailable")
 
     main.store.collection.add = broken
-    response = client.post("/documents", files={"file": ("notes.md", b"secret body")})
+    response = client.post(
+        "/documents", files={"file": ("notes.md", b"secret body")})
     assert response.status_code == 500
     saved = main.tracer.get(main.tracer.list(kind="indexing")[0]["id"])
     assert saved["status"] == "error"

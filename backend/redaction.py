@@ -1,11 +1,14 @@
 import re
 import unicodedata
 
-EMAIL_RE = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b")
+EMAIL_RE = re.compile(
+    r"(?<![\w.%+-])[\w.%+-]+@[\w-]+(?:\.[\w-]+)*\.[A-Za-z]{2,}\b")
 
-PHONE_RE = re.compile(r"(?<![\w.])(?:\+\d{1,3}[ .-]?)?(?:\(\d{1,4}\)[ .-]?)?\d{1,4}(?:[ .-]\d{2,4}){1,5}(?![\w.]\d)")
+PHONE_RE = re.compile(
+    r"(?<![\w.])(?:\+\d{1,3}[ .-]?)?(?:\(\d{1,4}\)[ .-]?)?\d{1,4}(?:[ .-]\d{2,4}){1,5}(?![\w.]\d)")
 
-TITLE_RE = re.compile(r"\b(?:(?:Mr|Mrs|Ms|Miss|Dr|Prof|Mme|Mlle)\.?|M\.) ([A-ZÀ-Ý][a-zà-ÿ'-]+)(?: [A-ZÀ-Ý][a-zà-ÿ'-]+)?")
+TITLE_RE = re.compile(
+    r"\b(?:(?:Mr|Mrs|Ms|Miss|Dr|Prof|Mme|Mlle)\.?|M\.) ([A-ZÀ-Ý][a-zà-ÿ'-]+)(?: [A-ZÀ-Ý][a-zà-ÿ'-]+)?")
 
 FIRST_NAMES = {
     "adam", "alex", "alice", "amelia", "anna", "antoine", "ben", "camille", "carlos", "charlotte",
@@ -16,7 +19,8 @@ FIRST_NAMES = {
     "sam", "samuel", "sara", "sarah", "sophie", "thomas", "tom", "tomasz", "yuki", "zoe",
 }
 
-NAME_RE = re.compile(r"\b(?:" + "|".join(n.capitalize() for n in FIRST_NAMES) + r")\b(?: [A-ZÀ-Ý][a-zà-ÿ'-]+)?")
+NAME_RE = re.compile(r"\b(?:" + "|".join(n.capitalize()
+                     for n in FIRST_NAMES) + r")\b(?: [A-ZÀ-Ý][a-zà-ÿ'-]+)?")
 
 
 def is_phone(match):
