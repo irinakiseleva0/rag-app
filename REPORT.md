@@ -1,6 +1,6 @@
 # RAG App — Report (V1 to V4)
 
-V1 sections first, then [V2](#v2).
+V1 sections first, then [V2](#v2), [V3](#v3) and [V4](#v4).
 
 ## Team
 
@@ -170,7 +170,6 @@ Ideas for V2 (to measure, not yet done):
 | Member | V2 work |
 |---|---|
 | Irina Kiseleva | Kestrel corpus and question sets (JSONL), no-context test, evaluation (Hit@k / Recall@k, CLI + Evaluation tab), Words tab (backend + frontend), hidden `/about` page, hand grading, README |
-
 | Paulo Rogerio Guimaraes Filho | Review of the Words PR (code read, 33 tests run), `.gitattributes` fix for known failure 7 (LF line endings), review of the V2 report |
 
 ## Corpora and question sets
@@ -550,6 +549,7 @@ Sample bias: 5 of the 10 triples come from the same chunk (the teams table). Tab
 - The UI path for the KST-5031 question shows the wrong edge `KST-5038 ESCALATES_TO postroom` (graded triple #8): the bad triple is followed at query time.
 
 ## Decision log (V3)
+
 ### Paulo
 
 **BM25 index: SQLite FTS5, in `backend/data/bm25.sqlite3`.**
@@ -599,8 +599,8 @@ The graph was built with chunk ids like `2f6285882623#0003`. The doc id is rando
 
 | Member | V4 work |
 |---|---|
-| Irina Kiseleva | UI clean-up (Advanced mode, clear loading and error messages), tracing (SQLite tracer, spans for every retrieval step, the LLM call and indexing, `/traces` API), Details panel in the UI, this report section |
-| Paulo Rogerio Guimaraes Filho | Personal data redaction (C), README tested from a fresh clone |
+| Irina Kiseleva | UI clean-up (Advanced mode, clear loading and error messages), tracing (SQLite tracer, spans for every retrieval step, the LLM call and indexing, `/traces` API), Details panel in the UI, redaction wired into `/ask` and the trace (question and chunks before the LLM, original text kept for retrieval and sources), e-mail regex fix, V4 report |
+| Paulo Rogerio Guimaraes Filho | Personal data redaction (C): `redaction.py` (e-mails, phones, names), its tests, the redaction section of this report |
 
 ## Clean-up (0)
 
@@ -627,9 +627,9 @@ Every question and every indexing run is recorded as one **trace**, made of **sp
 | `bm25` | candidates: `chunk_id` + rank |
 | `graph` | candidates: `chunk_id` + rank, entities found in the question, number of edges followed |
 | `rrf` | top_k, final chunks: `chunk_id`, RRF score, which retrievers found it and at which rank |
-| `llm` | model, `chunk_id`s sent, tokens, status (`answered` / `not_found` / `error`), error message if any |
+| `llm` | model, `chunk_id`s sent, tokens, status (`answered` / `not_found` / `error`), error message if any, number of redactions in the question and in the chunks |
 
-Plus, for the whole trace: the input (question, selected `doc_ids`, top_k, retrievers, candidates), start time, total duration, final status, total LLM calls and tokens. Every span has its own duration in ms.
+Plus, for the whole trace: the input (question **after redaction**, number of redactions, selected `doc_ids`, top_k, retrievers, candidates), start time, total duration, final status, total LLM calls and tokens. Every span has its own duration in ms.
 
 **Indexing trace** (upload, or a change of chunk size / overlap that re-indexes everything):
 
@@ -644,6 +644,7 @@ If a step raises an exception, the span records `error` (exception class + messa
 ### What we never record
 
 - The text of chunks or documents: only `chunk_id`s (`filename#index` can be opened in the app if needed).
+- The original question: only its redacted version (see C).
 - API keys or any environment variable.
 - The LLM prompt or the raw LLM output (the answer is already shown to the user; the prompt is the question plus the chunks, which we do not want to copy).
 
@@ -660,7 +661,7 @@ If a step raises an exception, the span records `error` (exception class + messa
 
 ### Does anything leave the machine?
 
-The traces do not: they are written and read locally. The only data that leaves the machine is the LLM call itself (the question and the selected chunks go to Gemini), which was already the case before tracing.
+The traces do not: they are written and read locally. The only data that leaves the machine is the LLM call itself: the question and the selected chunks go to Gemini, both after redaction (see C).
 
 ### Options we considered
 
@@ -675,7 +676,7 @@ SQLite is in the Python standard library, already used for BM25, needs nothing t
 
 ### Known limits
 
-- The question is stored as typed. Personal data in a question would end up in the trace (see the redaction feature, C).
+- The question is stored after redaction. Personal data that the redaction misses (a last name alone, a first name not in the list) still ends up in the trace (see C, known failures).
 - The evaluation command calls `/retrieve`, so an evaluation run creates one trace per question and can push older user traces out of the 500 kept.
 - Tokens are the total reported by Gemini; input and output tokens are not separated.
 - Durations come from `time.perf_counter` in one process: they include Python overhead, not network time between the browser and the backend.
@@ -683,7 +684,40 @@ SQLite is in the Python standard library, already used for BM25, needs nothing t
 
 ## Personal data redaction (C)
 
-_To be written by Paulo: what is redacted, where (before the LLM call and before the trace is written), what it catches, what it misses, and the trade-off (names replaced means the app cannot answer "who leads Messaging")._
+**Personal data redaction: `backend/redaction.py`, `redact(text) -> (clean_text, found_count)`.**
+E-mails become `[EMAIL]`, phone numbers `[PHONE]`, names `[NAME]`.
+Applied to the question and the chunks before the call to Gemini, and to the question before the trace is written. Retrieval (dense, BM25, graph) still uses the original question: it runs locally, and a question like "Who is Inès Moreau?" would find nothing if searched as "Who is [NAME]?". The sources shown to the user keep the original text: they never leave the machine.
+
+**Detection: rules, not an LLM or a library.**
+
+| Option | Why not |
+|---|---|
+| An LLM finds the names | The text goes to a provider to be cleaned, the exact thing we want to avoid. |
+| spaCy / Presidio (NER) | Finds more names, but a big model to install for a small app on a laptop. |
+
+- E-mails: one regex.
+- Phones: a regex, then 9 to 15 digits only. So `203.0.113.10`, `KST-2044`, dates and prices are not phones.
+- Names: a title + a capitalized word (`Dr. Smith`, `Mme Dupont`), or a first name from a list + the next capitalized word.
+
+**Kestrel corpus: 11 replacements, 0 false positives.**
+5 e-mails (billing@, privacy@) and the 6 team leads of `service-catalog.md`. IPs, error codes, hours and prices are not touched.
+
+**Trade-off: the app loses answers.**
+"Who leads Messaging?" can't be answered: the model only sees `| Messaging | [NAME] |`.
+For Kestrel the leads are work contacts, not really private. For a corpus with clients or patients the redaction would matter much more.
+Better option, not done: `[NAME_1]`, `[NAME_2]` sent to the model, real names put back in the answer locally.
+
+**Bug found by a test.**
+In "Ask Inès Moreau", the first version took "Ask Inès" as the name, saw that "ask" is not a first name, and kept everything. Now the regex starts only on a first name from the list.
+
+### Known failures (redaction)
+
+| # | Part | Observed | Hypothesis / next step |
+|---|---|---|---|
+| 1 | Redaction: names | A last name alone (`Kowalski`), a lowercase name (`my name is paulo`) or a first name not in the list is not redacted. | Rules only see what is in the list. The 6 Kestrel leads are caught because their first names are in it; a new employee would not be. NER library or a bigger list. |
+| 2 | Redaction: other data | Addresses, IBAN, dates of birth are not handled. | Not in the Kestrel corpus. One regex per type if needed. |
+| 3 | Redaction vs answers | Questions about people ("who leads X") get not_found. | Reversible placeholders (`[NAME_1]`) restored after the answer. |
+| 4 | Redaction: e-mails with accents | `inès@example.com` was not redacted: the first regex only accepted ASCII letters before the `@`. Found by a test while wiring redaction into `/ask`. | Fixed: the local part now accepts any letter (`\w`). |
 
 ## New feature (B)
 
