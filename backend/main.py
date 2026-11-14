@@ -1,9 +1,11 @@
 import logging
+import os
 import time
 from pathlib import Path
+from typing import Literal
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request, UploadFile
+from fastapi import FastAPI, HTTPException, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -12,8 +14,9 @@ from eval_routes import make_eval_router
 from llm import answer_question
 from retrieval import hybrid_search
 from words_routes import make_words_router
-from schemas import AskResult, DocumentInfo, QuestionRequest, RetrieveResult, Settings
+from schemas import AskResult, Cost, DocumentInfo, QuestionRequest, RetrieveResult, Settings
 from store import Store
+from tracing import Tracer
 
 load_dotenv()
 logger = logging.getLogger("rag")
@@ -22,6 +25,7 @@ MAX_FILE_SIZE = 2 * 1024 * 1024
 
 app = FastAPI()
 store = Store(Path(__file__).parent / "data")
+tracer = Tracer(Path(__file__).parent / "data" / "traces.sqlite3")
 graph_path = Path(__file__).parent / "data" / "graph" / "kestrel_graph.json"
 if graph_path.exists():
     from graph_retriever import GraphRetriever
@@ -83,7 +87,14 @@ async def upload_document(file: UploadFile):
     if text.strip() == "":
         raise HTTPException(400, "The file is empty.")
 
-    return store.add_document(filename, text)
+    trace = tracer.start("indexing", {"filename": filename})
+    status = "error"
+    try:
+        doc = store.add_document(filename, text, trace=trace)
+        status = "ok"
+        return doc
+    finally:
+        trace.finish(status, {"n_chunks": indexed_chunks(trace)})
 
 
 @app.delete("/documents/{doc_id}")
@@ -100,34 +111,89 @@ def get_settings():
 
 @app.put("/settings", response_model=Settings)
 def put_settings(settings: Settings):
-    return store.update_settings(settings)
+    trace = tracer.start("indexing", {
+        "chunk_size": settings.chunk_size, "overlap_percent": settings.overlap_percent,
+    })
+    status = "error"
+    try:
+        result = store.update_settings(settings, trace=trace)
+        status = "ok"
+        return result
+    finally:
+        trace.finish(status, {"n_chunks": indexed_chunks(trace)})
+
+
+def indexed_chunks(trace):
+    return sum(span["attributes"]["n_chunks"] for span in trace.spans
+               if span["name"] == "embed" and "error" not in span["attributes"])
+
+
+def question_trace(req):
+    return tracer.start("question", {
+        "question": req.question, "doc_ids": req.doc_ids, "top_k": req.top_k,
+        "retrievers": req.retrievers.model_dump(), "candidates": req.candidates,
+    })
 
 
 @app.post("/retrieve", response_model=RetrieveResult)
 def retrieve(req: QuestionRequest):
-    check_doc_ids(req.doc_ids)
+    trace = question_trace(req)
+    status = "error"
+    cost = Cost()
     try:
-        chunks, path, cost = hybrid_search(store, req, graph)
+        check_doc_ids(req.doc_ids)
+        chunks, path, cost = hybrid_search(store, req, graph, trace=trace)
+        status = "ok"
+        return RetrieveResult(chunks=chunks, graph_path=path, cost=cost, trace_id=trace.id)
     except ValueError as e:
         raise HTTPException(400, str(e))
-    return RetrieveResult(chunks=chunks, graph_path=path, cost=cost)
+    finally:
+        trace.finish(status, {"llm_calls": cost.llm_calls, "tokens": cost.tokens})
 
 
 @app.post("/ask", response_model=AskResult)
 def ask(req: QuestionRequest):
-    check_doc_ids(req.doc_ids)
+    trace = question_trace(req)
     start = time.perf_counter()
+    status = "error"
+    cost = Cost()
     try:
-        chunks, path, cost = hybrid_search(store, req, graph)
-    except ValueError as e:
-        raise HTTPException(400, str(e))
-    except Exception:
-        logger.exception("Retrieval failed")
-        return AskResult(status="error", answer="", references=[], error="Retrieval failed. See the backend logs.")
+        check_doc_ids(req.doc_ids)
+        try:
+            chunks, path, cost = hybrid_search(store, req, graph, trace=trace)
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        except Exception:
+            logger.exception("Retrieval failed")
+            return AskResult(status="error", answer="", references=[], trace_id=trace.id,
+                             error="Retrieval failed. See the backend logs.")
 
-    result = answer_question(req.question, chunks)
-    result.graph_path = path
-    result.cost.llm_calls += cost.llm_calls
-    result.cost.tokens += cost.tokens
-    result.cost.latency_ms = int((time.perf_counter() - start) * 1000)
-    return result
+        with trace.span("llm", model=os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview"),
+                        chunks_sent=[chunk.chunk_id for chunk in chunks]) as span:
+            result = answer_question(req.question, chunks)
+            span.set("tokens", result.cost.tokens)
+            span.set("status", result.status)
+            span.set("error", result.error or None)
+        result.graph_path = path
+        result.trace_id = trace.id
+        result.cost.llm_calls += cost.llm_calls
+        result.cost.tokens += cost.tokens
+        result.cost.latency_ms = int((time.perf_counter() - start) * 1000)
+        cost = result.cost
+        status = result.status
+        return result
+    finally:
+        trace.finish(status, {"llm_calls": cost.llm_calls, "tokens": cost.tokens})
+
+
+@app.get("/traces/{trace_id}")
+def get_trace(trace_id: str):
+    trace = tracer.get(trace_id)
+    if trace is None:
+        raise HTTPException(404, "Trace not found")
+    return trace
+
+
+@app.get("/traces")
+def list_traces(kind: Literal["question", "indexing"] | None = None, limit: int = Query(20, ge=0)):
+    return tracer.list(kind=kind, limit=limit)

@@ -1,5 +1,6 @@
 import json
 import uuid
+from contextlib import nullcontext
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -48,8 +49,13 @@ class Store:
     def save_documents(self, docs):
         self.docs_path.write_text(json.dumps([d.model_dump() for d in docs], indent=2))
 
-    def index_document(self, doc, text, settings):
-        chunks = split_text(text, settings.chunk_size, settings.overlap_percent)
+    def index_document(self, doc, text, settings, trace=None):
+        with (trace.span("chunk", filename=doc.filename, chunk_size=settings.chunk_size,
+                         overlap_percent=settings.overlap_percent)
+              if trace is not None else nullcontext()) as span:
+            chunks = split_text(text, settings.chunk_size, settings.overlap_percent)
+            if span is not None:
+                span.set("n_chunks", len(chunks))
         ids = []
         texts = []
         metadatas = []
@@ -63,11 +69,13 @@ class Store:
                 "char_start": c["start"],
                 "char_end": c["end"],
             })
-        self.collection.add(ids=ids, documents=texts, metadatas=metadatas)
-        self.bm25.add([{"chunk_id": i, "text": t, **m} for i, t, m in zip(ids, texts, metadatas)])
+        with trace.span("embed", n_chunks=len(chunks)) if trace is not None else nullcontext():
+            self.collection.add(ids=ids, documents=texts, metadatas=metadatas)
+        with trace.span("bm25_index", n_chunks=len(chunks)) if trace is not None else nullcontext():
+            self.bm25.add([{"chunk_id": i, "text": t, **m} for i, t, m in zip(ids, texts, metadatas)])
         return len(chunks)
 
-    def add_document(self, filename, text):
+    def add_document(self, filename, text, trace=None):
         doc = DocumentInfo(
             id=uuid.uuid4().hex[:12],
             filename=filename,
@@ -76,7 +84,7 @@ class Store:
         )
         path = self.files_dir / f"{doc.id}.txt"
         path.write_bytes(text.encode("utf-8"))
-        doc.n_chunks = self.index_document(doc, text, self.get_settings())
+        doc.n_chunks = self.index_document(doc, text, self.get_settings(), trace=trace)
         docs = self.list_documents()
         docs.append(doc)
         self.save_documents(docs)
@@ -101,14 +109,14 @@ class Store:
             return DEFAULT_SETTINGS
         return Settings(**json.loads(self.settings_path.read_text()))
 
-    def update_settings(self, new):
+    def update_settings(self, new, trace=None):
         old = self.get_settings()
         self.settings_path.write_text(new.model_dump_json())
         if new.chunk_size != old.chunk_size or new.overlap_percent != old.overlap_percent:
-            self.reindex_all(new)
+            self.reindex_all(new, trace=trace)
         return new
 
-    def reindex_all(self, settings):
+    def reindex_all(self, settings, trace=None):
         self.client.delete_collection("chunks")
         self.collection = self.get_collection()
         self.bm25.clear()
@@ -116,7 +124,7 @@ class Store:
         for doc in docs:
             path = self.files_dir / f"{doc.id}.txt"
             text = path.read_bytes().decode("utf-8")
-            doc.n_chunks = self.index_document(doc, text, settings)
+            doc.n_chunks = self.index_document(doc, text, settings, trace=trace)
         self.save_documents(docs)
 
     def bm25_search(self, question, doc_ids, top_k):

@@ -1,4 +1,5 @@
 import time
+from contextlib import nullcontext
 
 from schemas import Cost, Found
 
@@ -25,7 +26,7 @@ def rrf(lists, top_k):
     return out
 
 
-def hybrid_search(store, req, graph=None):
+def hybrid_search(store, req, graph=None, trace=None):
     start = time.perf_counter()
     on = req.retrievers
     if not (on.dense or on.bm25 or on.graph):
@@ -39,16 +40,44 @@ def hybrid_search(store, req, graph=None):
     llm_calls = 0
     tokens = 0
     if on.dense:
-        lists["dense"] = store.search(req.question, req.doc_ids, n)
+        with trace.span("dense") if trace is not None else nullcontext() as span:
+            lists["dense"] = store.search(req.question, req.doc_ids, n)
+            if span is not None:
+                span.set("candidates", [
+                    {"chunk_id": ref.chunk_id, "rank": rank}
+                    for rank, ref in enumerate(lists["dense"], 1)
+                ])
     if on.bm25:
-        lists["bm25"] = store.bm25_search(req.question, req.doc_ids, n)
+        with trace.span("bm25") if trace is not None else nullcontext() as span:
+            lists["bm25"] = store.bm25_search(req.question, req.doc_ids, n)
+            if span is not None:
+                span.set("candidates", [
+                    {"chunk_id": ref.chunk_id, "rank": rank}
+                    for rank, ref in enumerate(lists["bm25"], 1)
+                ])
     if on.graph:
-        result = graph.search(req.question, req.doc_ids, n)
+        with trace.span("graph") if trace is not None else nullcontext() as span:
+            result = graph.search(req.question, req.doc_ids, n)
+            if span is not None:
+                path = result.get("path") or {}
+                span.set("candidates", [
+                    {"chunk_id": ref.chunk_id, "rank": rank}
+                    for rank, ref in enumerate(result["chunks"], 1)
+                ])
+                span.set("entities", path.get("entities", []))
+                span.set("edges_count", len(path.get("edges", [])))
         lists["graph"] = result["chunks"]
         graph_path = result.get("path")
         llm_calls += result.get("llm_calls", 0)
         tokens += result.get("tokens", 0)
 
-    chunks = rrf(lists, req.top_k)
+    with trace.span("rrf", top_k=req.top_k) if trace is not None else nullcontext() as span:
+        chunks = rrf(lists, req.top_k)
+        if span is not None:
+            span.set("results", [
+                {"chunk_id": ref.chunk_id, "rrf_score": ref.rrf_score,
+                 "found_by": [found.model_dump() for found in ref.found_by]}
+                for ref in chunks
+            ])
     ms = int((time.perf_counter() - start) * 1000)
     return chunks, graph_path, Cost(llm_calls=llm_calls, tokens=tokens, latency_ms=ms)

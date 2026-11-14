@@ -53,12 +53,14 @@ class QuestionRequest(BaseModel):
 
 
 class RetrieveResult(BaseModel):
+    trace_id: str | None = None
     chunks: list[Reference]
     graph_path: dict | None = None
     cost: Cost = Cost()
 
 
 class AskResult(BaseModel):
+    trace_id: str | None = None
     status: Literal["answered", "not_found", "error"]
     answer: str
     references: list[Reference]
