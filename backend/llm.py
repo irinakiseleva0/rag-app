@@ -11,6 +11,7 @@ PROMPT = """You answer questions using ONLY the context chunks below.
 Each chunk starts with its id in square brackets.
 
 Rules:
+- The text may contain placeholders like [NAME_1] or [EMAIL_2]. If the answer needs that value, copy the placeholder exactly as written.
 - If the chunks contain the answer: status = "answered", write a short answer,
   and list in used_chunk_ids the ids of the chunks you used.
 - If the chunks do not contain the answer: status = "not_found", answer = "",

@@ -673,3 +673,185 @@ mark {
 .trace-id {
   margin: 0.75rem 0 0;
 }
+
+/* Concept map */
+.concept-map {
+  --concept-person: #a762aa;
+  --concept-team: #438f86;
+  --concept-service: #598ac8;
+  --concept-idea: #c18b36;
+  --concept-other: #83909d;
+  min-width: 0;
+}
+
+.concept-document,
+.concept-search,
+.concept-progress {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.concept-document select {
+  width: 100%;
+  min-width: 0;
+}
+
+.concept-progress {
+  margin-top: 1rem;
+}
+
+.concept-progress progress {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.concept-layout {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) minmax(0, 2fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.concept-search input {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.4rem;
+}
+
+.concept-list,
+.concept-links {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.concept-list {
+  max-height: 28rem;
+  overflow-y: auto;
+}
+
+.concept-list button {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  width: 100%;
+  padding: 0.55rem;
+  text-align: left;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid transparent;
+  border-bottom-color: var(--line);
+  overflow-wrap: anywhere;
+}
+
+.concept-list button > span:first-child {
+  flex-basis: 100%;
+}
+
+.concept-list button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.concept-type {
+  border: 1px solid var(--concept-color);
+  border-left: 5px solid var(--concept-color);
+  border-radius: 4px;
+  padding: 0 0.35rem;
+  font-size: 0.75rem;
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.concept-canvas {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.concept-svg {
+  display: block;
+  height: auto;
+}
+
+.concept-svg-node circle {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.concept-svg-node text {
+  fill: var(--ink);
+  font-size: 12px;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.concept-svg-neighbour {
+  cursor: pointer;
+}
+
+.concept-svg-neighbour:focus-visible circle,
+.concept-svg-neighbour:hover circle {
+  stroke: var(--accent);
+  stroke-width: 4;
+}
+
+.concept-edge {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+
+.concept-arrow {
+  fill: var(--muted);
+}
+
+.concept-relation {
+  fill: var(--muted);
+  font-size: 10px;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.concept-links > li {
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.concept-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .concept-map {
+    --concept-person: #c88fce;
+    --concept-team: #6fbcb0;
+    --concept-service: #86b0eb;
+    --concept-idea: #dbb467;
+    --concept-other: #a3acb8;
+  }
+}
+
+@media (max-width: 1100px) {
+  .concept-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .concept-list {
+    max-height: 13rem;
+  }
+}

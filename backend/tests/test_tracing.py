@@ -168,6 +168,7 @@ def test_question_endpoints_and_llm_totals(traced_client, monkeypatch):
         "model": "test-model", "chunks_sent": ["a#0"], "tokens": 12,
         "status": "answered", "error": None,
         "redactions_question": 0, "redactions_chunks": 0,
+        "restored": 0,
     }
     assert saved["input"]["question"] == body["question"]
     retrieved = client.post("/retrieve", json=body).json()

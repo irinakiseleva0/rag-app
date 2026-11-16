@@ -58,3 +58,28 @@ def search(self, question, doc_ids, n):
 ```
 
 In the graph file, chunks are stored as `<filename>#0003` (doc ids are random and change at every upload). The retriever maps them back to the local `<doc_id>#0003`.
+
+## Concept graph (V4)
+
+`POST /documents/{doc_id}/graph` starts building that document's concept graph in the background, with one LLM call per chunk. Returns HTTP **202** with `{"status": "building"}`. Returns HTTP **409** if the document's graph is already building.
+
+`GET /documents/{doc_id}/graph` returns the following shape (type notation):
+
+```text
+{
+  "doc_id": str,
+  "status": "none" | "building" | "ready" | "error",
+  "progress": {"done": int, "total": int},
+  "error": str | null,
+  "stats": {
+    "nodes": int, "edges": int, "llm_calls": int, "tokens": int,
+    "seconds": number, "model": str
+  } | null,
+  "nodes": [{"id": str, "name": str, "type": str, "chunk_ids": [str]}],
+  "edges": [{"source": str, "relation": str, "target": str, "chunk_ids": [str]}]
+}
+```
+
+`nodes` and `edges` are empty unless `status` is `"ready"`. Progress counts processed passages; `total` is the document's chunk count. Node types include `Person`, `Team`, `Service`, and `Concept`. Edges are directed from `source` to `target`, referencing node IDs. Each node and edge carries the IDs of its supporting chunks. Poll this endpoint every two seconds while the status is `"building"`; stop when the status changes.
+
+`GET /chunks/{chunk_id}` returns a `Reference`, with the same shape as a chunk in `/retrieve`: `chunk_id`, `filename`, `chunk_index` (zero-based), `char_start`, `char_end`, `text`, `score`, `found_by` (retriever/rank pairs), and nullable `rrf_score`. This shows the passage supporting a concept link. Document and chunk IDs must be URL-encoded in endpoint paths.

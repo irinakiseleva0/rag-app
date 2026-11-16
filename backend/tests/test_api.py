@@ -263,8 +263,8 @@ def test_ask_sends_redacted_question_to_llm(client, monkeypatch, tmp_path):
     assert response.status_code == 200
     assert response.json()["status"] == "answered"
     assert len(questions) == 1
-    assert "[EMAIL]" in questions[0]
-    assert "[NAME]" in questions[0]
+    assert "[EMAIL_" in questions[0]
+    assert "[NAME_" in questions[0]
     assert "jane.doe@example.com" not in questions[0]
     assert "Inès" not in questions[0]
 
@@ -286,8 +286,8 @@ def test_question_trace_stores_redacted_question(client, monkeypatch, tmp_path, 
     trace = trace_response.json()
     assert "jane.doe@example.com" not in trace["input"]["question"]
     assert "Inès" not in trace["input"]["question"]
-    assert "[EMAIL]" in trace["input"]["question"]
-    assert "[NAME]" in trace["input"]["question"]
+    assert ("[EMAIL_" if endpoint == "/ask" else "[EMAIL]") in trace["input"]["question"]
+    assert ("[NAME_" if endpoint == "/ask" else "[NAME]") in trace["input"]["question"]
     assert trace["input"]["redactions"] >= 2
     if endpoint == "/ask":
         llm_span = next(span for span in trace["spans"] if span["name"] == "llm")
@@ -350,12 +350,12 @@ def test_ask_redacts_question_and_chunk_copies(client, monkeypatch, tmp_path):
     assert chunks
     assert "@example.com" not in question
     assert "Inès" not in question
-    assert "[EMAIL]" in question
+    assert "[EMAIL_" in question
     for original, redacted in zip(retrieved, chunks):
         assert original is not redacted
         assert original.text == document
         assert "Inès" not in redacted.text
-        assert "[NAME]" in redacted.text
+        assert "[NAME_" in redacted.text
         assert "@example.com" not in redacted.text
 
 
@@ -397,3 +397,55 @@ def test_ask_returns_original_references_after_redaction(client, monkeypatch, tm
     llm_span = next(span for span in trace["spans"] if span["name"] == "llm")
     assert llm_span["attributes"]["redactions_question"] == trace["input"]["redactions"]
     assert llm_span["attributes"]["redactions_chunks"] >= 1
+
+
+@pytest.mark.parametrize("raw_answer, expected_answer, restored", [
+    ("led by [NAME_1]", "led by Omar Haddad", 1),
+    ("[NAME_1], [NAME_1]: [EMAIL_1]; ask [NAME_9]",
+     "Omar Haddad, Omar Haddad: omar@example.com; ask [NAME_9]", 2),
+    ("Ask [NAME_9]", "Ask [NAME_9]", 0),
+])
+def test_ask_restores_answer_locally_and_keeps_trace_private(
+        client, monkeypatch, tmp_path, raw_answer, expected_answer, restored):
+    import json
+    from tracing import Tracer
+
+    monkeypatch.setattr(main, "tracer", Tracer(tmp_path / "traces.sqlite3"))
+    document = "Omar Haddad leads Payments. Contact omar@example.com."
+    doc_id = upload(client, "payments.md", document.encode("utf-8")).json()["id"]
+    prompts = []
+
+    def fake_llm(prompt):
+        prompts.append(prompt)
+        context = prompt.split("Context:", 1)[1]
+        chunk_id = context.split("[", 1)[1].split("]", 1)[0]
+        return json.dumps({"status": "answered", "answer": raw_answer,
+                           "used_chunk_ids": [chunk_id]})
+
+    def fake_answer(question, chunks):
+        return llm.answer_question(question, chunks, llm=fake_llm)
+
+    monkeypatch.setattr(main, "answer_question", fake_answer)
+    response = client.post("/ask", json={
+        "question": "Does Omar Haddad lead Payments? Contact omar@example.com.",
+        "doc_ids": [doc_id], "top_k": 3,
+    })
+    assert response.status_code == 200
+    result = response.json()
+    assert result["status"] == "answered"
+    assert result["answer"] == expected_answer
+    assert result["references"][0]["text"] == document
+    assert len(prompts) == 1
+    assert "Omar" not in prompts[0]
+    assert "omar@example.com" not in prompts[0]
+    context, question = prompts[0].split("Context:", 1)[1].split("Question:", 1)
+    assert "[NAME_1]" in context and "[NAME_1]" in question
+    assert "[EMAIL_1]" in context and "[EMAIL_1]" in question
+    trace = client.get("/traces/" + result["trace_id"]).json()
+    assert "[NAME_1]" in trace["input"]["question"]
+    assert "[EMAIL_1]" in trace["input"]["question"]
+    assert "Omar" not in json.dumps(trace)
+    assert "omar@example.com" not in json.dumps(trace)
+    assert "mapping" not in json.dumps(trace)
+    span = next(span for span in trace["spans"] if span["name"] == "llm")
+    assert span["attributes"]["restored"] == restored

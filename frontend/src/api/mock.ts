@@ -1,4 +1,4 @@
-import type { Api, AskRequest, AskResult, DocumentInfo, EvalRunResult, GraphPath, Reference, Settings } from './types'
+import type { Api, AskRequest, AskResult, DocGraph, DocumentInfo, EvalRunResult, GraphPath, Reference, Settings } from './types'
 
 // In-memory fake backend, used while the real one is not ready (VITE_USE_MOCK=true).
 // Ask behaviour: "notfound" in the question -> not_found, "error" -> error.
@@ -11,6 +11,45 @@ let documents: DocumentInfo[] = [
 ]
 
 let settings: Settings = { chunk_size: 800, overlap_percent: 10, top_k: 5 }
+
+const docGraphs = new Map<string, DocGraph>()
+
+function graphDocument(docId: string): DocumentInfo {
+  const doc = documents.find((item) => item.id === docId)
+  if (!doc) throw new Error('Document not found.')
+  return doc
+}
+
+function emptyGraph(doc: DocumentInfo): DocGraph {
+  return { doc_id: doc.id, status: 'none', progress: { done: 0, total: doc.n_chunks },
+    error: null, stats: null, nodes: [], edges: [] }
+}
+
+function readyGraph(doc: DocumentInfo): DocGraph {
+  const concepts = [
+    ['Alex Morgan', 'Person'], ['Jamie Chen', 'Person'], ['Platform team', 'Team'],
+    ['Support team', 'Team'], ['Account service', 'Service'], ['Billing service', 'Service'],
+    ['Identity service', 'Service'], ['Account access', 'Concept'],
+    ['Password reset', 'Concept'], ['Payment recovery', 'Concept'],
+  ]
+  const links: [number, string, number][] = [
+    [0, 'LEADS', 2], [1, 'LEADS', 3], [2, 'OWNS', 4], [2, 'OWNS', 6],
+    [3, 'OWNS', 5], [4, 'DEPENDS_ON', 6], [5, 'DEPENDS_ON', 4],
+    [8, 'PART_OF', 7], [4, 'SUPPORTS', 7], [6, 'SUPPORTS', 8],
+    [9, 'PART_OF', 5], [3, 'SUPPORTS', 8],
+  ]
+  const chunkIds = (i: number) => [`${doc.id}#${String(i % doc.n_chunks).padStart(4, '0')}`]
+  const nodes = doc.n_chunks === 0 ? [] : concepts.map(([name, type], i) => ({
+    id: `${doc.id}:concept:${i}`, name, type, chunk_ids: chunkIds(i),
+  }))
+  const edges = doc.n_chunks === 0 ? [] : links.map(([source, relation, target], i) => ({
+    source: nodes[source].id, relation, target: nodes[target].id, chunk_ids: chunkIds(i),
+  }))
+  return { doc_id: doc.id, status: 'ready', progress: { done: doc.n_chunks, total: doc.n_chunks },
+    error: null, nodes, edges,
+    stats: { nodes: nodes.length, edges: edges.length, llm_calls: doc.n_chunks,
+      tokens: doc.n_chunks * 240, seconds: doc.n_chunks * 2, model: 'mock-concept-model' } }
+}
 
 function fakeReferences(req: AskRequest): Reference[] {
   const retrievers = req.retrievers ?? { dense: true, bm25: false, graph: false }
@@ -42,6 +81,40 @@ function fakeGraphPath(req: AskRequest, references: Reference[]): GraphPath | nu
 }
 
 export const mockApi: Api = {
+  async getDocGraph(docId) {
+    await delay()
+    const doc = graphDocument(docId)
+    let graph = docGraphs.get(docId) ?? emptyGraph(doc)
+    if (graph.status === 'building') {
+      graph = { ...graph, progress: { ...graph.progress, done: Math.min(graph.progress.done + 1, graph.progress.total) } }
+      if (graph.progress.done === graph.progress.total) graph = readyGraph(doc)
+    }
+    docGraphs.set(docId, graph)
+    return structuredClone(graph)
+  },
+
+  async buildDocGraph(docId) {
+    await delay()
+    const doc = graphDocument(docId)
+    if (docGraphs.get(docId)?.status === 'building') throw new Error('The concept map is already building.')
+    docGraphs.set(docId, { ...emptyGraph(doc), status: 'building' })
+  },
+
+  async getChunk(chunkId) {
+    await delay()
+    const separator = chunkId.lastIndexOf('#')
+    const doc = graphDocument(chunkId.slice(0, separator))
+    const indexText = chunkId.slice(separator + 1)
+    const index = Number(indexText)
+    if (separator < 0 || !/^\d+$/.test(indexText) || !Number.isInteger(index) || index < 0 || index >= doc.n_chunks) {
+      throw new Error('Passage not found.')
+    }
+    const text = `Mock passage ${index + 1} from ${doc.filename}. Alex Morgan leads the Platform team, which owns the Account and Identity services. The Account service depends on Identity for account access and password resets. Jamie Chen leads Support, which owns Billing and helps with password resets. Billing depends on Account and includes payment recovery.`
+    return { chunk_id: chunkId, filename: doc.filename, chunk_index: index,
+      char_start: index * 720, char_end: index * 720 + text.length, text,
+      score: 1, found_by: [], rrf_score: null }
+  },
+
   async listDocuments() {
     await delay()
     return [...documents]

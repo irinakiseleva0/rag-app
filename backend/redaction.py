@@ -65,3 +65,39 @@ def redact(text, names=True):
         text = TITLE_RE.sub(title, text)
         text = NAME_RE.sub(name, text)
     return text, found
+
+
+class Pseudonyms:
+    """Keep reversible placeholders in memory for one question and its passages."""
+
+    def __init__(self):
+        self.mapping: dict[str, str] = {}
+        self.reverse: dict[str, str] = {}
+        self.counts = {"EMAIL": 0, "PHONE": 0, "NAME": 0}
+
+    def redact(self, text):
+        found = 0
+        text = unicodedata.normalize("NFC", text)
+
+        def replace(match, kind):
+            nonlocal found
+            original = match.group(0)
+            if kind == "PHONE" and not is_phone(original):
+                return original
+            found += 1
+            if original not in self.reverse:
+                self.counts[kind] += 1
+                placeholder = f"[{kind}_{self.counts[kind]}]"
+                self.mapping[placeholder] = original
+                self.reverse[original] = placeholder
+            return self.reverse[original]
+
+        text = EMAIL_RE.sub(lambda match: replace(match, "EMAIL"), text)
+        text = PHONE_RE.sub(lambda match: replace(match, "PHONE"), text)
+        text = TITLE_RE.sub(lambda match: replace(match, "NAME"), text)
+        text = NAME_RE.sub(lambda match: replace(match, "NAME"), text)
+        return text, found
+
+    def restore(self, text):
+        return re.sub(r"\[(?:EMAIL|PHONE|NAME)_\d+\]",
+                      lambda match: self.mapping.get(match.group(0), match.group(0)), text)

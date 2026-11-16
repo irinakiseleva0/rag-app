@@ -199,7 +199,10 @@ def retrieve(req: QuestionRequest):
 
 @app.post("/ask", response_model=AskResult)
 def ask(req: QuestionRequest):
-    clean_q, n_q = redact(req.question)
+    from redaction import Pseudonyms
+
+    p = Pseudonyms()
+    clean_q, n_q = p.redact(req.question)
     trace = question_trace(req, clean_q, n_q)
     start = time.perf_counter()
     status = "error"
@@ -218,7 +221,7 @@ def ask(req: QuestionRequest):
         redacted_chunks = []
         redactions_chunks = 0
         for chunk in chunks:
-            clean_text, n_chunk = redact(chunk.text)
+            clean_text, n_chunk = p.redact(chunk.text)
             redacted_chunks.append(chunk.model_copy(update={"text": clean_text}))
             redactions_chunks += n_chunk
 
@@ -226,6 +229,8 @@ def ask(req: QuestionRequest):
                         chunks_sent=[chunk.chunk_id for chunk in chunks],
                         redactions_question=n_q, redactions_chunks=redactions_chunks) as span:
             result = answer_question(clean_q, redacted_chunks)
+            span.set("restored", sum(placeholder in result.answer for placeholder in p.mapping))
+            result.answer = p.restore(result.answer)
             span.set("tokens", result.cost.tokens)
             span.set("status", result.status)
             span.set("error", result.error or None)
