@@ -42,7 +42,17 @@ class FakeEmbedding(EmbeddingFunction):
 
 @pytest.fixture
 def client(tmp_path, monkeypatch):
-    monkeypatch.setattr(main, "store", Store(tmp_path, FakeEmbedding()))
+    # Every test gets its own data folder: never touch backend/data (real graphs and traces).
+    from doc_graphs import DocGraphs
+    from graph_retriever import GraphRetriever
+    from tracing import Tracer
+
+    store = Store(tmp_path, FakeEmbedding())
+    tracer = Tracer(tmp_path / "traces.sqlite3")
+    monkeypatch.setattr(main, "store", store)
+    monkeypatch.setattr(main, "tracer", tracer)
+    monkeypatch.setattr(main, "doc_graphs", DocGraphs(tmp_path / "graphs", store, tracer, None))
+    monkeypatch.setattr(main, "graph", GraphRetriever.from_graphs([], store))
     return TestClient(main.app)
 
 

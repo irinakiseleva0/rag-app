@@ -146,6 +146,10 @@ def traced_client(tmp_path, monkeypatch):
     monkeypatch.setattr(main, "store", store)
     monkeypatch.setattr(main, "tracer", Tracer(tmp_path / "traces.sqlite3"))
     monkeypatch.setattr(main, "graph", None)
+    # Never touch backend/data/graph: PUT /settings clears the document graphs.
+    from doc_graphs import DocGraphs
+    monkeypatch.setattr(main, "doc_graphs", DocGraphs(
+        tmp_path / "graphs", store, main.tracer, None))
     return TestClient(main.app, raise_server_exceptions=False), main
 
 
