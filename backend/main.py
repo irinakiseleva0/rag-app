@@ -1,5 +1,4 @@
 import logging
-import os
 import time
 from pathlib import Path
 from typing import Literal
@@ -12,6 +11,7 @@ from fastapi.responses import JSONResponse
 
 from eval_routes import make_eval_router
 from llm import answer_question
+from llm_client import get_model
 from redaction import redact
 from retrieval import hybrid_search
 from words_routes import make_words_router
@@ -179,7 +179,7 @@ def ask(req: QuestionRequest):
             redacted_chunks.append(chunk.model_copy(update={"text": clean_text}))
             redactions_chunks += n_chunk
 
-        with trace.span("llm", model=os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview"),
+        with trace.span("llm", model=get_model(),
                         chunks_sent=[chunk.chunk_id for chunk in chunks],
                         redactions_question=n_q, redactions_chunks=redactions_chunks) as span:
             result = answer_question(clean_q, redacted_chunks)

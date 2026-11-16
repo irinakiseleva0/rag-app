@@ -1,10 +1,8 @@
 import logging
-import os
 
-from google import genai
-from google.genai import types
 from pydantic import ValidationError
 
+from llm_client import chat_json
 from schemas import AskResult, Cost, LLMAnswer
 
 logger = logging.getLogger("rag")
@@ -18,6 +16,9 @@ Rules:
 - If the chunks do not contain the answer: status = "not_found", answer = "",
   used_chunk_ids = []. Never use outside knowledge.
 
+Return only a JSON object with these 3 keys, nothing else:
+{{"status": "answered" or "not_found", "answer": "your short answer", "used_chunk_ids": ["id1", "id2"]}}
+
 Context:
 {context}
 
@@ -25,31 +26,11 @@ Question: {question}
 """
 
 
-def call_gemini(prompt):
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        raise RuntimeError("GOOGLE_API_KEY is not set in backend/.env")
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model=os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview"),
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            temperature=0,
-            response_mime_type="application/json",
-            response_schema=LLMAnswer,
-        ),
-    )
-    tokens = 0
-    if response.usage_metadata:
-        tokens = response.usage_metadata.total_token_count or 0
-    return response.text or "", tokens
-
-
 def error(message):
     return AskResult(status="error", answer="", references=[], error=message)
 
 
-def answer_question(question, chunks, llm=call_gemini):
+def answer_question(question, chunks, llm=chat_json):
     if len(chunks) == 0:
         return AskResult(status="not_found", answer="", references=[], error=None)
 
@@ -61,8 +42,8 @@ def answer_question(question, chunks, llm=call_gemini):
     try:
         raw = llm(prompt)
     except Exception:
-        logger.exception("Gemini call failed")
-        return error("The LLM call failed (Gemini unavailable or quota exceeded).")
+        logger.exception("LLM call failed")
+        return error("The LLM call failed (server unavailable, wrong key or quota exceeded).")
 
     tokens = 0
     if isinstance(raw, tuple):

@@ -153,7 +153,7 @@ def test_question_endpoints_and_llm_totals(traced_client, monkeypatch):
     from schemas import AskResult, Cost
 
     client, main = traced_client
-    monkeypatch.setenv("GEMINI_MODEL", "test-model")
+    monkeypatch.setenv("LLM_MODEL", "test-model")
     monkeypatch.setattr(main, "answer_question", lambda *args: AskResult(
         status="answered", answer="ok", references=[], cost=Cost(llm_calls=1, tokens=12),
     ))

@@ -3,18 +3,17 @@
 import argparse
 import json
 import logging
-import os
 from pathlib import Path
 from time import perf_counter
 
 from pydantic import ValidationError
 
 from graph_schema import EntityType, Extraction, RelationType
+from llm_client import chat_json, get_model
 
 BACKEND_DIR = Path(__file__).resolve().parent
 KESTREL_DIR = BACKEND_DIR.parent / "docs" / "kestrel"
 OUTPUT_PATH = BACKEND_DIR / "data" / "graph" / "kestrel_graph.json"
-DEFAULT_MODEL = "gemini-3.1-flash-lite-preview"
 logger = logging.getLogger(__name__)
 
 PROMPT = """Extract concept triples explicitly stated in the chunk below.
@@ -24,6 +23,9 @@ Allowed relations: {relations}
 Return JSON with a triples list. Each triple has subject and object entities
 (each with name and type), and a relation from the allowed list.
 Preserve entity names as stated. Return {{"triples": []}} if none are stated.
+
+Return only a JSON object with this shape, nothing else:
+{{"triples": [{{"subject": {{"name": "...", "type": "..."}}, "relation": "...", "object": {{"name": "...", "type": "..."}}}}]}}
 
 Rules:
 - Every error code like KST-1234 mentioned in the chunk is an ErrorCode entity
@@ -38,29 +40,6 @@ Rules:
 Chunk [{chunk_id}]:
 {text}
 """
-
-
-def call_gemini(prompt):
-    from google import genai
-    from google.genai import types
-
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        raise RuntimeError("GOOGLE_API_KEY is not set in backend/.env")
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model=os.getenv("GEMINI_MODEL", DEFAULT_MODEL),
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            temperature=0,
-            response_mime_type="application/json",
-            response_schema=Extraction,
-        ),
-    )
-    tokens = 0
-    if response.usage_metadata:
-        tokens = response.usage_metadata.total_token_count or 0
-    return response.text or "", tokens
 
 
 def load_kestrel_chunks(store, limit=None):
@@ -98,7 +77,7 @@ def entity_key(entity):
     return normalize_entity_name(entity.name)
 
 
-def build_graph(chunks, llm=call_gemini):
+def build_graph(chunks, llm=chat_json):
     """Build in memory; llm(prompt) returns JSON text or (JSON text, tokens)."""
     started = perf_counter()
     nodes = {}
@@ -192,7 +171,7 @@ def build_graph(chunks, llm=call_gemini):
             "merges": len(merges), "llm_calls": llm_calls, "tokens": tokens,
             "dropped": dropped, "failures": len(failures),
             "seconds": perf_counter() - started,
-            "model": os.getenv("GEMINI_MODEL", DEFAULT_MODEL),
+            "model": get_model(),
         },
     }
 
