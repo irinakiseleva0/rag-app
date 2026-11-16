@@ -10,7 +10,7 @@ Design choices, results and known failures: see [REPORT.md](REPORT.md).
 
 | Folder / file | Content |
 |---|---|
-| `backend/` | FastAPI + ChromaDB + Gemini ([backend/README.md](backend/README.md)) |
+| `backend/` | FastAPI + ChromaDB + an LLM (Gemini by default) ([backend/README.md](backend/README.md)) |
 | `frontend/` | React + Vite + TypeScript |
 | `eval/` | Question sets (JSONL), evaluation scripts, results ([eval/README.md](eval/README.md)) |
 | `API.md` | API contract between frontend and backend (V1/V2) |
@@ -31,7 +31,7 @@ cd backend
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-copy .env.example .env      # put your Gemini key in GOOGLE_API_KEY
+copy .env.example .env      # put your key in LLM_API_KEY
 uvicorn main:app --reload
 ```
 
@@ -92,7 +92,7 @@ The BM25 index is filled when a document is uploaded. Documents uploaded before 
 
 ### Build the concept graph
 
-Kestrel must be uploaded first, and `GOOGLE_API_KEY` set in `backend/.env`.
+Kestrel must be uploaded first, and `LLM_API_KEY` set in `backend/.env`.
 
 ```powershell
 cd backend

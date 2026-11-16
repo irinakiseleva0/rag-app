@@ -722,3 +722,41 @@ In "Ask Inès Moreau", the first version took "Ask Inès" as the name, saw that 
 ## New feature (B)
 
 Not done. We chose to spend the time on tracing and the clean-up, which are required, rather than ship a half-finished feature.
+
+---
+
+# After V4: any LLM
+
+### Paulo
+
+**The LLM is set in `backend/.env`, not in the code.**
+3 lines: `LLM_URL`, `LLM_API_KEY`, `LLM_MODEL`. By default it is still Gemini. If `LLM_API_KEY` is empty we take `GOOGLE_API_KEY`, so old `.env` files still work.
+
+**One function for all the LLM calls: `chat_json(prompt)` in `backend/llm_client.py`.**
+It calls `{LLM_URL}/chat/completions`. Gemini, Ollama, OpenRouter, Mistral and OpenAI all accept this format, so changing the LLM is just changing the `.env`.
+Temperature 0, and we ask for JSON. Some servers refuse the JSON option, then we try again once without it. We also remove the ```` ```json ```` some models put around the answer.
+`llm.py`, `graph_build.py` and `no_context.py` use it. `google-genai` is removed.
+
+**The prompts now show the JSON we want.**
+Before, Gemini got our Pydantic schema directly. Other servers only know "answer in JSON", so we wrote the fields in the prompt. Pydantic checks the answer like before.
+
+**httpx, not the OpenAI SDK or LiteLLM.**
+httpx was already installed, it is just one POST, and it is easy to fake in the tests (11 tests, no network).
+
+**Tested with a model that is not Google.**
+
+| Model | Test `{"ok": true}` | Kestrel: "What does error KST-2044 mean?" |
+|---|---|---|
+| `gemini-3.1-flash-lite-preview` (default) | ok, 22 tokens | answered |
+| `nvidia/nemotron-3.5-lightning:free` (OpenRouter) | ok, 353 tokens | 1st try: error, it cited chunk ids we never sent. 2nd try: not_found with 4,862 tokens, but the answer was in chunk #0004. |
+
+Changing the model worked with only the `.env`. But the free model is much weaker: without the check on the chunk ids, the user would see wrong sources. It also uses a lot more tokens, and does not give the same answer twice even at temperature 0.
+
+## Known failures (after V4)
+
+| # | Part | Observed | Hypothesis / next step |
+|---|---|---|---|
+| 1 | Cost when the answer fails | `/ask` shows 0 tokens when the check fails, but the call was made. | Keep the cost in the error result. |
+| 2 | Weak models | Wrong chunk ids, or not_found with the answer in the context. | Short ids like `c1`, `c2` in the prompt. |
+| 3 | Ollama | Not tested for real: my disk was full and the install failed. | Same URL format, there is a unit test with `localhost:11434`. |
+| 4 | Free models change | The free Llama 3.3 became paid during the test. | Choose one on `openrouter.ai/models?max_price=0`. |

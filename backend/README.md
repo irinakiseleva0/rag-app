@@ -1,6 +1,6 @@
 # Backend
 
-FastAPI + ChromaDB + Gemini. The API is described in `../API.md`.
+FastAPI + ChromaDB + an LLM (Gemini by default). The API is described in `../API.md`.
 
 ## Run on Windows (PowerShell)
 
@@ -12,7 +12,7 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Open `.env` and put your Gemini key in `GOOGLE_API_KEY` (https://aistudio.google.com/app/api-keys).
+Open `.env` and put your key in `LLM_API_KEY` (Gemini key: https://aistudio.google.com/app/api-keys). To use another LLM, see "Use another LLM" below.
 
 ```
 uvicorn main:app --reload
@@ -38,3 +38,15 @@ uvicorn main:app --reload
 - Tests (no API key needed): `pytest -q`
 - The first upload is slow: ChromaDB downloads its embedding model once (~80 MB).
 - To use it with the frontend, set `VITE_USE_MOCK=false` in `frontend/.env`.
+
+## Use another LLM
+
+Put these 3 lines in `backend/.env` (examples in `.env.example`), then restart uvicorn:
+
+```
+LLM_URL="https://openrouter.ai/api/v1"
+LLM_API_KEY="your_key"
+LLM_MODEL="nvidia/nemotron-3.5-lightning:free"
+```
+
+Any server with `/chat/completions` (OpenAI format) works: Gemini, Ollama, OpenRouter...
