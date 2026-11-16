@@ -4,7 +4,7 @@ import argparse
 import json
 import logging
 from pathlib import Path
-from time import perf_counter
+from time import perf_counter, sleep
 
 from pydantic import ValidationError
 
@@ -38,6 +38,23 @@ Rules:
   "no", "yes", "none", or word fragments.
 
 Chunk [{chunk_id}]:
+{text}
+"""
+
+GENERIC_PROMPT = """Extract only facts explicitly stated in the passage below.
+Use no outside knowledge or inferred facts. Return at most 10 triples.
+Entity names must be exactly as written in the passage, never pronouns such as
+"it" or "they". Never return a triple whose subject and object are the same.
+Ignore placeholders such as [NAME], [EMAIL], and [PHONE].
+Entity type must be one of: Person, Organization, Team, Product, Service, Tool,
+Concept, Process, Event, Place, Document, Other.
+The relation must be a short verb in UPPER_SNAKE_CASE, for example OWNS, USES,
+PART_OF, DEPENDS_ON, LEADS, DEFINES, CAUSES, REPLACES.
+Return only JSON with this exact shape and no other text:
+{{"triples": [{{"subject": {{"name": "...", "type": "Person"}}, "relation": "OWNS", "object": {{"name": "...", "type": "Service"}}}}]}}
+Return {{"triples": []}} if there are no explicit facts.
+
+Passage [{chunk_id}]:
 {text}
 """
 
@@ -77,9 +94,11 @@ def entity_key(entity):
     return normalize_entity_name(entity.name)
 
 
-def build_graph(chunks, llm=chat_json):
+def build_graph(chunks, llm=chat_json, prompt=PROMPT, extraction_model=Extraction,
+                on_progress=None, delay_seconds=0.0):
     """Build in memory; llm(prompt) returns JSON text or (JSON text, tokens)."""
     started = perf_counter()
+    chunks = list(chunks)
     nodes = {}
     edges = {}
     failures = []
@@ -91,14 +110,15 @@ def build_graph(chunks, llm=chat_json):
             nodes[key] = {
                 "id": f"n{len(nodes) + 1}",
                 "name": entity.name,
-                "type": entity.type.value,
+                "type": getattr(entity.type, "value", entity.type),
                 "types": [],
                 "aliases": [],
                 "chunk_ids": [],
             }
         node = nodes[key]
-        if entity.type.value not in node["types"]:
-            node["types"].append(entity.type.value)
+        entity_type = getattr(entity.type, "value", entity.type)
+        if entity_type not in node["types"]:
+            node["types"].append(entity_type)
         if entity.name not in node["aliases"]:
             node["aliases"].append(entity.name)
         if chunk_id not in node["chunk_ids"]:
@@ -108,7 +128,7 @@ def build_graph(chunks, llm=chat_json):
     for chunk in chunks:
         chunk_count += 1
         chunk_id = chunk["chunk_id"]
-        prompt = PROMPT.format(
+        chunk_prompt = prompt.format(
             entity_types=", ".join(item.value for item in EntityType),
             relations=", ".join(item.value for item in RelationType),
             chunk_id=chunk_id,
@@ -116,9 +136,11 @@ def build_graph(chunks, llm=chat_json):
         )
         extraction = None
         for attempt in range(2):
+            if llm_calls and delay_seconds > 0:
+                sleep(delay_seconds)
             llm_calls += 1
             try:
-                raw = llm(prompt)
+                raw = llm(chunk_prompt)
             except Exception as error:
                 failures.append({"chunk_id": chunk_id, "error": str(error)})
                 logger.warning("Chunk %s: %s", chunk_id, error)
@@ -127,26 +149,28 @@ def build_graph(chunks, llm=chat_json):
                 raw, used_tokens = raw
                 tokens += used_tokens
             try:
-                extraction = Extraction.model_validate_json(raw)
+                extraction = extraction_model.model_validate_json(raw)
                 break
             except ValidationError as error:
                 if attempt == 1:
                     failures.append({"chunk_id": chunk_id, "error": str(error)})
                     logger.warning("Chunk %s: %s", chunk_id, error)
         if extraction is None:
+            if on_progress is not None:
+                on_progress(chunk_count, len(chunks))
             continue
         for triple in extraction.triples:
             subject_key = entity_key(triple.subject)
             object_key = entity_key(triple.object)
             if subject_key == object_key or any(
-                len(name) < 3 or name in {"no", "yes", "none", "n/a", "post"}
+                len(name) < 3 or name in {"no", "yes", "none", "n/a", "post", "[name]", "[email]", "[phone]"}
                 for name in (subject_key, object_key)
             ):
                 dropped += 1
                 continue
             source = resolve(triple.subject, chunk_id)
             target = resolve(triple.object, chunk_id)
-            relation = triple.relation.value
+            relation = getattr(triple.relation, "value", triple.relation)
             key = source, relation, target
             if key not in edges:
                 edges[key] = {
@@ -155,6 +179,8 @@ def build_graph(chunks, llm=chat_json):
                 }
             if chunk_id not in edges[key]["chunk_ids"]:
                 edges[key]["chunk_ids"].append(chunk_id)
+        if on_progress is not None:
+            on_progress(chunk_count, len(chunks))
 
     node_list = list(nodes.values())
     merges = [

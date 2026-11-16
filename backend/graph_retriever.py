@@ -17,6 +17,43 @@ def local_id(chunk_id, by_name):
 class GraphRetriever:
     def __init__(self, graph_path, store):
         graph = json.loads(Path(graph_path).read_text(encoding="utf-8"))
+        self._initialize(graph, store)
+
+    @classmethod
+    def from_graphs(cls, graphs: list[dict], store):
+        nodes = {}
+        edges = {}
+        for graph in graphs:
+            node_ids = {}
+            for node in graph["nodes"]:
+                key = normalize(node["name"])
+                if key not in nodes:
+                    nodes[key] = {
+                        "id": f"n{len(nodes) + 1}", "name": node["name"],
+                        "type": node["type"], "aliases": [], "chunk_ids": [],
+                    }
+                merged = nodes[key]
+                node_ids[node["id"]] = merged["id"]
+                for field, values in (("aliases", [node["name"], *node.get("aliases", [])]),
+                                      ("chunk_ids", node.get("chunk_ids", []))):
+                    for value in values:
+                        if value not in merged[field]:
+                            merged[field].append(value)
+            for edge in graph["edges"]:
+                source = node_ids[edge["source"]]
+                target = node_ids[edge["target"]]
+                key = source, edge["relation"], target
+                if key not in edges:
+                    edges[key] = {"source": source, "relation": edge["relation"],
+                                  "target": target, "chunk_ids": []}
+                for chunk_id in edge["chunk_ids"]:
+                    if chunk_id not in edges[key]["chunk_ids"]:
+                        edges[key]["chunk_ids"].append(chunk_id)
+        result = cls.__new__(cls)
+        result._initialize({"nodes": list(nodes.values()), "edges": list(edges.values())}, store)
+        return result
+
+    def _initialize(self, graph, store):
         self.store = store
         self.nodes = {node["id"]: node for node in graph["nodes"]}
         self.edges = graph["edges"]

@@ -1,5 +1,6 @@
 import logging
 import time
+import threading
 from pathlib import Path
 from typing import Literal
 
@@ -10,12 +11,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from eval_routes import make_eval_router
+from doc_graphs import DocGraphs
+from graph_retriever import GraphRetriever
 from llm import answer_question
 from llm_client import get_model
 from redaction import redact
 from retrieval import hybrid_search
 from words_routes import make_words_router
-from schemas import AskResult, Cost, DocumentInfo, QuestionRequest, RetrieveResult, Settings
+from schemas import AskResult, Cost, DocumentInfo, QuestionRequest, Reference, RetrieveResult, Settings
 from store import Store
 from tracing import Tracer
 
@@ -28,12 +31,18 @@ app = FastAPI()
 store = Store(Path(__file__).parent / "data")
 tracer = Tracer(Path(__file__).parent / "data" / "traces.sqlite3")
 graph_path = Path(__file__).parent / "data" / "graph" / "kestrel_graph.json"
-if graph_path.exists():
-    from graph_retriever import GraphRetriever
+doc_graphs = DocGraphs(graph_path.parent / "docs", store, tracer, graph_path)
+graph = GraphRetriever.from_graphs(doc_graphs.all_graphs(), store)
+_graph_lock = threading.Lock()
 
-    graph = GraphRetriever(graph_path, store)
-else:
-    graph = None
+
+def rebuild_graph():
+    global graph
+    with _graph_lock:
+        graph = GraphRetriever.from_graphs(doc_graphs.all_graphs(), store)
+
+
+doc_graphs.on_change = rebuild_graph
 
 app.add_middleware(
     CORSMiddleware,
@@ -102,7 +111,36 @@ async def upload_document(file: UploadFile):
 def delete_document(doc_id: str):
     if not store.delete_document(doc_id):
         raise HTTPException(404, f"Unknown document id: {doc_id}")
+    doc_graphs.delete(doc_id)
+    rebuild_graph()
     return {"deleted": True}
+
+
+@app.post("/documents/{doc_id}/graph", status_code=202)
+def build_document_graph(doc_id: str):
+    check_doc_ids([doc_id])
+    try:
+        doc_graphs.start_build(doc_id)
+    except ValueError as error:
+        raise HTTPException(409, str(error))
+    return {"status": "building"}
+
+
+@app.get("/documents/{doc_id}/graph")
+def get_document_graph(doc_id: str):
+    check_doc_ids([doc_id])
+    return doc_graphs.status(doc_id)
+
+
+@app.get("/chunks/{chunk_id}", response_model=Reference)
+def get_chunk(chunk_id: str):
+    data = store.collection.get(ids=[chunk_id], include=["documents", "metadatas"])
+    if not data["ids"]:
+        raise HTTPException(404, "Passage not found")
+    metadata = data["metadatas"][0]
+    return Reference(chunk_id=chunk_id, filename=metadata["filename"],
+                     chunk_index=metadata["chunk_index"], char_start=metadata["char_start"],
+                     char_end=metadata["char_end"], text=data["documents"][0], score=0)
 
 
 @app.get("/settings", response_model=Settings)
@@ -117,7 +155,12 @@ def put_settings(settings: Settings):
     })
     status = "error"
     try:
+        old = store.get_settings()
+        reindexed = settings.chunk_size != old.chunk_size or settings.overlap_percent != old.overlap_percent
         result = store.update_settings(settings, trace=trace)
+        if reindexed:
+            doc_graphs.clear_all()
+            rebuild_graph()
         status = "ok"
         return result
     finally:

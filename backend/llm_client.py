@@ -29,11 +29,11 @@ def strip_fences(text):
 
 def chat_json(prompt, timeout=60):
     key = get_key()
-    if not key:
+    if not key and get_url() == DEFAULT_URL:
         raise RuntimeError("LLM_API_KEY is not set in backend/.env")
 
     url = get_url() + "/chat/completions"
-    headers = {"Authorization": f"Bearer {key}"}
+    headers = {"Authorization": f"Bearer {key}"} if key else {}
     body = {
         "model": get_model(),
         "messages": [{"role": "user", "content": prompt}],

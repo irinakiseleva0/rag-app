@@ -33,7 +33,7 @@ def is_phone(match):
     return True
 
 
-def redact(text):
+def redact(text, names=True):
     found = 0
     text = unicodedata.normalize("NFC", text)
 
@@ -61,6 +61,7 @@ def redact(text):
 
     text = EMAIL_RE.sub(email, text)
     text = PHONE_RE.sub(phone, text)
-    text = TITLE_RE.sub(title, text)
-    text = NAME_RE.sub(name, text)
+    if names:
+        text = TITLE_RE.sub(title, text)
+        text = NAME_RE.sub(name, text)
     return text, found
