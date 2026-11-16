@@ -19,25 +19,31 @@ Uses the same key and model as the backend (backend/.env).
 
 import argparse
 import json
-import os
+import sys
 import time
 from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
-from google import genai
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "backend"))
+from llm_client import chat_json, get_model  # noqa: E402
+
 SETS = {"kestrel": ROOT / "eval/questions/kestrel.jsonl",
         "courses": ROOT / "eval/questions/courses.jsonl"}
-PROMPT = "Answer briefly. If you do not know, say \"I don't know\".\n\nQuestion: {q}"
+PROMPT = ("Answer briefly. If you do not know, say \"I don't know\".\n"
+          "Return only a JSON object like {{\"answer\": \"your answer\"}}.\n\nQuestion: {q}")
 
 
-def ask(client, model: str, question: str, retries: int = 3) -> str:
+def ask(question: str, retries: int = 3) -> str:
     for attempt in range(retries + 1):
         try:
-            res = client.models.generate_content(model=model, contents=PROMPT.format(q=question))
-            return (res.text or "").strip()
+            text, _ = chat_json(PROMPT.format(q=question))
+            try:
+                return str(json.loads(text)["answer"]).strip()
+            except (ValueError, KeyError, TypeError):
+                return text.strip()
         except Exception as e:  # rate limit, network...
             if "429" in str(e) and attempt < retries:
                 wait = 30 * (attempt + 1)
@@ -56,8 +62,7 @@ def main() -> None:
     args = p.parse_args()
 
     load_dotenv(ROOT / "backend/.env")
-    client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
-    model = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview")
+    model = get_model()
 
     previous = {}
     if args.resume:
@@ -72,7 +77,7 @@ def main() -> None:
         if q["id"] in previous:
             rows.append(previous[q["id"]])
             continue
-        answer = ask(client, model, q["question"])
+        answer = ask(q["question"])
         rows.append({"id": q["id"], "type": q["type"], "question": q["question"],
                      "expected_answer": q.get("expected_answer"),
                      "no_context_answer": answer,

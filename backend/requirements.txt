@@ -3,7 +3,6 @@ uvicorn[standard]
 python-multipart
 pydantic
 chromadb
-google-genai
 python-dotenv
 pytest
 httpx
