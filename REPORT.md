@@ -760,3 +760,74 @@ Changing the model worked with only the `.env`. But the free model is much weake
 | 2 | Weak models | Wrong chunk ids, or not_found with the answer in the context. | Short ids like `c1`, `c2` in the prompt. |
 | 3 | Ollama | Not tested for real: my disk was full and the install failed. | Same URL format, there is a unit test with `localhost:11434`. |
 | 4 | Free models change | The free Llama 3.3 became paid during the test. | Choose one on `openrouter.ai/models?max_price=0`. |
+
+---
+
+# After V4: concept graph for any document
+
+## Team (after V4)
+
+| Member | Work |
+|---|---|
+| Irina Kiseleva | Concept graph for any uploaded document (background build, generic schema, status API), merged graph retriever across documents, concept map explorer (UI), reversible redaction, this section |
+| Paulo Rogerio Guimaraes Filho | Any LLM through `LLM_URL` / `LLM_API_KEY` / `LLM_MODEL` (see the section above) |
+
+## What the user can do now
+
+1. Upload any `.md` or `.txt` document.
+2. Open the **Concept map** tab (visible in simple mode too), pick the document, click **Build concept map**. A progress bar shows "Reading passage N of M…".
+3. Explore the map: a searchable list of concepts sorted by number of links, and a map with the selected concept in the center and its neighbours around it. Each link has a **Passage** button that shows the text it was extracted from. Clicking a neighbour moves the map to it.
+4. Ask questions: the new graph is used by the graph retriever right away, together with the graphs of the other documents.
+
+Kestrel documents show their part of the existing Kestrel graph immediately, without a new build.
+
+Test on a small document (`greenleaf-handbook.md`, 2 passages, written for this test): 14 concepts, 12 links, 2 LLM calls, 1,397 tokens, 12.1 s with `gemini-3.1-flash-lite-preview`. The question "Who should Support contact when a customer is charged twice, and who leads that team?" follows `Support —ESCALATES_TO→ Payments` and `Sophie Martin —LEADS→ Support` from the new graph.
+
+## Decision log
+
+### Irina
+
+**API: build in the background, poll the status.**
+`POST /documents/{doc_id}/graph` starts the build and returns 202 at once; `GET /documents/{doc_id}/graph` returns `none` / `building` (with progress) / `ready` (nodes, edges, stats) / `error`. `GET /chunks/{chunk_id}` returns the passage behind a link. One LLM call per passage can take minutes on a big document, so the request cannot wait for it. Contract in `docs/api-contract.md`.
+
+**A thread, not a task queue.**
+A daemon thread per build, status in memory, result saved as `backend/data/graph/docs/{doc_id}.json`. Considered: Celery or RQ with Redis. One more service to install, against the "easy to install" goal. Limit: a build that is running when the backend stops is lost (no file is written, the user clicks again).
+
+**A generic schema for unknown documents.**
+The Kestrel schema (`ErrorCode`, `Service`, `Team`…) only fits Kestrel. For any document:
+- 12 entity types: Person, Organization, Team, Product, Service, Tool, Concept, Process, Event, Place, Document, Other.
+- Relations are free, but checked by Pydantic: a short verb in `UPPER_SNAKE_CASE` (`depends on` becomes `DEPENDS_ON`; anything else is rejected and retried once).
+The prompt asks for at most 10 triples per passage, names exactly as written, no pronouns, no self-loops. The Kestrel graph keeps its fixed schema, so its numbers in V3 do not change.
+
+**Redaction during the build: e-mails and phones, not names.**
+Graph building sends every passage to the LLM. We remove e-mails and phone numbers first (`redact(text, names=False)`), but we keep names: without them the graph would lose its people (`Omar Haddad —LEADS→ Payments`). This is a trade-off: names in the user's documents are sent to the LLM when a graph is built. Placeholders like `[NAME]` are never kept as concepts.
+
+**Rate limit.**
+`LLM_GRAPH_DELAY_SECONDS` in `.env` (4 s in `.env.example`) pauses between calls, so the Gemini free tier (15 requests per minute) is not exceeded. 0 for a local model.
+
+**One retriever for all graphs, merged by name.**
+At start and after each build or delete, all graphs (Kestrel + every document) are merged into one: nodes with the same normalized name become one node, edges are de-duplicated. So a concept found in two documents links them, and a two-hop path can cross documents. The doc filter of the question still applies to the chunks returned.
+
+**Re-index clears the document graphs.**
+A change of chunk size changes the chunk ids, so the saved graphs would point to the wrong passages. They are deleted and must be built again. The Kestrel graph stays: it uses `filename#index` ids.
+
+**Every build is traced.**
+An `indexing` trace with one `graph_build` span: passages, concepts, links, LLM calls, tokens, failures, model.
+
+**Explorer: plain SVG, no graph library.**
+A force-directed layout (d3, cytoscape) shows the whole graph at once, but it becomes unreadable above ~50 nodes and adds a dependency. We show one concept and its direct neighbours, with the relation written on each line and an arrow for the direction, and let the user move from concept to concept. The list on the left makes every concept reachable, even in a big graph.
+
+**Reversible redaction in answers.**
+Before: the question "…who leads that team?" got "led by [NAME]", because names were removed before the LLM call (V4, redaction failure 3). Now each distinct value gets a numbered placeholder (`[NAME_1]`, `[EMAIL_1]`), the same in the question and in the passages. The LLM answers with the placeholder, and the real value is put back on our machine before the answer is shown. The mapping lives only in memory for one question: it is never sent to the LLM and never written to the trace. The `llm` span records how many placeholders were restored.
+
+## Known failures (after V4)
+
+| # | Part | Observed | Hypothesis / next step |
+|---|---|---|---|
+| 1 | Merged graphs: generic words | In the Greenleaf question, "team" was linked to the Kestrel plan **Team**, and the path showed `Billing and Refund Policy —APPLIES_TO→ Team`. | Entity linking is exact matching on all graphs. Link only entities of the selected documents, or ignore very common words as entity names. |
+| 2 | Merged graphs: homonyms | Two different things with the same name in two documents become one node. | Merge only when the types match, or show the source document on each node. |
+| 3 | Build interrupted | A build running when the backend stops is lost. | Save progress per passage and resume. |
+| 4 | Names sent during graph build | E-mails and phones are removed, names are not. | Build the graph on pseudonymized text and restore the names in the saved graph, like in answers. |
+| 5 | Placeholders and weak models | The answer is complete only if the LLM copies `[NAME_1]` exactly. A weak model may change it (`NAME 1`, `[Name_1]`). | Restore tolerant variants, or check that every placeholder in the answer is known. |
+| 6 | Big documents | One LLM call per passage, plus the pause: a 50-passage document takes several minutes on the free tier. | Group several short passages in one call. |
+| 7 | Tests deleted real data | The settings test re-indexes, which clears the document graphs; the test used the real `backend/data/graph/docs` folder, so running `pytest` deleted the user's graphs (and wrote test traces into the real trace database). | Fixed: the test fixtures now give the app a temporary folder for graphs and traces. Checked with a file left in the real folder before running the suite. |
