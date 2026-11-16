@@ -207,8 +207,35 @@ export type QuestionWordsRequest = {
   question_id?: string
 }
 
+export const DocGraphSchema = z.object({
+  doc_id: z.string(),
+  status: z.enum(['none', 'building', 'ready', 'error']),
+  progress: z.object({ done: z.number().int().nonnegative(), total: z.number().int().nonnegative() }),
+  error: z.string().nullable(),
+  stats: z.object({
+    nodes: z.number().int().nonnegative(),
+    edges: z.number().int().nonnegative(),
+    llm_calls: z.number().int().nonnegative(),
+    tokens: z.number().int().nonnegative(),
+    seconds: z.number().nonnegative(),
+    model: z.string(),
+  }).nullable(),
+  nodes: z.array(z.object({
+    id: z.string(), name: z.string(), type: z.string(), chunk_ids: z.array(z.string()),
+  })),
+  edges: z.array(z.object({
+    source: z.string(), relation: z.string(), target: z.string(), chunk_ids: z.array(z.string()),
+  })),
+}).refine((graph) => graph.status === 'ready' || (graph.nodes.length === 0 && graph.edges.length === 0), {
+  message: 'Concepts and links are only available when the graph is ready.',
+})
+export type DocGraph = z.infer<typeof DocGraphSchema>
+
 // Both the real client and the mock implement this interface.
 export interface Api {
+  getDocGraph(docId: string): Promise<DocGraph>
+  buildDocGraph(docId: string): Promise<void>
+  getChunk(chunkId: string): Promise<Reference>
   listDocuments(): Promise<DocumentInfo[]>
   uploadDocument(file: File): Promise<DocumentInfo>
   deleteDocument(id: string): Promise<void>

@@ -7,6 +7,7 @@ import { SettingsPanel } from './components/SettingsPanel'
 import { AskPanel } from './components/AskPanel'
 import { EvalPanel } from './components/EvalPanel'
 import { WordsPanel } from './components/WordsPanel'
+import { ConceptMap } from './components/ConceptMap'
 import './App.css'
 
 export default function App() {
@@ -22,14 +23,14 @@ export default function App() {
   const [docsError, setDocsError] = useState<string | null>(null)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
-  const [tab, setTab] = useState<'ask' | 'eval' | 'words'>('ask')
+  const [tab, setTab] = useState<'ask' | 'concept' | 'eval' | 'words'>('ask')
   const [settings, setSettings] = useState<Settings | null>(null)
   const [settingsSaving, setSettingsSaving] = useState(false)
   const [settingsError, setSettingsError] = useState<string | null>(null)
 
   function toggleAdvanced(enabled: boolean) {
     setAdvanced(enabled)
-    if (!enabled) setTab('ask')
+    if (!enabled && (tab === 'eval' || tab === 'words')) setTab('ask')
     try {
       localStorage.setItem('advancedMode', String(enabled))
     } catch {
@@ -135,17 +136,21 @@ export default function App() {
         </aside>
 
         <main>
-          {advanced && <div className="tabs" role="tablist" aria-label="Views">
+          <div className="tabs" role="tablist" aria-label="Views">
             <button type="button" role="tab" aria-selected={tab === 'ask'} onClick={() => setTab('ask')}>
               Ask
             </button>
-            <button type="button" role="tab" aria-selected={tab === 'eval'} onClick={() => setTab('eval')}>
+            <button type="button" role="tab" aria-selected={tab === 'concept'} onClick={() => setTab('concept')}>
+              Concept map
+            </button>
+            {advanced && <button type="button" role="tab" aria-selected={tab === 'eval'} onClick={() => setTab('eval')}>
               Evaluation
-            </button>
-            <button type="button" role="tab" aria-selected={tab === 'words'} onClick={() => setTab('words')}>
+            </button>}
+            {advanced && <button type="button" role="tab" aria-selected={tab === 'words'} onClick={() => setTab('words')}>
               Words
-            </button>
-          </div>}
+            </button>}
+          </div>
+          {tab === 'concept' && <ConceptMap documents={documents} selectedIds={selectedIds} />}
           {tab === 'ask' && (
             <AskPanel
               advanced={advanced}

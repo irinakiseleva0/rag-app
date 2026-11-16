@@ -1,10 +1,12 @@
-import type { ZodType } from 'zod'
+import { z, type ZodType } from 'zod'
 import {
   AskResultSchema,
   DeleteResultSchema,
+  DocGraphSchema,
   DocumentInfoSchema,
   DocumentListSchema,
   RetrieveResultSchema,
+  ReferenceSchema,
   SettingsSchema,
   TraceSchema,
   EvalRunResultSchema,
@@ -59,6 +61,14 @@ function jsonInit(method: string, data: unknown): RequestInit {
 }
 
 export const realApi: Api = {
+  getDocGraph: (docId) => request(`/documents/${encodeURIComponent(docId)}/graph`, DocGraphSchema),
+
+  buildDocGraph: async (docId) => {
+    await request(`/documents/${encodeURIComponent(docId)}/graph`, z.object({ status: z.literal('building') }), { method: 'POST' })
+  },
+
+  getChunk: (chunkId) => request(`/chunks/${encodeURIComponent(chunkId)}`, ReferenceSchema),
+
   listDocuments: () => request('/documents', DocumentListSchema),
 
   uploadDocument: (file) => {
